@@ -1,0 +1,154 @@
+<div class="container" id="purchase">
+    <div class="row">
+        <section id="add-purchase" class="add col-lg-6">
+            <div class="add-purchase-container">
+                <h2>Thêm lịch sử mua hàng</h2>
+                <form>
+                    <table>
+                        <tr class="member-use">
+                            <td>
+                                Thành viên mua:
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tổng số tiền mua:
+                            </td>
+                            <td>
+                                <input type="number" id="account-money" name="account-money">
+                            </td>
+                        </tr>
+                        <tr class="member-pay">
+                            <td>
+                                Các thành viên phải trả:
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Các đồ đã mua: 
+                            </td>
+                            <td>
+                                <div>
+                                    <label for="name-item">Tên đồ: </label>
+                                    <input type="text" id="name-item" name="name-item" style="margin-left: 6px;">
+                                </div>
+                                <div>
+                                    <label for="money-pay">Số tiền phải trả:</label>
+                                    <input type="number" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!">
+                                </div>
+                                <button type="button" class="btn btn-primary err-add-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thêm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <ul class="items">
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Chú thích:
+                            </td>
+                            <td>
+                                <textarea name="note" id="note" rows="5"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <span style="color: red;"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button type="button" class="btn add-purchase" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thêm</button>
+                    </div>
+                </form>
+            </div>
+            <div class="update-purchase-container">
+                <h2>Sửa lịch sử mua hàng</h2>
+                <form>
+                    <table>
+                        <tr class="member-use">
+                            <td>
+                                Thành viên mua:
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tổng số tiền mua:
+                            </td>
+                            <td>
+                                <input type="number" id="account-money" name="account-money">
+                            </td>
+                        </tr>
+                        <tr class="member-pay">
+                            <td>
+                                Các thành viên phải trả:
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Các đồ đã mua: 
+                            </td>
+                            <td>
+                                <div>
+                                    <label for="name-item">Tên đồ: </label>
+                                    <input type="text" id="name-item" name="name-item" style="margin-left: 6px;">
+                                </div>
+                                <div>
+                                    <label for="money-pay">Số tiền phải trả:</label>
+                                    <input type="number" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!">
+                                </div>
+                                <button type="button" class="btn btn-primary err-add-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thêm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <ul class="items">
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Chú thích:
+                            </td>
+                            <td>
+                                <textarea name="note" id="note" rows="5"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <span style="color: red;"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button type="button" style="margin-right: 12px" class="back-to-add-purchase">Trở lại phần thêm lịch sử</button>
+                        <button type="button" class="btn update-purchase" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Sửa</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section id="history-purchase" class="col-lg-6">
+            <div>
+                <h2>Thông tin sinh hoạt hàng ngày</h1>
+                <ul class="history-purchase m-0">
+                </ul>
+            </div>
+        </section>
+    </div>
+</div>

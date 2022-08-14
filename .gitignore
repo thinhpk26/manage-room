@@ -1,0 +1,7 @@
+public/assest/css/layout/
+.env
+public/assest/css/pages/
+public/assest/css/utilities/
+public/assest/css/base/
+node_modules
+styleDataUpServer.json

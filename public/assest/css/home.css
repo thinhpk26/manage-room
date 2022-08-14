@@ -1,0 +1,258 @@
+.center-box {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.no-selection {
+  user-select: none; }
+
+:root {
+  --border-color: #cccccc6e;
+  --border-blur-color: #000;
+  --color-primary: #9a68d4;
+  --color-bg-dark: #282a36;
+  --color-text-dark: #dedede;
+  --bg-blur: rgba(255, 255, 225, 0.05);
+  --bg-blur-strong: rgba(255, 255, 225, 0.1); }
+
+header {
+  margin-left: 360px;
+  border-bottom: 1px solid var(--border-color);
+  height: 80px; }
+  header div {
+    height: 100%; }
+    header div #pages {
+      flex: 1;
+      user-select: none;
+      font-family: 'Albert Sans', sans-serif; }
+      header div #pages h1 {
+        text-align: center;
+        height: 100%;
+        margin: 0; }
+    header div #notify, header div #light-or-dark {
+      width: 100px; }
+      header div #notify div, header div #light-or-dark div {
+        width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        background-color: var(--bg-blur);
+        position: relative; }
+        header div #notify div i, header div #light-or-dark div i {
+          font-size: 24px;
+          color: var(--color-text-dark); }
+      header div #notify div:hover, header div #light-or-dark div:hover {
+        cursor: pointer; }
+    header div #light-or-dark i:first-child {
+      display: none; }
+    header div #light-or-dark i:last-child {
+      display: none; }
+    header div #light-or-dark .dark i:first-child {
+      display: block; }
+    header div #light-or-dark .dark i:last-child {
+      display: none; }
+    header div #light-or-dark .light i:first-child {
+      display: none; }
+    header div #light-or-dark .light i:last-child {
+      display: block; }
+    header div #notify span {
+      width: 16px;
+      height: 16px;
+      font-size: 11px;
+      border-radius: 50%;
+      text-align: center;
+      background-color: var(--color-primary);
+      position: absolute;
+      right: 8px;
+      top: 8px; }
+    header div #notify, header div #intro-member, header div #light-or-dark {
+      height: 100%;
+      border-left: 1px solid var(--border-color); }
+    header div #intro-member span {
+      font-size: 16px;
+      margin-right: 12px;
+      font-weight: 500; }
+    header div #intro-member div {
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--color-primary);
+      width: 40px;
+      height: 40px; }
+      header div #intro-member div img {
+        width: 40px;
+        height: 40px; }
+
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 360px;
+  position: fixed;
+  border-right: 1px solid var(--border-color);
+  min-height: 100vh; }
+  nav a {
+    text-decoration: none;
+    color: var(--color-text-dark);
+    padding: 0 24px 0 24px;
+    font-size: 20px;
+    font-weight: 500; }
+    nav a span {
+      margin-left: 12px; }
+  nav a:hover {
+    color: var(--color-text-dark); }
+  nav #name-room {
+    margin-top: 32px;
+    user-select: none;
+    font-family: 'Edu NSW ACT Foundation', cursive; }
+  nav #menu {
+    margin: 0;
+    padding: 0; }
+    nav #menu li {
+      margin: 4px 0 4px 0;
+      list-style: none;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      position: relative; }
+      nav #menu li > span {
+        display: none;
+        position: absolute;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 12px;
+        background: linear-gradient(to right, var(--color-primary), var(--bg-blur)); }
+      nav #menu li a {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        border-radius: 8px; }
+      nav #menu li a:hover {
+        background-color: var(--bg-blur); }
+    nav #menu li.running-page > span {
+      display: block; }
+    nav #menu li.running-page > a {
+      color: var(--color-primary); }
+  nav > div {
+    margin-bottom: 24px; }
+
+body {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
+  box-sizing: border-box; }
+
+main {
+  margin-left: 360px; }
+  main > div {
+    /* Track */
+    /* Handle */
+    /* Handle on hover */
+    /* Track */
+    /* Handle */
+    /* Handle on hover */ }
+    main > div .date-time {
+      margin-top: 12px;
+      display: flex;
+      justify-content: end; }
+      main > div .date-time h2 {
+        margin: none; }
+    main > div .container {
+      margin-top: 12px; }
+    main > div h2 {
+      text-align: center;
+      margin: 0 0 24px 0; }
+    main > div li {
+      list-style: none;
+      background-color: var(--bg-blur-strong);
+      border-radius: 8px;
+      margin-bottom: 12px; }
+    main > div p {
+      font-size: 20px;
+      margin: 0; }
+    main > div section {
+      background-color: var(--bg-blur);
+      border-radius: 8px;
+      height: 624px;
+      overflow: auto; }
+    main > div ul {
+      padding: 0 12px 0 12px; }
+    main > div .infor-member {
+      overflow: auto; }
+      main > div .infor-member > div {
+        padding-top: 12px;
+        height: 100%;
+        display: flex;
+        flex-direction: column; }
+        main > div .infor-member > div > div {
+          margin-right: 12px;
+          display: flex;
+          justify-content: end; }
+        main > div .infor-member > div .remain-money-member {
+          margin-top: 12px; }
+      main > div .infor-member label, main > div .infor-member select {
+        margin: 0 12px 0 12px; }
+      main > div .infor-member label {
+        margin-top: 12px; }
+      main > div .infor-member h4 {
+        margin: 0px; }
+      main > div .infor-member .history-recharge-withdraw {
+        margin: 12px 0 0 0; }
+        main > div .infor-member .history-recharge-withdraw li {
+          padding: 8px 12px 8px 12px; }
+    main > div .infor-member::-webkit-scrollbar {
+      width: 12px; }
+    main > div .infor-member::-webkit-scrollbar-track {
+      border-top-right-radius: 6px;
+      border-top-left-radius: 6px; }
+    main > div .infor-member::-webkit-scrollbar-thumb {
+      background: var(--bg-blur);
+      border-radius: 6px; }
+    main > div .infor-member::-webkit-scrollbar-thumb:hover {
+      background: var(--bg-blur-strong); }
+    main > div .infor-order::-webkit-scrollbar {
+      width: 12px; }
+    main > div .infor-order::-webkit-scrollbar-track {
+      border-top-right-radius: 6px;
+      border-top-left-radius: 6px; }
+    main > div .infor-order::-webkit-scrollbar-thumb {
+      background: var(--bg-blur);
+      border-radius: 6px; }
+    main > div .infor-order::-webkit-scrollbar-thumb:hover {
+      background: var(--bg-blur-strong); }
+    main > div .infor-order > div {
+      padding-top: 12px;
+      height: 100%;
+      display: flex;
+      flex-direction: column; }
+    main > div .infor-order ul li .sumary-order {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      cursor: pointer; }
+    main > div .infor-order ul li .detail-order {
+      border-top: 1px solid var(--border-color);
+      overflow: hidden;
+      padding: 8px; }
+    main > div .infor-order ul li p {
+      flex: 1; }
+    main > div .infor-order ul li i {
+      margin: 0 8px 0 12px; }
+    main > div .infor-order ul li.up i.fa-chevron-down {
+      display: none; }
+    main > div .infor-order ul li.down i.fa-angle-up {
+      display: none; }
+    main > div .infor-order ul li.sumary .detail-order {
+      display: none; }
+    main > div .infor-order ul li.detail .detail-order {
+      display: block;
+      padding: 8px; }
+
+@media screen and (min-width: 992px) {
+  .infor-member {
+    margin-right: 1.5rem; }
+  .infor-order {
+    flex: 1; } }
+
+/*# sourceMappingURL=home.css.map */

@@ -1,0 +1,311 @@
+.center-box {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.no-selection {
+  user-select: none; }
+
+:root {
+  --border-color: #cccccc6e;
+  --border-blur-color: #000;
+  --color-primary: #9a68d4;
+  --color-bg-dark: #282a36;
+  --color-text-dark: #dedede;
+  --bg-blur: rgba(255, 255, 225, 0.05);
+  --bg-blur-strong: rgba(255, 255, 225, 0.1); }
+
+header {
+  margin-left: 360px;
+  border-bottom: 1px solid var(--border-color);
+  height: 80px; }
+  header div {
+    height: 100%; }
+    header div #pages {
+      flex: 1;
+      user-select: none;
+      font-family: 'Albert Sans', sans-serif; }
+      header div #pages h1 {
+        text-align: center;
+        height: 100%;
+        margin: 0; }
+    header div #notify, header div #light-or-dark {
+      width: 100px; }
+      header div #notify div, header div #light-or-dark div {
+        width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        background-color: var(--bg-blur);
+        position: relative; }
+        header div #notify div i, header div #light-or-dark div i {
+          font-size: 24px;
+          color: var(--color-text-dark); }
+      header div #notify div:hover, header div #light-or-dark div:hover {
+        cursor: pointer; }
+    header div #light-or-dark i:first-child {
+      display: none; }
+    header div #light-or-dark i:last-child {
+      display: none; }
+    header div #light-or-dark .dark i:first-child {
+      display: block; }
+    header div #light-or-dark .dark i:last-child {
+      display: none; }
+    header div #light-or-dark .light i:first-child {
+      display: none; }
+    header div #light-or-dark .light i:last-child {
+      display: block; }
+    header div #notify span {
+      width: 16px;
+      height: 16px;
+      font-size: 11px;
+      border-radius: 50%;
+      text-align: center;
+      background-color: var(--color-primary);
+      position: absolute;
+      right: 8px;
+      top: 8px; }
+    header div #notify, header div #intro-member, header div #light-or-dark {
+      height: 100%;
+      border-left: 1px solid var(--border-color); }
+    header div #intro-member span {
+      font-size: 16px;
+      margin-right: 12px;
+      font-weight: 500; }
+    header div #intro-member div {
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--color-primary);
+      width: 40px;
+      height: 40px; }
+      header div #intro-member div img {
+        width: 40px;
+        height: 40px; }
+
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 360px;
+  position: fixed;
+  border-right: 1px solid var(--border-color);
+  min-height: 100vh; }
+  nav a {
+    text-decoration: none;
+    color: var(--color-text-dark);
+    padding: 0 24px 0 24px;
+    font-size: 20px;
+    font-weight: 500; }
+    nav a span {
+      margin-left: 12px; }
+  nav a:hover {
+    color: var(--color-text-dark); }
+  nav #name-room {
+    margin-top: 32px;
+    user-select: none;
+    font-family: 'Edu NSW ACT Foundation', cursive; }
+  nav #menu {
+    margin: 0;
+    padding: 0; }
+    nav #menu li {
+      margin: 4px 0 4px 0;
+      list-style: none;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      position: relative; }
+      nav #menu li > span {
+        display: none;
+        position: absolute;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 12px;
+        background: linear-gradient(to right, var(--color-primary), var(--bg-blur)); }
+      nav #menu li a {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        border-radius: 8px; }
+      nav #menu li a:hover {
+        background-color: var(--bg-blur); }
+    nav #menu li.running-page > span {
+      display: block; }
+    nav #menu li.running-page > a {
+      color: var(--color-primary); }
+  nav > div {
+    margin-bottom: 24px; }
+
+body {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
+  box-sizing: border-box;
+  position: relative; }
+
+main {
+  margin-left: 360px; }
+  main > div .date-time {
+    margin-top: 12px;
+    display: flex;
+    justify-content: end; }
+    main > div .date-time h2 {
+      margin: none; }
+  main > div .container {
+    margin-top: 12px; }
+  main > div #utilities-recharge {
+    font-size: 20px;
+    height: max-content;
+    display: flex;
+    justify-content: space-between;
+    width: 57.14286%; }
+    main > div #utilities-recharge > section {
+      padding: 8px 0;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      position: relative; }
+  main > div .update-money {
+    position: relative; }
+  main > div #utilities-recharge > section > div, main > div .update-money > div {
+    position: absolute;
+    top: 100%;
+    background-color: #fff;
+    color: #000;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: none; }
+    main > div #utilities-recharge > section > div label, main > div .update-money > div label {
+      margin-bottom: 4px; }
+    main > div #utilities-recharge > section > div input, main > div .update-money > div input {
+      width: 100%; }
+    main > div #utilities-recharge > section > div > div, main > div .update-money > div > div {
+      display: flex;
+      width: 100%;
+      margin-top: 8px;
+      justify-content: end; }
+      main > div #utilities-recharge > section > div > div button, main > div .update-money > div > div button {
+        border: solid 1px #ccc; }
+  main > div #utilities-recharge > section > div::before, main > div .update-money > div::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #fff; }
+  main > div #utilities-recharge > section > span, main > div .update-money > span {
+    background-color: var(--bg-blur);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer; }
+  main > div #utilities-recharge > section.appear-uti > div, main > div .update-money.appear-uti > div {
+    display: block; }
+  main > div .del-history > button {
+    width: 100%;
+    border: none;
+    color: var(--color-text-dark);
+    background-color: transparent; }
+  main > div .del-history > button:hover {
+    color: var(--color-primary); }
+  main > div #history-recharge-withdraw {
+    display: flex;
+    margin-top: 12px;
+    align-items: center; }
+    main > div #history-recharge-withdraw h2 {
+      text-align: center;
+      margin: 12px 0 0 0; }
+    main > div #history-recharge-withdraw .history-recharge-withdraw-table {
+      width: 57.14286%;
+      display: flex;
+      flex-direction: column;
+      height: 71vh;
+      background-color: var(--bg-blur);
+      border-radius: 8px;
+      /* Track */
+      /* Handle */
+      /* Handle on hover */ }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-table ul {
+        margin-top: 24px; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw {
+        flex: 1;
+        overflow: auto; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar {
+        width: 12px; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar-track {
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar-thumb {
+        background: var(--bg-blur);
+        border-radius: 6px; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar-thumb:hover {
+        background: var(--bg-blur-strong); }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-table .money-cur {
+        margin-top: 12px;
+        display: flex;
+        justify-content: end; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table .money-cur h4 {
+          margin-right: 24px;
+          margin-bottom: 0px; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-table li {
+        list-style: none;
+        margin: 12px 24px;
+        border-radius: 8px;
+        background-color: var(--bg-blur-strong);
+        font-size: 20px;
+        padding: 8px 12px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table li p {
+          margin-bottom: 8px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update {
+          border-top: 1px solid var(--border-color);
+          display: flex;
+          justify-content: space-between;
+          align-items: center; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update span {
+            margin-top: 8px;
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update span:hover {
+            background-color: var(--bg-blur);
+            color: var(--color-primary); }
+    main > div #history-recharge-withdraw .arrow-change {
+      width: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px; }
+    main > div #history-recharge-withdraw .history-recharge-withdraw-filter {
+      flex: 1;
+      background-color: var(--bg-blur);
+      border-radius: 8px; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-filter > label {
+        margin-left: 24px;
+        margin-top: 24px; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div {
+        flex: 1;
+        margin: 24px;
+        font-size: 18px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:nth-child(2) {
+          margin-top: 8px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child {
+          display: flex;
+          width: 100%;
+          justify-content: end;
+          margin-top: 12px; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child span {
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child span:hover {
+            background-color: var(--bg-blur);
+            color: var(--color-primary); }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-filter input {
+        width: 100%;
+        margin-top: 4px; }
+
+/*# sourceMappingURL=recharge.css.map */

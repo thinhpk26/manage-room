@@ -1,0 +1,59 @@
+<div id="utilities-recharge" class="no-selection">
+    <section class="utilities-add">
+        <span>Nạp tiền</span>
+        <div class="add-money">
+            <label for="money-recharge">Nhập số tiền muốn nạp:</label>
+            <input type="text" id="money-recharge" class="form-control" name="sumMoneyRecharge">
+            <span style="color: red; font-size: 14px"></span>
+            <div>
+                <button type="button" class="btn btn-primary confirm-add-money" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xác nhận</button>
+            </div>
+        </div>
+    </section>
+    <section class="utilities-withdraw-money">
+        <span>Rút tiền</span>
+        <div class="withdraw-money">
+            <label for="withdraw-money">Nhập số tiền muốn rút: </label>
+            <input type="text" id="withdraw-money" class="form-control" name="sumMoneyWithdraw">
+            <span style="color: red; font-size: 14px"></span>
+            <div>
+                <button type="button" class="btn btn-primary confirm-withdraw-money" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xác nhận</button>
+            </div>
+        </div>
+    </section>
+</div>
+<div id="history-recharge-withdraw">
+    <section class="history-recharge-withdraw-table">
+        <h2 class="no-selection">Lịch sử nạp/rút tiền</h2>
+        <div class="money-cur">
+            <h4>Số tiền hiện tại: <b></b></h4>
+        </div>
+        <ul class="history-recharge-withdraw p-0">
+        </ul>
+    </section>
+    <section class="arrow-change no-selection">
+        <i class="fa-solid fa-arrow-left-long"></i>
+    </section>
+    <section class="history-recharge-withdraw-filter">
+        <h2 class="no-selection">Lọc lịch sử</h2>
+        <label for="select-your-choose">Bạn muốn lọc theo:</label>
+        <select id="select-your-choose">
+            <option value="all">Lịch sử nạp và rút</option>
+            <option value="recharge">Lịch sử nạp</option>
+            <option value="withdraw">Lịch sử rút</option>
+        </select>
+        <div>
+            <div>
+                <label for="day-begin" class="no-selection">Bắt đầu từ: </label>
+                <input type="datetime-local" id="day-begin">
+            </div>
+            <div>
+                <label for="day-finish" class="no-selection">Kết thúc vào: </label>
+                <input type="datetime-local" id="day-finish">
+            </div>
+            <div class="no-selection confirm-filter">
+                <span>Tìm kiếm</span>
+            </div>
+        </div>
+    </section>
+</div>
