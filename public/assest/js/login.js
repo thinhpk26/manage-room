@@ -29,7 +29,7 @@ form.addEventListener('submit', async(e) => {
     const resData = responseServer.data.success
     if(resData) {
         setCookie('memberIDToken', responseServer.data.memberIDToken, 365)
-        window.location.href = 'http://localhost:3000/'
+        window.location.href = './'
     } else {
         clearTimeout(timer)
         notifyElement.classList.remove('animation-appear')
