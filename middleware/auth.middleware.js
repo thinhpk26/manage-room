@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
         if(err) res.status(500).send(err)
         else
             if(!result[0][0].success) {
-                res.status(404).send('Account not found')
+                res.redirect('./login')
             } else {
                 req.memberID = memberID
                 req.inforMember = {
