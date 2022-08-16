@@ -19,42 +19,46 @@ header {
   margin-left: 360px;
   border-bottom: 1px solid var(--border-color);
   height: 80px; }
-  header div {
-    height: 100%; }
-    header div #pages {
+  header > div {
+    height: 100%;
+    margin-right: 16px;
+    margin-left: 16px; }
+    header > div #bars-for-mobile {
+      display: none; }
+    header > div #pages {
       flex: 1;
       user-select: none;
       font-family: 'Albert Sans', sans-serif; }
-      header div #pages h1 {
+      header > div #pages h1 {
         text-align: center;
         height: 100%;
         margin: 0; }
-    header div #notify, header div #light-or-dark {
+    header > div #notify, header > div #light-or-dark {
       width: 100px; }
-      header div #notify div, header div #light-or-dark div {
+      header > div #notify div, header > div #light-or-dark div {
         width: 52px;
         height: 52px;
         border-radius: 8px;
         background-color: var(--bg-blur);
         position: relative; }
-        header div #notify div i, header div #light-or-dark div i {
+        header > div #notify div i, header > div #light-or-dark div i {
           font-size: 24px;
           color: var(--color-text-dark); }
-      header div #notify div:hover, header div #light-or-dark div:hover {
+      header > div #notify div:hover, header > div #light-or-dark div:hover {
         cursor: pointer; }
-    header div #light-or-dark i:first-child {
+    header > div #light-or-dark i:first-child {
       display: none; }
-    header div #light-or-dark i:last-child {
+    header > div #light-or-dark i:last-child {
       display: none; }
-    header div #light-or-dark .dark i:first-child {
+    header > div #light-or-dark .dark i:first-child {
       display: block; }
-    header div #light-or-dark .dark i:last-child {
+    header > div #light-or-dark .dark i:last-child {
       display: none; }
-    header div #light-or-dark .light i:first-child {
+    header > div #light-or-dark .light i:first-child {
       display: none; }
-    header div #light-or-dark .light i:last-child {
+    header > div #light-or-dark .light i:last-child {
       display: block; }
-    header div #notify span {
+    header > div #notify span {
       width: 16px;
       height: 16px;
       font-size: 11px;
@@ -64,22 +68,147 @@ header {
       position: absolute;
       right: 8px;
       top: 8px; }
-    header div #notify, header div #intro-member, header div #light-or-dark {
+    header > div #notify, header > div #intro-member, header > div #light-or-dark {
       height: 100%;
       border-left: 1px solid var(--border-color); }
+    header > div #intro-member {
+      margin-right: 0.5rem;
+      width: 256px; }
+      header > div #intro-member span {
+        flex: 3;
+        font-size: 20px;
+        margin-right: 12px;
+        font-weight: 500;
+        text-align: center; }
+      header > div #intro-member div.avatar {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center; }
+        header > div #intro-member div.avatar div {
+          width: 100%;
+          height: 0;
+          padding-bottom: 100%;
+          border-radius: 50%;
+          overflow: hidden; }
+        header > div #intro-member div.avatar img {
+          max-width: 100%;
+          height: auto; }
+
+@media screen and (max-width: 992px) {
+  header {
+    margin-left: 270px; }
+  header div #intro-member {
+    width: 150px; }
     header div #intro-member span {
-      font-size: 16px;
-      margin-right: 12px;
-      font-weight: 500; }
-    header div #intro-member div {
-      border-radius: 50%;
-      overflow: hidden;
-      border: 2px solid var(--color-primary);
-      width: 40px;
-      height: 40px; }
-      header div #intro-member div img {
-        width: 40px;
-        height: 40px; }
+      flex: 3;
+      font-size: 16px; }
+    header div #intro-member div.avatar {
+      flex: 2; } }
+
+@media screen and (max-width: 420px) {
+  body {
+    position: relative; }
+  header {
+    margin-left: 0;
+    height: 58px; }
+    header > div {
+      margin-left: 8px;
+      margin-right: 8px; }
+      header > div > div {
+        margin: 0; }
+      header > div #bars-for-mobile {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        border-right: 1px solid var(--border-color);
+        height: 100%; }
+        header > div #bars-for-mobile > div {
+          display: flex;
+          align-items: center;
+          transform: translateX(4px); }
+          header > div #bars-for-mobile > div i {
+            font-size: 36px; }
+        header > div #bars-for-mobile #bur-for-mobile {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.3);
+          z-index: 5; }
+        header > div #bars-for-mobile #nav-for-mobile {
+          padding: 0;
+          position: fixed;
+          background-color: var(--color-bg-dark);
+          top: 0;
+          right: 40%;
+          left: 0;
+          bottom: 0;
+          margin: 0;
+          z-index: 5; }
+          header > div #bars-for-mobile #nav-for-mobile div {
+            display: flex;
+            font-size: 30px;
+            align-items: center;
+            height: 58px; }
+            header > div #bars-for-mobile #nav-for-mobile div span {
+              flex: 1;
+              font-weight: bold;
+              font-size: 24px;
+              text-align: center; }
+            header > div #bars-for-mobile #nav-for-mobile div i {
+              margin-right: 16px; }
+          header > div #bars-for-mobile #nav-for-mobile a {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--color-text-dark); }
+            header > div #bars-for-mobile #nav-for-mobile a i {
+              margin-left: 12px; }
+            header > div #bars-for-mobile #nav-for-mobile a > span {
+              margin-left: 8px; }
+          header > div #bars-for-mobile #nav-for-mobile a:hover {
+            background-color: var(--bg-blur); }
+          header > div #bars-for-mobile #nav-for-mobile li {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 48px; }
+            header > div #bars-for-mobile #nav-for-mobile li > span {
+              display: none;
+              position: absolute;
+              left: 0;
+              top: 0;
+              bottom: 0;
+              width: 12px;
+              background: linear-gradient(to right, var(--color-primary), var(--bg-blur)); }
+          header > div #bars-for-mobile #nav-for-mobile li.running-page > span {
+            display: block; }
+          header > div #bars-for-mobile #nav-for-mobile li.running-page > a {
+            color: var(--color-primary); }
+      header > div #bars-for-mobile.close > #bur-for-mobile {
+        display: none; }
+      header > div #bars-for-mobile.close > #nav-for-mobile {
+        display: none; }
+      header > div #pages {
+        flex: 6; }
+      header > div #light-or-dark, header > div #notify, header > div #intro-member {
+        display: none; }
+      header > div #intro-member {
+        flex: 1;
+        margin-right: 0; }
+        header > div #intro-member span {
+          display: none; }
+        header > div #intro-member div.avatar {
+          transform: translateX(4px); }
+          header > div #intro-member div.avatar div {
+            margin: 0; }
+  > div {
+    margin-left: 8px;
+    margin-right: 8px; } }
 
 nav {
   display: flex;
@@ -138,6 +267,14 @@ nav {
   nav > div {
     margin-bottom: 24px; }
 
+@media screen and (max-width: 992px) {
+  nav {
+    width: 270px; } }
+
+@media screen and (max-width: 420px) {
+  nav {
+    display: none; } }
+
 body {
   background-color: var(--color-bg-dark);
   color: var(--color-text-dark);
@@ -146,166 +283,197 @@ body {
 
 main {
   margin-left: 360px; }
-  main > div .date-time {
-    margin-top: 12px;
-    display: flex;
-    justify-content: end; }
-    main > div .date-time h2 {
-      margin: none; }
-  main > div .container {
-    margin-top: 12px; }
-  main > div #utilities-recharge {
-    font-size: 20px;
-    height: max-content;
-    display: flex;
-    justify-content: space-between;
-    width: 57.14286%; }
-    main > div #utilities-recharge > section {
-      padding: 8px 0;
-      flex: 1;
+  main > div {
+    margin-right: 1.5rem;
+    margin-left: 1.5rem; }
+    main > div .date-time {
+      margin-top: 12px;
       display: flex;
-      justify-content: center;
-      position: relative; }
-  main > div .update-money {
-    position: relative; }
-  main > div #utilities-recharge > section > div, main > div .update-money > div {
-    position: absolute;
-    top: 100%;
-    background-color: #fff;
-    color: #000;
-    border-radius: 8px;
-    padding: 8px 12px;
-    display: none; }
-    main > div #utilities-recharge > section > div label, main > div .update-money > div label {
-      margin-bottom: 4px; }
-    main > div #utilities-recharge > section > div input, main > div .update-money > div input {
-      width: 100%; }
-    main > div #utilities-recharge > section > div > div, main > div .update-money > div > div {
-      display: flex;
-      width: 100%;
-      margin-top: 8px;
       justify-content: end; }
-      main > div #utilities-recharge > section > div > div button, main > div .update-money > div > div button {
-        border: solid 1px #ccc; }
-  main > div #utilities-recharge > section > div::before, main > div .update-money > div::before {
-    content: "";
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid #fff; }
-  main > div #utilities-recharge > section > span, main > div .update-money > span {
-    background-color: var(--bg-blur);
-    border-radius: 8px;
-    padding: 8px 12px;
-    cursor: pointer; }
-  main > div #utilities-recharge > section.appear-uti > div, main > div .update-money.appear-uti > div {
-    display: block; }
-  main > div .del-history > button {
-    width: 100%;
-    border: none;
-    color: var(--color-text-dark);
-    background-color: transparent; }
-  main > div .del-history > button:hover {
-    color: var(--color-primary); }
-  main > div #history-recharge-withdraw {
-    display: flex;
-    margin-top: 12px;
-    align-items: center; }
-    main > div #history-recharge-withdraw h2 {
-      text-align: center;
-      margin: 12px 0 0 0; }
-    main > div #history-recharge-withdraw .history-recharge-withdraw-table {
-      width: 57.14286%;
+      main > div .date-time h2 {
+        margin: 0; }
+    main > div #utilities-recharge {
+      font-size: 20px;
+      height: max-content;
       display: flex;
-      flex-direction: column;
-      height: 71vh;
+      justify-content: space-between;
+      width: 57.14286%; }
+      main > div #utilities-recharge > section {
+        padding: 8px 0;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        position: relative; }
+    main > div .update-money {
+      position: relative; }
+    main > div #utilities-recharge > section > div, main > div .update-money > div {
+      position: absolute;
+      top: 100%;
+      background-color: #fff;
+      color: #000;
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: none; }
+      main > div #utilities-recharge > section > div label, main > div .update-money > div label {
+        margin-bottom: 4px; }
+      main > div #utilities-recharge > section > div input, main > div .update-money > div input {
+        width: 100%; }
+      main > div #utilities-recharge > section > div > div, main > div .update-money > div > div {
+        display: flex;
+        width: 100%;
+        margin-top: 8px;
+        justify-content: end; }
+        main > div #utilities-recharge > section > div > div button, main > div .update-money > div > div button {
+          border: solid 1px #ccc; }
+    main > div #utilities-recharge > section > div::before, main > div .update-money > div::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid #fff; }
+    main > div #utilities-recharge > section > span, main > div .update-money > span {
       background-color: var(--bg-blur);
       border-radius: 8px;
-      /* Track */
-      /* Handle */
-      /* Handle on hover */ }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-table ul {
-        margin-top: 24px; }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw {
-        flex: 1;
-        overflow: auto; }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar {
-        width: 12px; }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar-track {
-        border-top-right-radius: 6px;
-        border-top-left-radius: 6px; }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar-thumb {
-        background: var(--bg-blur);
-        border-radius: 6px; }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar-thumb:hover {
-        background: var(--bg-blur-strong); }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-table .money-cur {
-        margin-top: 12px;
-        display: flex;
-        justify-content: end; }
-        main > div #history-recharge-withdraw .history-recharge-withdraw-table .money-cur h4 {
-          margin-right: 24px;
-          margin-bottom: 0px; }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-table li {
-        list-style: none;
-        margin: 12px 24px;
-        border-radius: 8px;
-        background-color: var(--bg-blur-strong);
-        font-size: 20px;
-        padding: 8px 12px; }
-        main > div #history-recharge-withdraw .history-recharge-withdraw-table li p {
-          margin-bottom: 8px; }
-        main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update {
-          border-top: 1px solid var(--border-color);
-          display: flex;
-          justify-content: space-between;
-          align-items: center; }
-          main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update span {
-            margin-top: 8px;
-            flex: 1;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 8px; }
-          main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update span:hover {
-            background-color: var(--bg-blur);
-            color: var(--color-primary); }
-    main > div #history-recharge-withdraw .arrow-change {
-      width: 100px;
+      padding: 8px 12px;
+      cursor: pointer; }
+    main > div #utilities-recharge > section.appear-uti > div, main > div .update-money.appear-uti > div {
+      display: block; }
+    main > div .del-history > button {
+      width: 100%;
+      border: none;
+      color: var(--color-text-dark);
+      background-color: transparent; }
+    main > div .del-history > button:hover {
+      color: var(--color-primary); }
+    main > div #history-recharge-withdraw {
       display: flex;
-      justify-content: center;
+      margin-top: 12px;
       align-items: center;
-      font-size: 32px; }
-    main > div #history-recharge-withdraw .history-recharge-withdraw-filter {
-      flex: 1;
-      background-color: var(--bg-blur);
-      border-radius: 8px; }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-filter > label {
-        margin-left: 24px;
-        margin-top: 24px; }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div {
-        flex: 1;
-        margin: 24px;
-        font-size: 18px; }
-        main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:nth-child(2) {
-          margin-top: 8px; }
-        main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child {
-          display: flex;
-          width: 100%;
-          justify-content: end;
-          margin-top: 12px; }
-          main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child span {
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: 8px; }
-          main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child span:hover {
-            background-color: var(--bg-blur);
-            color: var(--color-primary); }
-      main > div #history-recharge-withdraw .history-recharge-withdraw-filter input {
+      padding: 0; }
+      main > div #history-recharge-withdraw h2 {
+        text-align: center;
+        margin: 12px 0 0 0; }
+      main > div #history-recharge-withdraw > div {
         width: 100%;
-        margin-top: 4px; }
+        margin: 0; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-table {
+        display: flex;
+        flex-direction: column;
+        height: 71vh;
+        background-color: var(--bg-blur);
+        border-radius: 8px;
+        /* Track */
+        /* Handle */
+        /* Handle on hover */ }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table ul {
+          margin-top: 24px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw {
+          flex: 1;
+          overflow: auto; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar {
+          width: 12px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar-track {
+          border-top-right-radius: 6px;
+          border-top-left-radius: 6px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar-thumb {
+          background: var(--bg-blur);
+          border-radius: 6px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar-thumb:hover {
+          background: var(--bg-blur-strong); }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table .money-cur {
+          margin-top: 12px;
+          display: flex;
+          justify-content: end; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-table .money-cur h4 {
+            margin-right: 24px;
+            margin-bottom: 0px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-table li {
+          list-style: none;
+          margin: 12px 24px;
+          border-radius: 8px;
+          background-color: var(--bg-blur-strong);
+          font-size: 20px;
+          padding: 8px 12px; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-table li p {
+            margin-bottom: 8px; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update {
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center; }
+            main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update span {
+              margin-top: 8px;
+              flex: 1;
+              text-align: center;
+              cursor: pointer;
+              border-radius: 8px; }
+            main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update span:hover {
+              background-color: var(--bg-blur);
+              color: var(--color-primary); }
+      main > div #history-recharge-withdraw .arrow-change {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 32px; }
+      main > div #history-recharge-withdraw .history-recharge-withdraw-filter {
+        flex: 1;
+        background-color: var(--bg-blur);
+        border-radius: 8px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-filter > label {
+          margin-left: 24px;
+          margin-top: 24px; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div {
+          flex: 1;
+          margin: 24px;
+          font-size: 18px; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:nth-child(2) {
+            margin-top: 8px; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child {
+            display: flex;
+            width: 100%;
+            justify-content: end;
+            margin-top: 12px; }
+            main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child span {
+              cursor: pointer;
+              padding: 8px 12px;
+              border-radius: 8px; }
+            main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child span:hover {
+              background-color: var(--bg-blur);
+              color: var(--color-primary); }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-filter input {
+          width: 100%;
+          margin-top: 4px; }
+
+@media screen and (max-width: 992px) {
+  main {
+    margin-left: 270px; } }
+
+@media screen and (max-width: 420px) {
+  h2 {
+    font-size: 18px; }
+  h4 {
+    font-size: 16px; }
+  main {
+    margin-left: 0; }
+    main > div {
+      margin-left: 8px;
+      margin-right: 8px; }
+      main > div .date-time {
+        height: 32px; } }
+
+@media screen and (max-width: 420px) {
+  main > div #history-recharge-withdraw .history-recharge-withdraw-table .history-recharge-withdraw::-webkit-scrollbar {
+    width: 4px; }
+  main > div #utilities-recharge {
+    width: 100%;
+    justify-content: space-between; }
+  main > div #history-recharge-withdraw .arrow-change {
+    display: none; }
+  main > div #history-recharge-withdraw .history-recharge-withdraw-filter {
+    margin: 16px 0 8px 0; } }
 
 /*# sourceMappingURL=recharge.css.map */

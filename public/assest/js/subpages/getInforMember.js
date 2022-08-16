@@ -11,7 +11,15 @@
         method: 'get',
         url: './member/basic-infor'
     })
-    const {name, ingMember} = inforBasicMember.data
+    const {name, ingMember, nameRoom, roomID} = inforBasicMember.data
+    const nameRoomELement = document.querySelector('nav #name-room')
+    console.log(nameRoom, roomID)
+    nameRoomELement.setAttribute('data-room-id', roomID)
+    nameRoomELement.querySelector('h1').innerHTML = nameRoom
+    // Dành cho mobile
+    const navForMoblie = document.querySelector('#bars-for-mobile')
+    navForMoblie.setAttribute('data-room-id', roomID)
+    navForMoblie.querySelector('#nav-for-mobile > div span').innerHTML = nameRoom
     const nameElement = document.querySelector('#intro-member span')
     const avartarElement = document.querySelector('#intro-member .avatar')
     nameElement.innerHTML = name
