@@ -17,7 +17,54 @@
     <%- include('../partials/navbar.ejs'); %>
     <%- include('../partials/confirmTable.ejs') %>
     <header>
-        <div class="mx-3 d-flex align-items-center">
+        <div class="d-flex align-items-center">
+            <div id="bars-for-mobile" class="close">
+                <div>
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div id="bur-for-mobile"></div>
+                <ul id="nav-for-mobile">
+                    <div>
+                        <span></span>
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <li class="home-mobile">
+                        <span></span>
+                        <a href="/">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Trang Chủ</span>
+                        </a>
+                    </li>
+                    <li class="recharge-money-mobile">
+                        <span></span>
+                        <a href="/recharge-money">
+                            <i class="fa-solid fa-piggy-bank"></i>
+                            <span>Nạp Tiền</span>
+                        </a>
+                    </li>
+                    <li class="purchase-mobile running-page">
+                        <span></span>
+                        <a href="/purchase">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span>Lịch Sử Mua Hàng</span>
+                        </a>
+                    </li>
+                    <li class="infor-member-mobile">
+                        <span></span>
+                        <a href="/information-member">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Thay Đổi Thông Tin</span>
+                        </a>
+                    </li>
+                    <li class="guide-mobile">
+                        <span></span>
+                        <a href="/guide">
+                            <i class="fa-solid fa-book"></i>
+                            <span>Hướng dẫn sử dụng</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div id="pages">
                 <h1 class="d-flex justify-content-center align-items-center">
                     Order Each Day
@@ -27,7 +74,7 @@
         </div>
     </header>
     <main>
-        <div class="mx-4">
+        <div>
             <div class="date-time">
                 <h2></h2>
             </div>

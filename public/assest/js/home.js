@@ -56,7 +56,7 @@
         if(allHistoryPurchaseElement !== '') {
             historyPurchaseElement.innerHTML = allHistoryPurchaseElement
         } else {
-            historyPurchaseElement.innerHTML = `<div style='height: 100%, width: 100%;'><h5 style='text-align: center; margin-top: 50px; color: #ccc; font-weight: 400;'>Chưa có lịch sử mua hàng nào được thêm!</h5></div>`
+            historyPurchaseElement.innerHTML = `<div style='height: 100%, width: 100%;'><h5 style='text-align: center; margin-top: 50px; color: var(--color-text-dark); font-weight: 400;'>Chưa có lịch sử mua hàng nào được thêm!</h5></div>`
         }
         const hisPurchaseLiElement = historyPurchaseElement.querySelectorAll('li')
         hisPurchaseLiElement.forEach(ele => {

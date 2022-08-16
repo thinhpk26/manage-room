@@ -15,7 +15,10 @@
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
+    "home-scss": "node-sass --include-path scss --source-map ./public/assest/css/home.css.map --watch ./public/assest/css/pages/home.scss ./public/assest/css/home.css",
+    "recharge-scss": "node-sass --include-path scss --source-map ./public/assest/css/recharge.css.map --watch ./public/assest/css/pages/recharge.scss ./public/assest/css/recharge.css",
+    "purchase-scss": "node-sass --include-path scss --source-map ./public/assest/css/purchase.css.map --watch ./public/assest/css/pages/purchase.scss ./public/assest/css/purchase.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "name": "server",

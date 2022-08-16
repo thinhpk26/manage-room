@@ -2,8 +2,8 @@ const connectionMySql = require('../Models/connectMySql')
 
 module.exports = {
     getBasicInfor(req, res, next) {
-        const {name, imgMember, remainMoney} = req.inforMember
-        res.send({name, imgMember, remainMoney, memberID: req.memberID})
+        const {name, imgMember, remainMoney, roomID, nameRoom} = req.inforMember
+        res.send({name, imgMember, remainMoney, memberID: req.memberID, roomID, nameRoom})
     },
     postGetAccount(req, res, next) {
         const {memberIDOther} = req.body
