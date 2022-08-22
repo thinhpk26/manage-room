@@ -25,45 +25,66 @@
                 <div id="bur-for-mobile"></div>
                 <ul id="nav-for-mobile">
                     <div>
-                        <span></span>
-                        <i class="fa-solid fa-xmark"></i>
+                        <div class="title">
+                            <span></span>
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                        <li class="home-mobile">
+                            <span></span>
+                            <a href="/">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Trang Chủ</span>
+                            </a>
+                        </li>
+                        <li class="recharge-money-mobile running-page">
+                            <span></span>
+                            <a href="/recharge-money">
+                                <i class="fa-solid fa-piggy-bank"></i>
+                                <span>Nạp Tiền</span>
+                            </a>
+                        </li>
+                        <li class="purchase-mobile">
+                            <span></span>
+                            <a href="/purchase">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Lịch Sử Mua Hàng</span>
+                            </a>
+                        </li>
+                        <li class="manage-mobile">
+                            <span></span>
+                            <a href="/manage">
+                                <i class="fa-solid fa-gear"></i>
+                                <span>Quản lý hoạt động phòng <br> (For Host)</span>
+                            </a>
+                        </li>
+                        <li class="infor-member-mobile">
+                            <span></span>
+                            <a href="/information-member">
+                                <i class="fa-solid fa-user"></i>
+                                <span>Thay Đổi Thông Tin</span>
+                            </a>
+                        </li>
+                        <li class="guide-mobile">
+                            <span></span>
+                            <a href="/guide">
+                                <i class="fa-solid fa-book"></i>
+                                <span>Hướng dẫn sử dụng</span>
+                            </a>
+                        </li>
                     </div>
-                    <li class="home-mobile">
-                        <span></span>
-                        <a href="/">
-                            <i class="fa-solid fa-house"></i>
-                            <span>Trang Chủ</span>
+                    <div class="no-selection logout">
+                        <a href="/login">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Log Out</span>
                         </a>
-                    </li>
-                    <li class="recharge-money-mobile">
-                        <span></span>
-                        <a href="/recharge-money">
-                            <i class="fa-solid fa-piggy-bank"></i>
-                            <span>Nạp Tiền</span>
-                        </a>
-                    </li>
-                    <li class="purchase-mobile running-page">
-                        <span></span>
-                        <a href="/purchase">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <span>Lịch Sử Mua Hàng</span>
-                        </a>
-                    </li>
-                    <li class="infor-member-mobile">
-                        <span></span>
-                        <a href="/information-member">
-                            <i class="fa-solid fa-user"></i>
-                            <span>Thay Đổi Thông Tin</span>
-                        </a>
-                    </li>
-                    <li class="guide-mobile">
-                        <span></span>
-                        <a href="/guide">
-                            <i class="fa-solid fa-book"></i>
-                            <span>Hướng dẫn sử dụng</span>
-                        </a>
-                    </li>
+                    </div>
                 </ul>
+                <div class="no-selection">
+                    <a href="/login">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Log Out</span>
+                    </a>
+                </div>
             </div>
             <div id="pages">
                 <h1 class="d-flex justify-content-center align-items-center">
@@ -76,7 +97,7 @@
     <main>
         <div>
             <div class="date-time">
-                <h2></h2>
+                <span class="fs-20"></span>
             </div>
             <%- include('../partials/mainPurchase.ejs'); %>
         </div>

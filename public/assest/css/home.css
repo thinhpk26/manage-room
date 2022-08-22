@@ -6,6 +6,24 @@
 .no-selection {
   user-select: none; }
 
+.fs-16 {
+  font-size: 16px; }
+
+.fs-18 {
+  font-size: 18px; }
+
+.fs-20 {
+  font-size: 20px; }
+
+.fs-24 {
+  font-size: 24px; }
+
+.fs-28 {
+  font-size: 28px; }
+
+.fs-32 {
+  font-size: 32px; }
+
 :root {
   --border-color: #cccccc6e;
   --border-blur-color: #000;
@@ -146,19 +164,24 @@ header {
           left: 0;
           bottom: 0;
           margin: 0;
-          z-index: 5; }
-          header > div #bars-for-mobile #nav-for-mobile div {
+          z-index: 5;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between; }
+          header > div #bars-for-mobile #nav-for-mobile .title {
             display: flex;
             font-size: 30px;
             align-items: center;
             height: 58px; }
-            header > div #bars-for-mobile #nav-for-mobile div span {
+            header > div #bars-for-mobile #nav-for-mobile .title span {
               flex: 1;
               font-weight: bold;
               font-size: 24px;
               text-align: center; }
-            header > div #bars-for-mobile #nav-for-mobile div i {
+            header > div #bars-for-mobile #nav-for-mobile .title i {
               margin-right: 16px; }
+          header > div #bars-for-mobile #nav-for-mobile .logout {
+            margin-bottom: 24px; }
           header > div #bars-for-mobile #nav-for-mobile a {
             width: 100%;
             height: 100%;
@@ -230,8 +253,9 @@ nav {
     color: var(--color-text-dark); }
   nav #name-room {
     margin-top: 32px;
-    user-select: none;
-    font-family: 'Edu NSW ACT Foundation', cursive; }
+    font-family: 'Edu NSW ACT Foundation', cursive;
+    display: flex;
+    flex-direction: column; }
   nav #menu {
     margin: 0;
     padding: 0; }
@@ -296,14 +320,17 @@ main {
       display: flex;
       justify-content: end;
       align-items: center;
-      height: 56px; }
-      main > div .date-time h2 {
-        margin: 0; }
+      height: 36px; }
+      main > div .date-time span {
+        font-weight: 500; }
     main > div .container {
-      margin-top: 12px; }
-    main > div h2 {
+      margin-top: 12px;
+      padding-right: 0;
+      padding-left: 0; }
+    main > div span.header {
       text-align: center;
-      margin: 0 0 24px 0; }
+      margin-top: 12px;
+      font-weight: 500; }
     main > div li {
       list-style: none;
       background-color: var(--bg-blur-strong);
@@ -315,18 +342,42 @@ main {
     main > div section {
       background-color: var(--bg-blur);
       border-radius: 8px;
-      height: 570px;
+      height: 520px;
       overflow: auto; }
     main > div ul {
-      padding: 0 12px 0 12px; }
+      padding: 0 12px 0 12px;
+      margin: 16px 0 0 0; }
+    main > div ul.history-purchase {
+      flex: 1; }
+      main > div ul.history-purchase > div {
+        margin-top: 54px;
+        text-align: center; }
+    main > div div.show-more {
+      display: flex;
+      justify-content: center; }
+      main > div div.show-more button {
+        margin-top: 16px;
+        background-color: transparent;
+        padding: 8px 12px 8px 12px;
+        border-radius: 8px;
+        outline: none;
+        border: none; }
+        main > div div.show-more button a {
+          text-decoration: none;
+          width: 100%;
+          color: var(--color-text-dark); }
+      main > div div.show-more button:hover {
+        background-color: var(--bg-blur); }
+        main > div div.show-more button:hover a {
+          color: var(--color-primary); }
     main > div .infor-member {
       overflow: auto; }
       main > div .infor-member > div {
-        padding-top: 12px;
         height: 100%;
         display: flex;
         flex-direction: column; }
         main > div .infor-member > div > div {
+          margin-top: 12px;
           margin-right: 12px;
           display: flex;
           justify-content: end; }
@@ -336,14 +387,12 @@ main {
         margin: 0 12px 0 12px; }
       main > div .infor-member label {
         margin-top: 12px; }
-      main > div .infor-member h4 {
-        margin: 0px; }
       main > div .infor-member .history-recharge-withdraw {
         margin: 12px 0 0 0; }
         main > div .infor-member .history-recharge-withdraw li {
           padding: 8px 12px 8px 12px; }
     main > div .infor-member::-webkit-scrollbar {
-      width: 12px; }
+      width: 8px; }
     main > div .infor-member::-webkit-scrollbar-track {
       border-top-right-radius: 6px;
       border-top-left-radius: 6px; }
@@ -353,7 +402,7 @@ main {
     main > div .infor-member::-webkit-scrollbar-thumb:hover {
       background: var(--bg-blur-strong); }
     main > div .infor-order::-webkit-scrollbar {
-      width: 12px; }
+      width: 8px; }
     main > div .infor-order::-webkit-scrollbar-track {
       border-top-right-radius: 6px;
       border-top-left-radius: 6px; }
@@ -363,7 +412,6 @@ main {
     main > div .infor-order::-webkit-scrollbar-thumb:hover {
       background: var(--bg-blur-strong); }
     main > div .infor-order > div {
-      padding-top: 12px;
       height: 100%;
       display: flex;
       flex-direction: column; }
@@ -376,8 +424,8 @@ main {
       border-top: 1px solid var(--border-color);
       overflow: hidden;
       padding: 8px; }
-    main > div .infor-order ul li p {
-      flex: 1; }
+    main > div .infor-order ul li span {
+      display: block; }
     main > div .infor-order ul li i {
       margin: 0 8px 0 12px; }
     main > div .infor-order ul li.up i.fa-chevron-down {
@@ -408,8 +456,6 @@ main {
         height: 32px; } }
 
 @media screen and (min-width: 992px) {
-  .infor-member {
-    margin-right: 16px; }
   .infor-order {
     flex: 1; } }
 
@@ -419,6 +465,8 @@ main {
   main > div .infor-member::-webkit-scrollbar {
     width: 4px; }
   main > div .infor-order::-webkit-scrollbar {
-    width: 4px; } }
+    width: 4px; }
+  main > div section {
+    height: max-content; } }
 
 /*# sourceMappingURL=home.css.map */

@@ -1,20 +1,20 @@
 const AllHistory = {
     // Lấy tất cả lịch sử 
-    async getAllHistory(offset, exhaustedHisRecharge, exhaustedHisWithdraw, memberID = undefined) {
-        const hisRecharge = await this.getHistoryRecharge(memberID, exhaustedHisRecharge, offset)
-        const hisWithdraw = await this.getHistoryWithdraw(memberID, exhaustedHisWithdraw, offset)
+    async getAllHistory(offset, limit, exhaustedHisRecharge, exhaustedHisWithdraw, memberID = undefined) {
+        const hisRecharge = await this.getHistoryRecharge(exhaustedHisRecharge, offset, limit, memberID)
+        const hisWithdraw = await this.getHistoryWithdraw(exhaustedHisWithdraw, offset, limit, memberID)
         return {
             hisRecharge,
             hisWithdraw,
         }
     },
     // Lấy tất cả lịch sử nạp
-    async getHistoryRecharge(memberID, exhaustedHisRecharge, offset) {
+    async getHistoryRecharge(exhaustedHisRecharge, offset, limit, memberID = undefined) {
         if(!exhaustedHisRecharge) {
             const resultSv = await axios({
                 method: 'post',
                 url: '../recharge-money/history-recharge',
-                data: {memberIDHistory: memberID, offset}
+                data: {memberIDHistory: memberID, offset, limit}
             })
             return {
                 offset: offset + 10,
@@ -28,12 +28,12 @@ const AllHistory = {
         }
     },
     // lấy tất cả lịch sử rút
-    async getHistoryWithdraw(memberID, exhaustedHisWithdraw, offset) {
+    async getHistoryWithdraw(exhaustedHisWithdraw, offset, limit, memberID = undefined) {
         if(!exhaustedHisWithdraw) {
             const resultSv = await axios({
                 method: 'post',
                 url: '../withdraw-money/history-withdraw',
-                data: {memberIDHistory: memberID, offset}
+                data: {memberIDHistory: memberID, offset, limit}
             })
             return {
                 offset: offset + 10,
@@ -47,21 +47,21 @@ const AllHistory = {
         }
     },
     // Lọc tất cả lịch sử theo thời gian
-    async getAllHistoryWithTime(offset, exhaustedHisRecharge, exhaustedHisWithdraw, beginDay, endDay, memberID = undefined) {
-        const hisRecharge = await this.getHistoryRechargeWithTime(offset, exhaustedHisRecharge, beginDay, endDay, memberID)
-        const hisWithdraw = await this.getHistoryWithdrawWithTime(offset, exhaustedHisWithdraw, beginDay, endDay, memberID)
+    async getAllHistoryWithTime(offset, limit, exhaustedHisRecharge, exhaustedHisWithdraw, beginDay, endDay, memberID = undefined) {
+        const hisRecharge = await this.getHistoryRechargeWithTime(offset, limit, exhaustedHisRecharge, beginDay, endDay, memberID)
+        const hisWithdraw = await this.getHistoryWithdrawWithTime(offset, limit, exhaustedHisWithdraw, beginDay, endDay, memberID)
         return {
             hisRecharge,
             hisWithdraw
         }
     },
     // Lọc lịch sử nạp theo thời gian
-    async getHistoryRechargeWithTime(offset, exhaustedHisRecharge, beginDay, endDay, memberID = undefined) {
+    async getHistoryRechargeWithTime(offset, limit, exhaustedHisRecharge, beginDay, endDay, memberID = undefined) {
         if(!exhaustedHisRecharge) {
             const resultSv = await axios({
                 method: 'post',
                 url: '../recharge-money/filter-history-recharge',
-                data: {memberIDHistory: memberID, offset, beginDay, endDay}
+                data: {memberIDHistory: memberID, offset, limit, beginDay, endDay}
             })
             return {
                 offset: offset + 10,
@@ -75,12 +75,12 @@ const AllHistory = {
         }
     },
     // Lọc lịch sử rút theo thời gian
-    async getHistoryWithdrawWithTime(offset, exhaustedHisWithdraw, beginDay, endDay, memberID = undefined) {
+    async getHistoryWithdrawWithTime(offset, limit, exhaustedHisWithdraw, beginDay, endDay, memberID = undefined) {
         if(!exhaustedHisWithdraw) {
             const resultSv = await axios({
                 method: 'post',
                 url: '../withdraw-money/filter-history-withdraw',
-                data: {memberIDHistory: memberID, offset, beginDay, endDay}
+                data: {memberIDHistory: memberID, offset, limit, beginDay, endDay}
             })
             return {
                 offset: offset + 10,
@@ -118,12 +118,15 @@ const AllHistory = {
         if(offset === 10) {
             renderedElement.innerHTML = ''
             if(allHistoryRechargeElement !== '') {
+                renderedElement.style.textAlign = 'left'
                 renderedElement.append(divElement)
             } else {
-                renderedElement.innerHTML = `<h5 style='text-align: center; margin-top: 50px;'>Chưa có số tiền nạp rút nào</h5>`
+                renderedElement.innerHTML = `<span class='fs-18'>Chưa có số tiền nạp rút nào</span>`
+                renderedElement.style.textAlign = 'center'
             }
         } else {
             if(allHistoryRechargeElement !== '') {
+                renderedElement.style.textAlign = 'left'
                 renderedElement.append(divElement)
             }
         }

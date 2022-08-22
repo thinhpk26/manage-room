@@ -2,11 +2,16 @@ const connectionMySql = require('../Models/connectMySql')
 const jwt = require('jsonwebtoken')
 module.exports = (req, res, next) => {
     const memberIDToken = req.cookies.memberIDToken
+    const roomIDToken = req.cookies.roomIDToken
     const memberID = jwt.verify(memberIDToken, process.env.JWTPASSWORD, (err, decode) => {
         if(err) return undefined
         return decode
     })
-    const query = `call pr_auth('${memberID}')`
+    const roomID = jwt.verify(roomIDToken, process.env.JWTPASSWORD, (err, decode) => {
+        if(err) return undefined
+        return decode
+    })
+    const query = `call pr_auth('${memberID}', '${roomID}')`
     connectionMySql.query(query, (err, result, field) => {
         if(err) res.status(500).send(err)
         else
@@ -23,6 +28,7 @@ module.exports = (req, res, next) => {
                     roomID: result[0][0].roomID,
                     nameRoom: result[0][0].nameRoom,
                     accountMoneyRemain: result[0][0].accountMoneyRemain,
+                    host: result[0][0].host,
                 }
                 next()
             }

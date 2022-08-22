@@ -6,10 +6,11 @@ module.exports = {
     },
     postToGetHistoryRecharge(req, res, next) {
         let memberID = req.memberID
-        let {offset, memberIDHistory} = req.body, limit = offset + 10
+        const roomID = req.inforMember.roomID
+        let {offset, memberIDHistory, limit} = req.body
         // Trường hợp không có ID người dùng hiện tại
         if(!memberIDHistory) memberIDHistory = memberID
-        const query = `call pr_getHistoryRecharge('${memberIDHistory}', ${offset}, ${limit})`
+        const query = `call pr_getHistoryRecharge('${memberIDHistory}', '${roomID}', ${offset}, ${limit})`
         connectionMySql.query(query, (err, result, field) => {
             if(err) res.status(500).send(err.message)
             else {
@@ -27,13 +28,14 @@ module.exports = {
     },
     postGetFilterRecharge(req, res, next) {
         let memberID = req.memberID
-        let {offset, memberIDHistory, beginDay, endDay} = req.body, limit = offset + 10
+        const roomID = req.inforMember.roomID
+        let {offset, memberIDHistory, beginDay, endDay, limit} = req.body
         // Trường hợp không có ID người dùng hiện tại
         if(!memberIDHistory) memberIDHistory = memberID
         if(Date.parse(beginDay) > Date.parse(endDay)) {
             res.send({success:false, message: 'Ngày bạn nhập không chính xác hoặc không theo thứ tự thời gian'})
         } else {
-            const query = `call pr_filter_history_recharge('${memberIDHistory}', '${beginDay}', '${endDay}', ${offset}, ${limit})`
+            const query = `call pr_filter_history_recharge('${memberIDHistory}', '${roomID}', '${beginDay}', '${endDay}', ${offset}, ${limit})`
             connectionMySql.query(query, (err, result, field) => {
                 if(err) res.status(500).send(err.message)
                 else {
@@ -52,15 +54,16 @@ module.exports = {
     },
     postToRecharge(req, res, next) {
         const memberID = req.memberID
+        const roomID = req.inforMember.roomID
         const accountMoney = req.body.accountMoney
-        console.log(accountMoney, memberID)
         if(typeof accountMoney === 'number' && !isNaN(accountMoney)) {
-            const query = `INSERT INTO rechargeMoney(accountMoney, rechargeDay, memberID)
+            const query = `INSERT INTO rechargeMoney(accountMoney, rechargeDay, memberID, roomID)
             VALUES
-            (${accountMoney}, now(), '${memberID}')`
+            (${accountMoney}, now(), '${memberID}', '${roomID}')`
             connectionMySql.query(query, (err, result, field) => {
-                console.log(err, result)
-                if(err) res.status(500).send(err)
+                if(err) {
+                    res.status(500).send(err)
+                }
                 else {
                     if(result.affectedRows >= 1) res.send({success: true})
                     else res.send({success: false, message: 'Không thể nạp tiền bây giờ!sr...'})
@@ -75,7 +78,7 @@ module.exports = {
             if(err) res.status(500).send(err)
             else {
                 if(result.length > 0) {
-                    const query = `update rechargeMoney set accountMoney = ${accountMoney} where rechargeMoney = '${rechargeMoney}'`
+                    const query = `update rechargeMoney set accountMoney = ${accountMoney} where rechargeMoney = '${rechargeMoneyID}'`
                     connectionMySql.query(query, (err, result) => {
                         if(err) res.status(500).send(err)
                         else {

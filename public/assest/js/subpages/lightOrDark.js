@@ -39,3 +39,11 @@ const closeNav = document.querySelector('#nav-for-mobile > div i')
 closeNav.onclick = () => {
     document.querySelector('#bars-for-mobile').classList.add('close')
 }
+function delete_cookie(name) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+// Xóa ID khi log out
+const logOutElement = document.querySelector('a[href="/login"]')
+logOutElement.onclick = () => {
+    delete_cookie('memberIDToken')
+}

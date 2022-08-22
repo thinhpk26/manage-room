@@ -1,27 +1,37 @@
 <div class="container">
     <div class="row">
-        <section class="infor-member col-lg-6">
-            <div>
-                <h2>Thông tin thành viên</h1>
-                <div class="remain-money-room">
-                    <h4>Tổng tiền phòng: <b></b></h4>
+        <div class="col-lg-6">
+            <section class="infor-member">
+                <div>
+                    <span class="header fs-24">Thông tin thành viên</span>
+                    <div class="remain-money-room">
+                        <span class="fs-20">Tổng tiền phòng: <b></b></span>
+                    </div>
+                    <label for="member">Chọn thành viên:</label>
+                    <select name="member" id="member">
+                    </select>
+                    <div class="remain-money-member">
+                        <span class="fs-20">Số tiền còn lại: <b></b></span>
+                    </div>
+                    <ul class="history-recharge-withdraw">
+                    </ul>
                 </div>
-                <label for="member">Chọn thành viên:</label>
-                <select name="member" id="member">
-                </select>
-                <div class="remain-money-member">
-                    <h4>Số tiền còn lại: <b></b></h4>
+            </section>
+            <div class="show-more">
+                <button class="fs-20"><a href="./recharge-money">Xem Thêm</a></button>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <section class="infor-order">
+                <div>
+                    <span class="header fs-24">Thông tin sử dụng tiền</span>
+                    <ul class="history-purchase">
+                    </ul>
                 </div>
-                <ul class="history-recharge-withdraw">
-                </ul>
+            </section>
+            <div class="show-more">
+                <button class="fs-20"><a href="./purchase">Xem Thêm</a></button>
             </div>
-        </section>
-        <section class="infor-order col-lg-6">
-            <div>
-                <h2>Thông tin sử dụng tiền</h1>
-                <ul class="history-purchase m-0">
-                </ul>
-            </div>
-        </section>
+        </div>
     </div>
 </div>

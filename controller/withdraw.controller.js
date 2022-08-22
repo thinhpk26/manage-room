@@ -6,12 +6,16 @@ module.exports = {
     },
     postToGetHistoryWithdraw(req, res, next) {
         let memberID = req.memberID
-        let {offset, memberIDHistory} = req.body, limit = offset + 10
+        const roomID = req.inforMember.roomID
+        let {offset, memberIDHistory, limit} = req.body
         // Trường hợp không có ID người dùng hiện tại
         if(!memberIDHistory) memberIDHistory = memberID
-        const query = `call pr_getHistoryWithdraw('${memberIDHistory}', ${offset}, ${limit})`
+        const query = `call pr_getHistoryWithdraw('${memberIDHistory}', '${roomID}', ${offset}, ${limit})`
         connectionMySql.query(query, (err, result, field) => {
-            if(err) res.status(500).send(err.message)
+            if(err) {
+                console.log(err)
+                res.status(500).send(err.message)
+            }
             else {
                 const inforResponse = result[0].reduce((pre, cur) => {
                         pre.push({withdrawID: cur.withdrawID, withdrawMoney: cur.withdrawMoney, withdrawDay: cur.withdrawDay})
@@ -27,13 +31,14 @@ module.exports = {
     },
     postGetFilterWithdraw(req, res, next) {
         let memberID = req.memberID
+        const roomID = req.inforMember.roomID
         let {offset, memberIDHistory, beginDay, endDay} = req.body, limit = offset + 10
         // Trường hợp không có ID người dùng hiện tại
         if(!memberIDHistory) memberIDHistory = memberID
         if(Date.parse(beginDay) > Date.parse(endDay)) {
             res.send({success:false, message: 'Ngày bạn nhập không chính xác hoặc không theo thứ tự thời gian'})
         } else {
-            const query = `call pr_filter_history_withdraw('${memberIDHistory}', '${beginDay}', '${endDay}', ${offset}, ${limit})`
+            const query = `call pr_filter_history_withdraw('${memberIDHistory}', '${roomID}', '${beginDay}', '${endDay}', ${offset}, ${limit})`
             connectionMySql.query(query, (err, result, field) => {
                 if(err) res.status(500).send(err.message)
                 else {
@@ -52,11 +57,12 @@ module.exports = {
     },
     postToAddWithdraw(req, res, next) {
         const memberID = req.memberID
+        const roomID = req.inforMember.roomID
         const withdrawMoney = req.body.accountMoneyWithdraw
         if(typeof withdrawMoney === 'number' && !isNaN(withdrawMoney)) {
-            const query = `INSERT INTO withdrawMoney(withdrawMoney, withdrawDay, memberID)
+            const query = `INSERT INTO withdrawMoney(withdrawMoney, withdrawDay, memberID, roomID)
             VALUES
-            (${withdrawMoney}, now(), '${memberID}')`
+            (${withdrawMoney}, now(), '${memberID}', '${roomID}')`
             connectionMySql.query(query, (err, result, field) => {
                 if(err) res.status(500).send(err)
                 else {
