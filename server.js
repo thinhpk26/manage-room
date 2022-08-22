@@ -30,6 +30,8 @@ const memberRouter = require('./router/member.router');
 const withdrawRouter = require('./router/withdraw.router');
 const purchaseRouter = require('./router/purchase.router');
 const roomRouter = require('./router/room.router');
+const SignUpRouter = require('./router/signUp.router');
+const manageRouter = require('./router/manage.router');
 
 // Router
 app.use('/public', express.static(path.join(__dirname, 'public')))
@@ -41,6 +43,8 @@ app.use('/recharge-money', rechargeRouter)
 app.use('/withdraw-money', withdrawRouter)
 app.use('/purchase', purchaseRouter)
 app.use('/room', roomRouter)
+app.use('/sign-up', SignUpRouter)
+app.use('/manage', manageRouter)
 
 app.use(errorMiddleware)
 

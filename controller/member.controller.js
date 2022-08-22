@@ -1,4 +1,5 @@
 const connectionMySql = require('../Models/connectMySql')
+const uuid = require('uuid')
 
 module.exports = {
     getBasicInfor(req, res, next) {
@@ -7,15 +8,23 @@ module.exports = {
     },
     postGetAccount(req, res, next) {
         const {memberIDOther} = req.body
-        connectionMySql.query(`select remainMoney from member where memberID = '${memberIDOther}'`, (err, result) => {
-            if(err) res.status(500).send(500)
+        const roomID = req.inforMember.roomID
+        connectionMySql.query(`select host.remainMoney 
+        from member join host on host.memberID = member.memberID
+        where member.memberID = '${memberIDOther}' and host.roomID ='${roomID}'`, (err, result) => {
+            if(err) res.status(500).send(err)
             else res.send(result[0])
         })
     },
     getAllMember(req, res, next) {
         const memberID = req.memberID
-        connectionMySql.query('select memberID, name, remainMoney, imgMember, roomID from member', (err, result) => {
-            if(err) res.status(500).send(err)
+        const roomID = req.inforMember.roomID
+        connectionMySql.query(`select member.memberID, name, remainMoney, imgMember
+        from member join host on member.memberID = host.memberID
+        where host.roomID = '${roomID}'`, (err, result) => {
+            if(err) {
+                res.status(500).send(err)
+            }
             else {
                 // Sắp xếp thành viên
                 for(let i=0; i<result.length; i++) {
@@ -25,6 +34,20 @@ module.exports = {
                     }
                 }
                 res.send(result)
+            }
+        })
+    },
+    postCreateUser(req, res, next) {
+        const {account, password, name} = req.body
+        const memberID = uuid.v4().split('-').join('').slice(0, 8)
+        connectionMySql.query(`call pr_signup('${memberID}', '${account}', ${password}, '${name}')`, function(err, result) {
+            if(err) {
+                return res.send(err)
+            }
+            if(result[0][0].success) {
+                res.send({success: true})
+            } else {
+                res.send({success: false})
             }
         })
     }

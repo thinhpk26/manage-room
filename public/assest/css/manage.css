@@ -308,160 +308,52 @@ main {
   margin-left: 360px; }
   main > div {
     margin-right: 1.5rem;
-    margin-left: 1.5rem;
-    /* Track */
-    /* Handle */
-    /* Handle on hover */
-    /* Track */
-    /* Handle */
-    /* Handle on hover */ }
+    margin-left: 1.5rem; }
     main > div .date-time {
       margin-top: 12px;
       display: flex;
       justify-content: end;
+      align-items: center;
       height: 36px; }
       main > div .date-time span {
-        font-size: 20px;
         font-weight: 500; }
     main > div .container {
-      margin-top: 12px; }
-    main > div .update-purchase-container > div, main > div .add-purchase-container > div, main > div #history-purchase > div > div {
-      text-align: center; }
-    main > div li {
-      list-style: none;
-      background-color: var(--bg-blur-strong);
-      border-radius: 8px;
-      margin-bottom: 12px; }
-    main > div p {
-      font-size: 16px;
-      margin: 0; }
-    main > div section {
-      background-color: var(--bg-blur);
-      border-radius: 8px;
-      height: 584px;
-      overflow: auto; }
-    main > div #add-purchase::-webkit-scrollbar {
-      width: 8px; }
-    main > div #add-purchase::-webkit-scrollbar-track {
-      border-top-right-radius: 6px;
-      border-top-left-radius: 6px; }
-    main > div #add-purchase::-webkit-scrollbar-thumb {
-      background: var(--bg-blur);
-      border-radius: 6px; }
-    main > div #add-purchase::-webkit-scrollbar-thumb:hover {
-      background: var(--bg-blur-strong); }
-    main > div #add-purchase > div {
-      padding: 12px 0 12px 0; }
-    main > div #add-purchase > div.update-purchase-container {
-      display: none; }
-    main > div #add-purchase tr td {
-      padding-bottom: 12px; }
-    main > div #add-purchase tr > td:last-child {
-      padding-left: 12px; }
-    main > div #add-purchase label {
-      margin-left: 8px; }
-    main > div #add-purchase form {
-      margin-top: 16px; }
-      main > div #add-purchase form > div {
-        display: flex;
-        justify-content: flex-end; }
-      main > div #add-purchase form table {
-        width: 100%; }
-        main > div #add-purchase form table textarea, main > div #add-purchase form table input {
-          background-color: var(--bg-blur-strong);
-          border: none;
-          outline: none;
-          border-radius: 4px;
-          color: var(--color-text-dark);
-          padding: 0 8px 0 8px;
-          font-size: 16px; }
-        main > div #add-purchase form table textarea {
-          width: 100%; }
-        main > div #add-purchase form table li {
-          list-style: outside;
-          background-color: transparent;
-          font-size: 18px;
-          margin-left: 12px; }
-        main > div #add-purchase form table .err-add-item {
-          display: none; }
-      main > div #add-purchase form button {
-        background-color: transparent;
-        color: var(--color-text-dark);
-        padding: 8px 12px 8px 12px;
-        border: none;
-        border-radius: 4px;
-        font-size: 18px; }
-      main > div #add-purchase form button:hover {
-        background-color: var(--bg-blur-strong);
-        color: var(--color-primary); }
-    main > div #add-purchase.add > div.add-purchase-container {
-      display: block; }
-    main > div #add-purchase.add > div.update-purchase-container {
-      display: none; }
-    main > div #add-purchase.update > div.add-purchase-container {
-      display: none; }
-    main > div #add-purchase.update > div.update-purchase-container {
-      display: block; }
-    main > div #history-purchase::-webkit-scrollbar {
-      width: 8px; }
-    main > div #history-purchase::-webkit-scrollbar-track {
-      border-top-right-radius: 6px;
-      border-top-left-radius: 6px; }
-    main > div #history-purchase::-webkit-scrollbar-thumb {
-      background: var(--bg-blur);
-      border-radius: 6px; }
-    main > div #history-purchase::-webkit-scrollbar-thumb:hover {
-      background: var(--bg-blur-strong); }
-    main > div #history-purchase > div {
-      padding-top: 12px;
-      height: 100%;
-      display: flex;
-      flex-direction: column; }
-    main > div #history-purchase ul {
-      padding: 0 12px 0 12px;
-      margin: 16px 0 0 0; }
-      main > div #history-purchase ul li .sumary-order {
-        display: flex;
-        align-items: center;
-        padding: 8px;
-        cursor: pointer; }
-      main > div #history-purchase ul li .detail-order {
-        border-top: 1px solid var(--border-color);
-        overflow: hidden;
-        padding: 8px; }
-      main > div #history-purchase ul li .update-or-del {
-        display: flex;
-        justify-content: space-between;
-        margin: 8px 0 0 0;
-        padding: 8px 12px;
-        border-top: solid 1px var(--border-color); }
-        main > div #history-purchase ul li .update-or-del button {
-          flex: 1;
-          border-radius: 4px;
-          border: none;
-          background-color: transparent;
-          color: var(--color-text-dark);
-          font-size: 18px; }
-        main > div #history-purchase ul li .update-or-del button:hover {
-          background-color: var(--bg-blur-strong);
-          color: var(--color-primary); }
-        main > div #history-purchase ul li .update-or-del .btn:focus {
-          box-shadow: none; }
-      main > div #history-purchase ul li p {
-        flex: 1; }
-      main > div #history-purchase ul li i {
-        margin: 0 8px 0 12px; }
-      main > div #history-purchase ul li.select {
-        border: 1px solid var(--color-primary); }
-      main > div #history-purchase ul li.up i.fa-chevron-down {
-        display: none; }
-      main > div #history-purchase ul li.down i.fa-angle-up {
-        display: none; }
-      main > div #history-purchase ul li.sumary .detail-order {
-        display: none; }
-      main > div #history-purchase ul li.detail .detail-order {
-        display: block;
-        padding: 8px; }
+      margin-top: 12px;
+      padding-right: 0;
+      padding-left: 0; }
+      main > div .container .request-into-room {
+        margin-left: 12px;
+        background-color: var(--bg-blur);
+        border-radius: 8px;
+        overflow: auto;
+        height: 580px; }
+        main > div .container .request-into-room div {
+          text-align: center;
+          margin-top: 12px; }
+        main > div .container .request-into-room ul {
+          margin: 0;
+          padding: 0; }
+          main > div .container .request-into-room ul li {
+            margin: 12px 0 12px 0;
+            list-style: none;
+            background-color: var(--bg-blur-strong);
+            border-radius: 8px;
+            padding: 8px 12px 4px 12px; }
+            main > div .container .request-into-room ul li div {
+              display: flex;
+              border-top: 1px solid var(--border-color);
+              padding-top: 4px;
+              margin-top: 4px;
+              margin-bottom: 4px; }
+              main > div .container .request-into-room ul li div button {
+                background-color: transparent;
+                color: var(--color-text-dark);
+                border: none;
+                flex: 1;
+                border-radius: 4px; }
+              main > div .container .request-into-room ul li div button:hover {
+                background-color: var(--bg-blur-strong);
+                color: var(--color-primary); }
 
 @media screen and (max-width: 992px) {
   main {
@@ -480,20 +372,4 @@ main {
       main > div .date-time {
         height: 32px; } }
 
-@media screen and (min-width: 992px) {
-  #add-purchase {
-    margin-right: 1.5rem; }
-  #history-purchase {
-    flex: 1; } }
-
-@media screen and (max-width: 420px) {
-  #history-purchase {
-    margin: 16px 0 8px 0; }
-  main > div #add-purchase::-webkit-scrollbar {
-    width: 4px; }
-  main > div #history-purchase::-webkit-scrollbar {
-    width: 4px; }
-  main > div section {
-    height: max-content; } }
-
-/*# sourceMappingURL=purchase.css.map */
+/*# sourceMappingURL=manage.css.map */

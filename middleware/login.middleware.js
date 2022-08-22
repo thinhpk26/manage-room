@@ -13,11 +13,12 @@ module.exports = {
             if(result[0].length > 0) {
                 const memberID = result[0][0].memberID
                 const memberIDToken = jwt.sign(memberID.toString(), process.env.JWTPASSWORD)
+                req.memberID = memberID
                 req.memberIDToken = memberIDToken
                 next()
             }
             else 
-                res.send({success: false, message: 'Account or password not correct'})
+                res.send({type: 1, success: false, message: 'Account or password not correct'})
         })
     }
 }

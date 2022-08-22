@@ -8,7 +8,7 @@
     .then((result) => {
         const {remainMoney} = result.data
         if(remainMoney >= 0 ) document.querySelector('.money-cur b').innerHTML = remainMoney + 'K'
-        else document.querySelector('.money-cur h4').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}K</b>`
+        else document.querySelector('.money-cur span').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}K</b>`
     })
     .catch((err) => {
         console.log(err)
@@ -19,10 +19,11 @@
     let exhaustedHisRecharge = false
     // Đã hết lịch sử rút trong database hay chưa
     let exhaustedHisWithdraw = false
-    const hisRechargeAndWithdrawElement = document.querySelector('.history-recharge-withdraw')
+    // Render ra cả trên pc và mobile
+    const hisRechargeAndWithdrawElement = document.querySelectorAll('.history-recharge-withdraw')
     // Render ui khi người dùng mở trang
     // Lấy dữ liệu lịch sử từ server
-    const allHistory = await AllHistory.getAllHistory(offset, exhaustedHisRecharge, exhaustedHisWithdraw).then(result => {
+    const allHistory = await AllHistory.getAllHistory(offset, offset + 10, exhaustedHisRecharge, exhaustedHisWithdraw).then(result => {
         exhaustedHisRecharge = result.hisRecharge.exhaustedRecharge
         exhaustedHisWithdraw = result.hisWithdraw.exhaustedWithdraw
         if(result.hisRecharge.offset > result.hisWithdraw.offset) {
@@ -32,58 +33,100 @@
         }
         return result.hisRecharge.inforResponse.concat(result.hisWithdraw.inforResponse)
     })
-    AllHistory.renderHistoryMember(allHistory, offset, hisRechargeAndWithdrawElement, liTagStructure)
+    hisRechargeAndWithdrawElement.forEach(ele => {
+        AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+    })
     // Render tiếp khi cuộn
-    hisRechargeAndWithdrawElement.addEventListener('scroll', async (e) => {
-        if(!(exhaustedHisWithdraw && exhaustedHisRecharge)) {
-            if(hisRechargeAndWithdrawElement.scrollHeight / 3 * 2 < hisRechargeAndWithdrawElement.scrollTop) {
-                const selectTagElement = document.getElementById('select-your-choose')
-                const beginDay = document.getElementById('day-begin').value
-                const endDay = document.getElementById('day-finish').value
-                if(beginDay !== ''&& endDay !== '') {
-                    if(selectTagElement.value === 'all') {
-                        const allHistory = await AllHistory.getAllHistoryWithTime(offset, exhaustedHisRecharge, exhaustedHisWithdraw, beginDay, endDay).then(result => {
-                            exhaustedHisRecharge = result.hisRecharge.exhaustedRecharge
-                            exhaustedHisWithdraw = result.hisWithdraw.exhaustedWithdraw
-                            if(result.hisRecharge.offset > result.hisWithdraw.offset) {
-                                offset = result.hisRecharge.offset
-                            } else {
-                                offset = result.hisWithdraw.offset
-                            }
-                            return result.hisRecharge.inforResponse.concat(result.hisWithdraw.inforResponse)
-                        })
-                        AllHistory.renderHistoryMember(allHistory, offset, hisRechargeAndWithdrawElement, liTagStructure)
-                    }
-                    else if(selectTagElement.value === 'recharge') {
-                        const allHistory = await AllHistory.getHistoryRechargeWithTime(offset, exhaustedHisRecharge, beginDay, endDay).then(result => {
-                            exhaustedHisRecharge = result.exhaustedRecharge
-                            offset = result.offset
-                            return result.inforResponse
-                        })
-                        AllHistory.renderHistoryMember(allHistory, offset, hisRechargeAndWithdrawElement, liTagStructure)
-                    } else {
-                        const allHistory = await AllHistory.getHistoryWithdrawWithTime(offset, exhaustedHisWithdraw, beginDay, endDay).then(result => {
-                            exhaustedHisRecharge = result.exhaustedWithdraw
-                            offset = result.offset
-                            return result.inforResponse
-                        })
-                        AllHistory.renderHistoryMember(allHistory, offset, hisRechargeAndWithdrawElement, liTagStructure)
-                    }
-                } else {
-                    const allHistory = await AllHistory.getAllHistory(offset, exhaustedHisRecharge, exhaustedHisWithdraw).then(result => {
-                        exhaustedHisRecharge = result.hisRecharge.exhaustedRecharge
-                        exhaustedHisWithdraw = result.hisWithdraw.exhaustedWithdraw
-                        if(result.hisRecharge.offset > result.hisWithdraw.offset) {
-                            offset = result.hisRecharge.offset
+    hisRechargeAndWithdrawElement.forEach(ele => {
+        ele.addEventListener('scroll', async (e) => {
+            if(!(exhaustedHisWithdraw && exhaustedHisRecharge)) {
+                if(ele.scrollHeight * 2/3 < ele.clientHeight + ele.scrollTop) {
+                    const selectTagElement = document.getElementById('select-your-choose')
+                    const beginDay = document.getElementById('day-begin').value
+                    const endDay = document.getElementById('day-finish').value
+                    if(beginDay === '' && endDay === '') {
+                        const errSearchElement = document.querySelector('.error-search')
+                        errSearchElement.innerHTML = ''
+                        if(selectTagElement.value === 'all') {
+                            const allHistory = await AllHistory.getAllHistory(offset, offset + 10, exhaustedHisRecharge, exhaustedHisWithdraw).then(result => {
+                                exhaustedHisRecharge = result.hisRecharge.exhaustedRecharge
+                                exhaustedHisWithdraw = result.hisWithdraw.exhaustedWithdraw
+                                if(result.hisRecharge.offset > result.hisWithdraw.offset) {
+                                    offset = result.hisRecharge.offset
+                                } else {
+                                    offset = result.hisWithdraw.offset
+                                }
+                                return result.hisRecharge.inforResponse.concat(result.hisWithdraw.inforResponse)
+                            })
+                            hisRechargeAndWithdrawElement.forEach(ele => {
+                                AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                            })
+                        } else if(selectTagElement.value === 'recharge') {
+                            const allHistory = await AllHistory.getHistoryRecharge(exhaustedHisRecharge, offset, offset + 10).then(result => {
+                                offset = result.offset
+                                exhaustedHisRecharge = result.exhaustedRecharge
+                                return result.inforResponse
+                            })
+                            hisRechargeAndWithdrawElement.forEach(ele => {
+                                AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                            })
                         } else {
-                            offset = result.hisWithdraw.offset
+                            const allHistory = await AllHistory.getHistoryWithdraw(exhaustedHisWithdraw, offset, offset + 10).then(result => {
+                                offset = result.offset
+                                exhaustedHisWithdraw = result.exhaustedWithdraw
+                                return result.inforResponse
+                            })
+                            hisRechargeAndWithdrawElement.forEach(ele => {
+                                AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                            })
                         }
-                        return result.hisRecharge.inforResponse.concat(result.hisWithdraw.inforResponse)
-                    })
-                    AllHistory.renderHistoryMember(allHistory, offset, hisRechargeAndWithdrawElement, liTagStructure)
+                    } else if(beginDay !== '' && endDay !== '') {
+                        const errSearchElement = document.querySelector('.error-search')
+                        errSearchElement.innerHTML = ''
+                        if(selectTagElement.value === 'all') {
+                            const allHistory = await AllHistory.getAllHistoryWithTime(offset, offset + 10, exhaustedHisRecharge, exhaustedHisWithdraw, beginDay, endDay).then(result => {
+                                exhaustedHisRecharge = result.hisRecharge.exhaustedRecharge
+                                exhaustedHisWithdraw = result.hisWithdraw.exhaustedWithdraw
+                                if(result.hisRecharge.offset > result.hisWithdraw.offset) {
+                                    offset = result.hisRecharge.offset
+                                } else {
+                                    offset = result.hisWithdraw.offset
+                                }
+                                return result.hisRecharge.inforResponse.concat(result.hisWithdraw.inforResponse)
+                            })
+                            hisRechargeAndWithdrawElement.forEach(ele => {
+                                AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                            })
+                        }
+                        else if(selectTagElement.value === 'recharge') {
+                            const allHistory = await AllHistory.getHistoryRechargeWithTime(offset, offset + 10, exhaustedHisRecharge, beginDay, endDay).then(result => {
+                                exhaustedHisRecharge = result.exhaustedRecharge
+                                offset = result.offset
+                                return result.inforResponse
+                            })
+                            hisRechargeAndWithdrawElement.forEach(ele => {
+                                AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                            })
+                        } else {
+                            const allHistory = await AllHistory.getHistoryWithdrawWithTime(offset, offset + 10, exhaustedHisWithdraw, beginDay, endDay).then(result => {
+                                exhaustedHisRecharge = result.exhaustedWithdraw
+                                offset = result.offset
+                                return result.inforResponse
+                            })
+                            hisRechargeAndWithdrawElement.forEach(ele => {
+                                AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                            })
+                        }
+                    } else if(beginDay !== '') {
+                        const errSearchElement = document.querySelector('.error-search')
+                        errSearchElement.innerHTML = 'Bạn nhập thiếu ngày bắt đầu!!!'
+                    } else {
+                        const errSearchElement = document.querySelector('.error-search')
+                        errSearchElement.innerHTML = 'Bạn nhập thiếu ngày kết thúc!!!'
+                    }
                 }
             }
-        }
+        })
     })
     // Sự kiện ẩn hiện rút tiền và nạp tiền
     const ultiElement = document.querySelectorAll('#utilities-recharge section > span')
@@ -191,33 +234,85 @@
         offset = 0
         exhaustedHisRecharge = false
         exhaustedHisWithdraw = false
-        if(selectTagElement.value === 'all') {
-            const allHistory = await AllHistory.getAllHistoryWithTime(offset, exhaustedHisRecharge, exhaustedHisWithdraw, beginDay, endDay).then(result => {
-                exhaustedHisRecharge = result.hisRecharge.exhaustedRecharge
-                exhaustedHisWithdraw = result.hisWithdraw.exhaustedWithdraw
-                if(result.hisRecharge.offset > result.hisWithdraw.offset) {
-                    offset = result.hisRecharge.offset
-                } else {
-                    offset = result.hisWithdraw.offset
-                }
-                return result.hisRecharge.inforResponse.concat(result.hisWithdraw.inforResponse)
-            })
-            AllHistory.renderHistoryMember(allHistory, offset, hisRechargeAndWithdrawElement, liTagStructure)
-        }
-        else if(selectTagElement.value === 'recharge') {
-            const allHistory = await AllHistory.getHistoryRechargeWithTime(offset, exhaustedHisRecharge, beginDay, endDay).then(result => {
-                exhaustedHisRecharge = result.exhaustedRecharge
-                offset = result.offset
-                return result.inforResponse
-            })
-            AllHistory.renderHistoryMember(allHistory, offset, hisRechargeAndWithdrawElement, liTagStructure)
+        if(beginDay === '' && endDay === '') {
+            const errSearchElement = document.querySelector('.error-search')
+            errSearchElement.innerHTML = ''
+            if(selectTagElement.value === 'all') {
+                const allHistory = await AllHistory.getAllHistory(offset, offset + 10, exhaustedHisRecharge, exhaustedHisWithdraw).then(result => {
+                    exhaustedHisRecharge = result.hisRecharge.exhaustedRecharge
+                    exhaustedHisWithdraw = result.hisWithdraw.exhaustedWithdraw
+                    if(result.hisRecharge.offset > result.hisWithdraw.offset) {
+                        offset = result.hisRecharge.offset
+                    } else {
+                        offset = result.hisWithdraw.offset
+                    }
+                    return result.hisRecharge.inforResponse.concat(result.hisWithdraw.inforResponse)
+                })
+                hisRechargeAndWithdrawElement.forEach(ele => {
+                    AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                })
+            } else if(selectTagElement.value === 'recharge') {
+                const allHistory = await AllHistory.getHistoryRecharge(exhaustedHisRecharge, offset, offset + 10).then(result => {
+                    offset = result.offset
+                    exhaustedHisRecharge = result.exhaustedRecharge
+                    return result.inforResponse
+                })
+                hisRechargeAndWithdrawElement.forEach(ele => {
+                    AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                })
+            } else {
+                const allHistory = await AllHistory.getHistoryWithdraw(exhaustedHisWithdraw, offset, offset + 10).then(result => {
+                    offset = result.offset
+                    exhaustedHisWithdraw = result.exhaustedWithdraw
+                    return result.inforResponse
+                })
+                hisRechargeAndWithdrawElement.forEach(ele => {
+                    AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                })
+            }
+        } else if(beginDay !== '' && endDay !== '') {
+            const errSearchElement = document.querySelector('.error-search')
+            errSearchElement.innerHTML = ''
+            if(selectTagElement.value === 'all') {
+                const allHistory = await AllHistory.getAllHistoryWithTime(offset, offset + 10, exhaustedHisRecharge, exhaustedHisWithdraw, beginDay, endDay).then(result => {
+                    exhaustedHisRecharge = result.hisRecharge.exhaustedRecharge
+                    exhaustedHisWithdraw = result.hisWithdraw.exhaustedWithdraw
+                    if(result.hisRecharge.offset > result.hisWithdraw.offset) {
+                        offset = result.hisRecharge.offset
+                    } else {
+                        offset = result.hisWithdraw.offset
+                    }
+                    return result.hisRecharge.inforResponse.concat(result.hisWithdraw.inforResponse)
+                })
+                hisRechargeAndWithdrawElement.forEach(ele => {
+                    AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                })
+            }
+            else if(selectTagElement.value === 'recharge') {
+                const allHistory = await AllHistory.getHistoryRechargeWithTime(offset, offset + 10, exhaustedHisRecharge, beginDay, endDay).then(result => {
+                    exhaustedHisRecharge = result.exhaustedRecharge
+                    offset = result.offset
+                    return result.inforResponse
+                })
+                hisRechargeAndWithdrawElement.forEach(ele => {
+                    AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                })
+            } else {
+                const allHistory = await AllHistory.getHistoryWithdrawWithTime(offset, offset + 10, exhaustedHisWithdraw, beginDay, endDay).then(result => {
+                    exhaustedHisRecharge = result.exhaustedWithdraw
+                    offset = result.offset
+                    return result.inforResponse
+                })
+                hisRechargeAndWithdrawElement.forEach(ele => {
+                    AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
+                })
+            }
+        } else if(beginDay !== '') {
+            const errSearchElement = document.querySelector('.error-search')
+            errSearchElement.innerHTML = 'Bạn nhập thiếu ngày bắt đầu!!!'
         } else {
-            const allHistory = await AllHistory.getHistoryWithdrawWithTime(offset, exhaustedHisWithdraw, beginDay, endDay).then(result => {
-                exhaustedHisRecharge = result.exhaustedWithdraw
-                offset = result.offset
-                return result.inforResponse
-            })
-            AllHistory.renderHistoryMember(allHistory, offset, hisRechargeAndWithdrawElement, liTagStructure)
+            const errSearchElement = document.querySelector('.error-search')
+            errSearchElement.innerHTML = 'Bạn nhập thiếu ngày kết thúc!!!'
         }
     })
     // reset lữ liệu

@@ -7,7 +7,8 @@ module.exports = {
     },
     postToGetHistoryPurchase(req, res, next) {
         const {offset, limit} = req.body
-        const query = `call pr_purchase_history(${offset}, ${limit})`
+        const roomID = req.inforMember.roomID
+        const query = `call pr_purchase_history(${offset}, ${limit}, '${roomID}')`
         connectionMySql.query(query, (err, result, field) => {
             if(err) res.status(500).send(err.message)
             else {
@@ -64,12 +65,15 @@ module.exports = {
                             })
                     }
                 })
-                res.send(inforResponse)
+                if(inforResponse.length < 10) {
+                    res.send({exhaustedPurchase: true, inforResponse})
+                } else res.send({exhaustedPurchase: false, inforResponse})
             }
         })
     },
     postPurchase(req, res, next) {
         const memberID = req.memberID
+        const roomID = req.inforMember.roomID
         let {sumMoney, memberPaid, purchaseItem, memberUse, note} = req.body
         const orderID = uuid.v4().replace(/\-/g, '').slice(0, 16)
         let noteUpServer
@@ -78,7 +82,7 @@ module.exports = {
         if(typeof sumMoney === 'string') sumMoney = parseFloat(sumMoney)
         const insertOrderEachDay = `Insert into orderEachDay
         values
-        ('${orderID}', ${sumMoney}, '${memberPaid}', now(), '${memberID}', ${noteUpServer})`
+        ('${orderID}', ${sumMoney}, '${memberPaid}', now(), '${memberID}', ${noteUpServer}, '${roomID}')`
         connectionMySql.beginTransaction((err) => {
             if(err) return res.status(500).send(err.message)
             else {
@@ -130,7 +134,6 @@ module.exports = {
         if(!note || note !== '') noteUpServer = `'${note}'`
         else noteUpServer = null
         if(typeof sumMoney === 'string') sumMoney = parseFloat(sumMoney)
-        console.log(orderID, sumMoney, memberPaid, purchaseItem, memberUse, note)
         const queryCheckAuth = `select * from orderEachDay where orderEachDay.memberAdd = '${memberID}' and orderEachDay.orderID = '${orderID}'`
         connectionMySql.query(queryCheckAuth, (err, result) => {
             if(err) res.status(500).send(err)
@@ -139,7 +142,6 @@ module.exports = {
                     connectionMySql.beginTransaction((err) => {
                         if(err) return res.status(500).send(err.message)
                         else {
-                            console.log(1)
                             const updateOrderEachDay = `Update orderEachDay
                             set
                             orderEachDay.sumMoney = ${sumMoney},
@@ -157,7 +159,7 @@ module.exports = {
                                     const updateMemberUse = `call pr_update_purchase_memberuse('${memberUse[i]}', '${orderID}', ${sumMoney / memberUse.length});`
                                     connectionMySql.query(updateMemberUse, (err, result) => {
                                         if(err) return connectionMySql.rollback(() => {
-                                            console.log(3)
+                                            console.log(err)
                                                 res.status(400).send(err.message)
                                             })
                                     })
@@ -173,7 +175,7 @@ module.exports = {
                                 }
                                 connectionMySql.query(updateMemberUse, (err, result) => {
                                     if(err) return connectionMySql.rollback(() => {
-                                        console.log(4)
+                                        console.log(err)
                                         res.status(400).send(err.message)
                                     })
                                 })
@@ -221,7 +223,6 @@ module.exports = {
                                         } else {
                                             updatePurchase = `Delete from purchaseItem \n` + `where purchaseItem.orderID = '${orderID}'`
                                         }
-                                        console.log(updatePurchase)
                                         connectionMySql.query(updatePurchase, (err, result) => {
                                             if(err) return connectionMySql.rollback(() => {
                                                 console.log(7)

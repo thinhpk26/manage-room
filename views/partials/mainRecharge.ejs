@@ -1,6 +1,6 @@
 <div id="utilities-recharge" class="no-selection">
     <section class="utilities-add">
-        <span>Nạp tiền</span>
+        <span class="fs-18">Nạp tiền</span>
         <div class="add-money">
             <label for="money-recharge">Nhập số tiền muốn nạp:</label>
             <input type="text" id="money-recharge" class="form-control" name="sumMoneyRecharge">
@@ -11,7 +11,7 @@
         </div>
     </section>
     <section class="utilities-withdraw-money">
-        <span>Rút tiền</span>
+        <span class="fs-18">Rút tiền</span>
         <div class="withdraw-money">
             <label for="withdraw-money">Nhập số tiền muốn rút: </label>
             <input type="text" id="withdraw-money" class="form-control" name="sumMoneyWithdraw">
@@ -24,10 +24,10 @@
 </div>
 <div class="container" id="history-recharge-withdraw">
     <div class="row">
-        <section class="history-recharge-withdraw-table col-lg-8">
-            <h2 class="no-selection">Lịch sử nạp/rút tiền</h2>
+        <section class="history-recharge-withdraw-table for-computer col-lg-7">
+            <span class="no-selection fs-24">Lịch sử nạp/rút tiền</span>
             <div class="money-cur">
-                <h4>Số tiền hiện tại: <b></b></h4>
+                <span class="fs-20">Số tiền hiện tại: <b></b></span>
             </div>
             <ul class="history-recharge-withdraw p-0">
             </ul>
@@ -35,27 +35,40 @@
         <section class="arrow-change no-selection col-lg-1">
             <i class="fa-solid fa-arrow-left-long"></i>
         </section>
-        <section class="history-recharge-withdraw-filter col-lg-3">
-            <h2 class="no-selection">Lọc lịch sử</h2>
-            <label for="select-your-choose">Bạn muốn lọc theo:</label>
-            <select id="select-your-choose">
-                <option value="all">Lịch sử nạp và rút</option>
-                <option value="recharge">Lịch sử nạp</option>
-                <option value="withdraw">Lịch sử rút</option>
-            </select>
+        <section class="history-recharge-withdraw-filter col-lg-4">
+            <div class="header">
+                <span class="no-selection fs-24">Lọc lịch sử</span>
+            </div>
+            <div>
+                <label for="select-your-choose">Bạn muốn lọc theo:</label>
+                <select id="select-your-choose">
+                    <option value="all">Lịch sử nạp và rút</option>
+                    <option value="recharge">Lịch sử nạp</option>
+                    <option value="withdraw">Lịch sử rút</option>
+                </select>
+            </div>
             <div>
                 <div>
-                    <label for="day-begin" class="no-selection">Bắt đầu từ: </label>
+                    <label for="day-begin" class="no-selection fs-18">Bắt đầu từ: </label>
                     <input type="datetime-local" id="day-begin">
                 </div>
                 <div>
-                    <label for="day-finish" class="no-selection">Kết thúc vào: </label>
+                    <label for="day-finish" class="no-selection fs-18">Kết thúc vào: </label>
                     <input type="datetime-local" id="day-finish">
                 </div>
+                <span class="error-search fs-16" style="color: red"></span>
                 <div class="no-selection confirm-filter">
-                    <span>Tìm kiếm</span>
+                    <span class="fs-20">Tìm kiếm</span>
                 </div>
             </div>
+        </section>
+        <section class="history-recharge-withdraw-table for-mobile col-lg-7">
+            <span class="no-selection fs-24">Lịch sử nạp/rút tiền</span>
+            <div class="money-cur">
+                <span class="fs-20">Số tiền hiện tại: <b></b></span>
+            </div>
+            <ul class="history-recharge-withdraw p-0">
+            </ul>
         </section>
     </div>
 </div>

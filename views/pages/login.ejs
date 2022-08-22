@@ -24,6 +24,13 @@
             display: block;
             animation: appear-notify 3s linear forwards;
         }
+        #note-member {
+            display: block;
+            width: 100%;
+        }
+        label {
+            font-weight: 500;
+        }
         @keyframes appear-notify {
             0% {
                 transform: translateY(-41px);
@@ -49,15 +56,49 @@
     </div>
     <form class="me-5 ms-5 d-flex flex-column justify-content-center">
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Account</label>
-          <input type="text" class="form-control" id="account" aria-describedby="emailHelp">
+          <label for="account" class="form-label">Tài khoản:</label>
+          <input type="text" class="form-control" id="account" name="account">
         </div>
         <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password">
+          <label for="password" class="form-label">Mật khẩu:</label>
+          <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <div class="mb-3">
+          <label for="endcode-room" class="form-label">Mã phòng(Khi bạn đã có phòng thì có thể bỏ qua):</label>
+          <input type="text" class="form-control" id="endcode-room" name="endcodeRoom" placeholder="Nhập mã phòng vào đây">
+        </div>
+        <div class="mb-3">
+            <label for="note-member">Ghi chú:</label>
+            <textarea class="form-control" name="noteMember" id="noteMember"rows="3" placeholder="Bạn muốn nhắn với chủ phòng? Hãy nhập vào đây"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="create-room" class="form-label">Tạo phòng:</label>
+          <input type="text" class="form-control" id="create-room" name="createRoom" placeholder="Nhập tên phòng bạn muốn tạo">
         </div>
         <button type="submit" class="btn btn-primary">Đăng Nhập</button>
-      </form>
+    </form>
+    <div style="margin-top: 24px; text-align: center" class="mx-5">
+        <span style="display: block;">Bạn chưa có tài khoản??? Đăng ký ngay!</span>
+        <a style="text-decoration: none; color: #fff; width: 100%" href="./sign-up"><button style="width: 100%" type="button" class="btn btn-primary">Đăng ký</button></a>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Xác nhận</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Bạn thật sự muốn tạo phòng mới, điều này sẽ làm bạn thoát ra khỏi phòng trước đó!!!!</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary confirm-create-room">Đồng ý</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button style="display: none;" type="button" class="btn btn-primary btn-confirm-create-room" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
     <script src="../public/assest/js/login.js"></script>
