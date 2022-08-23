@@ -12,7 +12,7 @@ module.exports = {
             join room on room.roomID = host.roomID
         where member.account = '${account}'`, (err, result) => {
             if(err) return res.status(500).send(err.message)
-            res.send(result)
+            res.send({success: true, allRoom: result})
         })
     },
     postRequestIntoRoom(req, res, next) {
@@ -27,7 +27,7 @@ module.exports = {
         ('${memberID}', '${endcodeRoom}', NULL, false)`
         connectionMySql.query(query, (err, result) => {
             if(err) return res.status(500).send(err)
-            res.send({success: true})
+            res.send({success: true, memberIDToken})
         })
     },
     getRequestIntoRoom(req, res, next) {
