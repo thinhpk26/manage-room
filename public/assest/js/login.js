@@ -22,16 +22,14 @@ form.addEventListener('submit', async(e) => {
             data[input.getAttribute('name')] = input.value
         else data[input.getAttribute('name')] = null
     })
-    const note = document.querySelector('textarea')
-    if(data.note === '')
-        data.note = null
-    else data.noteMember = note.value
     axios({
         method: 'post',
         url: '/login',
         data
     })
     .then(result => {
+        document.querySelector('button.login').disabled = false
+        document.querySelector('button.login').classList.remove('fetching')
         switch(result.data.type) {
             case 1:
                 if(!result.data.success) {
@@ -68,7 +66,36 @@ form.addEventListener('submit', async(e) => {
                         if(result.data.hadRequest) {
                             alert('Bạn đã gửi yêu cầu trước đó rồi!')
                         } else {
-                            alert('Bạn đã gửi yêu cầu thành công!')
+                            document.querySelector('.send-request-to-room').click()
+                            document.querySelector('.confirm-send-request').onclick = () => {
+                                const noteForHost = document.querySelector('textarea[name="message-for-host"]')
+                                const account = document.querySelector('input[name="account"]')
+                                const password = document.querySelector('input[name="password"]')
+                                const endcodeRoom = document.querySelector('input[name="endcodeRoom"]')
+                                axios({
+                                    method: 'post',
+                                    url: '../room/send-request',
+                                    data: {
+                                        account: account.value,
+                                        password: password.value,
+                                        noteForHost: noteForHost.value,
+                                        endcodeRoom: endcodeRoom.value,
+                                    }
+                                })
+                                .then(result => {
+                                    document.querySelector('.confirm-send-request').classList.remove('fetching')
+                                    document.querySelector('.confirm-send-request').disabled = false
+                                    if(result.data.success) {
+                                        alert('Bạn đã gửi yêu cầu thành công!')
+                                        document.querySelector('.cancel-send').click()
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error(err)
+                                })
+                                document.querySelector('.confirm-send-request').classList.add('fetching')
+                                document.querySelector('.confirm-send-request').disabled = true
+                            }
                         }
                     }
                 }
@@ -77,4 +104,46 @@ form.addEventListener('submit', async(e) => {
                 alert('Bạn không thể cùng lúc tạo phòng và vào phòng')
         }
     })
+    document.querySelector('button.login').disabled = true
+    document.querySelector('button.login').classList.add('fetching')
 })
+// Tìm phòng
+document.querySelector('.find-room').onclick = () => {
+    const accountELement = document.querySelector('#account')
+    axios({
+        method: 'post',
+        url: '../room/get-all-room-of-user',
+        data: {
+            account: accountELement.value
+        }
+    })
+    .then(result => {
+        document.querySelector('.find-room').disabled = false
+        document.querySelector('.find-room').classList.remove('fetching')
+        if(result.data.length > 0) {
+            const ulTag = document.querySelector('.find-room-cover ul')
+            let allRoomElement = ''
+            result.data.forEach(ele => {
+                allRoomElement += `<li>
+                    <span>Tên phòng: ${ele.nameRoom} - Mã Phòng: ${ele.roomID}</span>
+                    <i class="fa-solid fa-circle-arrow-up"></i>
+                </li>`
+            })
+            ulTag.innerHTML = `<span style="font-size: 18px; font-weight: 500">Mã phòng:</span>` + allRoomElement
+            ulTag.querySelectorAll('li').forEach(ele => {
+                ele.querySelector('i').onclick = () => {
+                    const text = ele.querySelector('span').textContent
+                    const id = text.trim().slice(text.length - 16, text.length)
+                    document.querySelector('input[name="endcodeRoom"]').value = id
+                }
+            })
+        } else {
+            document.querySelector('.find-room-cover').appendChild('Bạn chưa có phòng nào!!')
+        }
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    document.querySelector('.find-room').disabled = true
+    document.querySelector('.find-room').classList.add('fetching')
+}

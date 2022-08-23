@@ -19,7 +19,7 @@ connection.connect(function(err) {
       return
     }
 })
-// connection.query(`select * from room`, function(err, result) {
+// connection.query(`select * from member join host on member.memberID = host.memberID`, function(err, result) {
 //   if(err) console.error(err)
 //   else console.log(result)
 // })
