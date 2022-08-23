@@ -120,7 +120,10 @@ document.querySelector('.find-room').onclick = () => {
     .then(result => {
         document.querySelector('.find-room').disabled = false
         document.querySelector('.find-room').classList.remove('fetching')
-        if(result.data.length > 0) {
+        if(!result.data.success) {
+            alert('Tài khoản mật khẩu không chính xác!!')
+        }
+        else if(result.data.length > 0) {
             const ulTag = document.querySelector('.find-room-cover ul')
             let allRoomElement = ''
             result.data.forEach(ele => {
