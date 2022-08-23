@@ -15,7 +15,7 @@
     const nameRoomELement = document.querySelector('nav #name-room')
     nameRoomELement.setAttribute('data-room-id', roomID)
     nameRoomELement.querySelector('h1').innerHTML = nameRoom
-    nameRoomELement.querySelector('span').innerHTML = roomID
+    nameRoomELement.querySelector('span').innerHTML = 'ID: ' + roomID
     // Dành cho mobile
     const navForMoblie = document.querySelector('#bars-for-mobile')
     navForMoblie.setAttribute('data-room-id', roomID)

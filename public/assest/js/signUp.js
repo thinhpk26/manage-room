@@ -39,6 +39,8 @@
             }
         })
         .then(result => {
+            document.querySelector('.sign-up').classList.remove('fetching')
+            document.querySelector('.sign-up').disabled = false
             if(result.data.success) {
                 window.location.href = './login'
             } else {
@@ -48,5 +50,7 @@
         .catch(err => {
             console.log(err)
         })
+        document.querySelector('.sign-up').classList.add('fetching')
+        document.querySelector('.sign-up').disabled = true
     })
 })()

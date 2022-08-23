@@ -10,7 +10,7 @@ module.exports = {
     postLogin(req, res, next) {
         const memberIDToken = req.memberIDToken
         const memberID = req.memberID
-        const {createRoom, endcodeRoom, noteMember} = req.body
+        const {createRoom, endcodeRoom} = req.body
         if(!createRoom && !endcodeRoom) {
             res.send({type: 1, success: true})
         } else if(createRoom && !endcodeRoom /* Khi người dùng muốn tạo phòng */) {
@@ -60,20 +60,16 @@ module.exports = {
                                     res.send({type: 3, isRoom: true, isMember: true, memberIDToken, roomIDToken})
                                 } else {
                                     // Thêm xác nhận vào phòng cho chủ phòng
-                                    let query
-                                    if(noteMember) query = `insert into requestIntoRoom(memberID, roomID, note, confirm)
-                                    values
-                                    ('${memberID}', '${endcodeRoom}', '${noteMember}', false)`
-                                    else query = `insert into requestIntoRoom(memberID, roomID, note, confirm)
-                                    values
-                                    ('${memberID}', '${endcodeRoom}', NULL, false)`
+                                    const query = `select memberID 
+                                    from requestIntoRoom
+                                    where requestIntoRoom.memberID = '${memberID}' and requestIntoRoom.roomID = '${endcodeRoom}'`
                                     connectionMySql.query(query, (err, result) => {
-                                        if(err) {
+                                        if(err) return res.status(500).send(err)
+                                        console.log(result)
+                                        if(result.length > 0) {
                                             res.send({type: 3, hadRequest/* Check xem đã có yêu cầu vào chưa */: true, isRoom: true})
-                                        }
-                                        else {
-                                            const roomIDToken = jwt.sign(endcodeRoom.toString(), process.env.JWTPASSWORD)
-                                            res.send({type: 3, hadRequest/* Check xem đã có yêu cầu vào chưa */: false, isRoom: true, memberIDToken, roomIDToken})
+                                        } else {
+                                            res.send({type: 3, hadRequest/* Check xem đã có yêu cầu vào chưa */: false, isRoom: true})
                                         }
                                     })
                                 }

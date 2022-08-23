@@ -5,6 +5,31 @@ module.exports = {
         const {roomID, nameRoom, accountMoneyRemain} = req.inforMember
         res.send({roomID, nameRoom, accountMoneyRemain})
     },
+    getAllRoomOfUser(req, res, next) {
+        const {account, password} = req.body
+        connectionMySql.query(`select room.roomID, room.nameRoom
+        from member join host on member.memberID = host.memberID
+            join room on room.roomID = host.roomID
+        where member.account = '${account}'`, (err, result) => {
+            if(err) return res.status(500).send(err.message)
+            res.send(result)
+        })
+    },
+    postRequestIntoRoom(req, res, next) {
+        const {memberID, memberIDToken} = req
+        const {noteForHost, endcodeRoom} = req.body
+        let query
+        if(noteForHost) query = `insert into requestIntoRoom(memberID, roomID, note, confirm)
+        values
+        ('${memberID}', '${endcodeRoom}', '${noteForHost}', false)`
+        else query = `insert into requestIntoRoom(memberID, roomID, note, confirm)
+        values
+        ('${memberID}', '${endcodeRoom}', NULL, false)`
+        connectionMySql.query(query, (err, result) => {
+            if(err) return res.status(500).send(err)
+            res.send({success: true})
+        })
+    },
     getRequestIntoRoom(req, res, next) {
         const roomID = req.inforMember.roomID
         connectionMySql.query(`select member.memberID, requestIntoRoom.note, member.name
