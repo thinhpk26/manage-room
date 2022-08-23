@@ -110,23 +110,26 @@ form.addEventListener('submit', async(e) => {
 // Tìm phòng
 document.querySelector('.find-room').onclick = () => {
     const accountELement = document.querySelector('#account')
+    const passwordElement = document.querySelector('#password')
     axios({
         method: 'post',
         url: '../room/get-all-room-of-user',
         data: {
-            account: accountELement.value
+            account: accountELement.value,
+            password: passwordElement.value,
         }
     })
     .then(result => {
         document.querySelector('.find-room').disabled = false
         document.querySelector('.find-room').classList.remove('fetching')
+        console.log(result)
         if(!result.data.success) {
             alert('Tài khoản mật khẩu không chính xác!!')
         }
-        else if(result.data.length > 0) {
+        else if(result.data.allRoom.length > 0) {
             const ulTag = document.querySelector('.find-room-cover ul')
             let allRoomElement = ''
-            result.data.forEach(ele => {
+            result.data.allRoom.forEach(ele => {
                 allRoomElement += `<li>
                     <span>Tên phòng: ${ele.nameRoom} - Mã Phòng: ${ele.roomID}</span>
                     <i class="fa-solid fa-circle-arrow-up"></i>
@@ -141,7 +144,7 @@ document.querySelector('.find-room').onclick = () => {
                 }
             })
         } else {
-            document.querySelector('.find-room-cover').appendChild('Bạn chưa có phòng nào!!')
+            document.querySelector('.find-room-cover').append('Bạn chưa có phòng nào!!')
         }
     })
     .catch(err => {
