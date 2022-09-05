@@ -256,6 +256,8 @@ nav {
     font-family: 'Edu NSW ACT Foundation', cursive;
     display: flex;
     flex-direction: column; }
+    nav #name-room h1 {
+      text-align: center; }
   nav #menu {
     margin: 0;
     padding: 0; }

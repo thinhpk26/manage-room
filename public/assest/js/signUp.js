@@ -39,6 +39,7 @@
             }
         })
         .then(result => {
+            console.log(result);
             document.querySelector('.sign-up').classList.remove('fetching')
             document.querySelector('.sign-up').disabled = false
             if(result.data.success) {
