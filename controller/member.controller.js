@@ -40,10 +40,11 @@ module.exports = {
     postCreateUser(req, res, next) {
         const {account, password, name} = req.body
         const memberID = uuid.v4().split('-').join('').slice(0, 8)
-        connectionMySql.query(`call pr_signup('${memberID}', '${account}', ${password}, '${name}')`, function(err, result) {
+        connectionMySql.query(`call pr_signup('${memberID}', '${account}', '${password}', '${name}')`, function(err, result) {
             if(err) {
                 return res.send(err)
             }
+            console.log(result)
             if(result[0][0].success) {
                 res.send({success: true})
             } else {
