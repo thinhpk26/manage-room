@@ -146,7 +146,7 @@ function addAndDelItemsPurchase(inputElement /* Element lưu trữ các input c�
     const moneyPayElement = inputElement.querySelector('#money-pay')
     const itemsElement = inputElement.querySelector('.items')
     const nameItemElement = inputElement.querySelector('#name-item')
-    // Thêm sự kiện xóa
+    // Thêm sự kiện xóa - sử dụng cho việc update lịch sử mua hàng
     const delLiElements = itemsElement.querySelectorAll('li span')
     delLiElements.forEach(ele => {
         ele.onclick = function () {
@@ -154,27 +154,44 @@ function addAndDelItemsPurchase(inputElement /* Element lưu trữ các input c�
             const idItemInLiTag = ele.getAttribute('data-id-cli')
             // Lưu trữ mốc xóa
             let indexItemsPurchase
+            // Lưu trữ số tiền bị xóa
+            let moneyDel
             itemsPurchase.forEach((item, index) => {
-                if(item.id.toString() === idItemInLiTag) indexItemsPurchase = index
+                if(item.id.toString() === idItemInLiTag) {
+                    indexItemsPurchase = index
+                    moneyDel = item.moneyPay
+                }
             })
             itemsPurchase.splice(indexItemsPurchase, 1)
+            // Tự động sửa lại giá trị của input khi thêm vật phẩm
+            const sumMoneyInput = inputElement.querySelector('input[name="account-money"]')
+            sumMoneyInput.value = parseFloat(sumMoneyInput.value) - moneyDel
+            if(itemsPurchase.length === 0) {
+                inputElement.querySelector('.cover-items').classList.add('not-products')
+            }
         }
     })
     // Thêm vật phẩm mỗi khi nhấn enter tại input số tiền
     moneyPayElement.addEventListener('keypress', (e) => {
         if(e.which === 13) {
-            if(nameItemElement.value !== '') {
+            console.log(moneyPayElement.value)
+            if(nameItemElement.value !== '' && moneyPayElement.value !== '') {
                 const nameItem = nameItemElement.value
                 const money = moneyPayElement.value
+                // Tự động sửa lại giá trị của input khi thêm vật phẩm
+                const sumMoneyInput = inputElement.querySelector('input[name="account-money"]')
+                if(sumMoneyInput.value === '') sumMoneyInput.value = 0 + parseFloat(money)
+                else sumMoneyInput.value = parseFloat(sumMoneyInput.value) + parseFloat(money)
                 const liElement = document.createElement('li')
                 liElement.innerHTML = `
-                    ${nameItem} - ${money}K
-                    <span data-id-cli='${IDItemCli}' style='margin-left: 20px; cursor: pointer;'>Xóa</span>
+                    Tên: ${nameItem} - Giá: ${money}đ
+                    <span data-id-cli='${IDItemCli}'><i class="fa-regular fa-circle-xmark"></i></span>
                 `
                 itemsElement.append(liElement)
                 let itemID = liElement.querySelector('span').getAttribute('data-id')
                 if(!itemID) itemID = null
                 itemsPurchase.push({id: IDItemCli, itemID: itemID, nameItem: nameItem, moneyPay: money})
+                if(itemsPurchase.length > 0) inputElement.querySelector('.cover-items').classList.remove('not-products')
                 IDItemCli++
                 nameItemElement.value = ''
                 moneyPayElement.value = ''
@@ -186,15 +203,26 @@ function addAndDelItemsPurchase(inputElement /* Element lưu trữ các input c�
                         const idItemInLiTag = ele.getAttribute('data-id-cli')
                         // Lưu trữ mốc xóa
                         let indexItemsPurchase
+                        // Lưu trữ số tiền bị xóa
+                        let moneyDel
                         itemsPurchase.forEach((item, index) => {
-                            if(item.id.toString() === idItemInLiTag) indexItemsPurchase = index
+                            if(item.id.toString() === idItemInLiTag) {
+                                indexItemsPurchase = index
+                                moneyDel = item.moneyPay
+                            }
                         })
                         itemsPurchase.splice(indexItemsPurchase, 1)
+                        // Tự động sửa lại giá trị của input khi thêm vật phẩm
+                        const sumMoneyInput = inputElement.querySelector('input[name="account-money"]')
+                        sumMoneyInput.value = parseFloat(sumMoneyInput.value) - moneyDel
+                        if(itemsPurchase.length === 0) {
+                            inputElement.querySelector('.cover-items').classList.add('not-products')
+                        }
                     }
                 })
             } else {
                 document.querySelector('.err-add-item').click()
-                appendConfirmChange('Lỗi', 'Bạn chưa điền tên hàng', false, true)
+                appendConfirmChange('Lỗi', 'Bạn điền thiếu tên hàng hoặc giá của chúng', false, true)
             }
         }
     })
@@ -262,7 +290,7 @@ function renderSumaryHistory(renderedElement /* Khối phần tử được rend
                     liTag.setAttribute('data-id', ele.orderID)
                     liTag.innerHTML = `
                     <div class="sumary-order">
-                        <p>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${ele.sumMoney}K</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
+                        <p>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${ele.sumMoney}đ</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
                         <i class="fa-solid fa-angle-up"></i>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
@@ -287,7 +315,7 @@ function renderSumaryHistory(renderedElement /* Khối phần tử được rend
                 liTag.setAttribute('data-id', ele.orderID)
                 liTag.innerHTML = `
                 <div class="sumary-order">
-                    <p>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${ele.sumMoney}K</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
+                    <p>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${ele.sumMoney}đ</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
                     <i class="fa-solid fa-angle-up"></i>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
@@ -319,14 +347,14 @@ function renderDetailHistory(renderedElement /* Khối phần tử được rend
                         detailOrder.className = 'detail-order'
                         detailOrder.innerHTML = 
                         `<p><b>Thành viên mua</b>: ${eleIn.nameMemberUse}</p>
-                        <p><b>Tổng số tiền</b>: ${eleIn.sumMoney}K</p>
+                        <p><b>Tổng số tiền</b>: ${eleIn.sumMoney}đ</p>
                         <p><b>Các thành viên phải trả tiền</b>: ${eleIn.memberPaid.reduce((pre, cur) => {
                             return pre + ', ' + cur.name
                         }, '').slice(2)}</p>
-                        <p><b>Số tiền mỗi thành viên phải trả</b>: ${eleIn.moneyEachMemberPay}K</p>
+                        <p><b>Số tiền mỗi thành viên phải trả</b>: ${eleIn.moneyEachMemberPay}đ</p>
                         <p><b>Ngày mua</b>: ${time + ' ' + day + "/" + month + "/" + year}</p>
                         <p><b>Các đồ đã mua</b>: ${eleIn.itemPurchase.length === 0 ? 'Chưa thêm đồ nào' : eleIn.itemPurchase.reduce((pre, cur) => {
-                            return pre + ', ' + cur.nameItem + '-' + cur.moneyPay + 'K'
+                            return pre + ', ' + cur.nameItem + '-' + cur.moneyPay + 'đ'
                         }, '').slice(2)}</p>
                         <p><b>Chú thích</b>: ${eleIn.note === null ? 'Không có chú thích' : eleIn.note}</p>
                         `
@@ -361,10 +389,9 @@ async function updateHistoryPurchase(updatePurchaseElement /* Các nút sửa l�
             addPurchaseElement.classList.add('update')
             // Render các mục cần sửa
             const updatePurchaseContainerElement = addPurchaseElement.querySelector('.update-purchase-container')
+            if(result.length > 0) updatePurchaseContainerElement.querySelector('.cover-items').classList.remove('not-products')
             const IDPurchase = getParent(ele, 'history-purchase-child').getAttribute('data-id')
-            console.log(result, IDPurchase)
             const historyPurchaseData = result.find(ele => ele.orderID === IDPurchase)
-            console.log(historyPurchaseData)
             updatePurchaseContainerElement.querySelectorAll('input[name="member-use"]').forEach(ele => {
                 if(ele.value === historyPurchaseData.memberPurchaseID) ele.checked = true
             })
@@ -377,13 +404,13 @@ async function updateHistoryPurchase(updatePurchaseElement /* Các nút sửa l�
                 } 
             })
             // Lưu trữ lịch sử mua hàng dành cho việc update
-            const itemsPurchaseForUpdate = historyPurchaseData.itemPurchase
+            const itemsPurchaseForUpdate = [...historyPurchaseData.itemPurchase]
             let liTagsHtml = ''
             itemsPurchaseForUpdate.forEach((ele, index) => {
                 itemsPurchaseForUpdate[index].id = IDItemCli
                 liTagsHtml += `<li>
-                    ${ele.nameItem} - ${ele.moneyPay}K
-                    <span data-id='${ele.itemID}' data-id-cli='${IDItemCli}' style='margin-left: 20px; cursor: pointer;'>Xóa</span>
+                    Tên: ${ele.nameItem} - Giá: ${ele.moneyPay}đ
+                    <span data-id-cli='${IDItemCli}'><i class="fa-regular fa-circle-xmark"></i></span>
                 </li>
                 `
                 IDItemCli++
@@ -482,15 +509,4 @@ function appendConfirmChange(title /* Tiêu đề của box */, content/* Nội 
     }
     modalTitleElement.innerHTML = title
     modalBodyElement.innerHTML = content
-}
-
-function getParent(ele, className) {
-    let parent = ele.parentElement
-    while(parent) {
-        if(parent.className.includes(className)) {
-            break
-        }
-        parent = parent.parentElement
-    }
-    return parent
 }

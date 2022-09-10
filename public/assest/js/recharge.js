@@ -7,8 +7,8 @@
     })
     .then((result) => {
         const {remainMoney} = result.data
-        if(remainMoney >= 0 ) document.querySelector('.money-cur b').innerHTML = remainMoney + 'K'
-        else document.querySelector('.money-cur span').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}K</b>`
+        if(remainMoney >= 0 ) document.querySelector('.money-cur b').innerHTML = remainMoney + 'đ'
+        else document.querySelector('.money-cur span').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}đ</b>`
     })
     .catch((err) => {
         console.log(err)
@@ -128,103 +128,80 @@
             }
         })
     })
-    // Sự kiện ẩn hiện rút tiền và nạp tiền
-    const ultiElement = document.querySelectorAll('#utilities-recharge section > span')
-    ultiElement.forEach(ele => {
-        ele.addEventListener('click', (e) => {
-            if(ele.parentElement.className.includes('appear-uti')) ele.parentElement.classList.remove('appear-uti')
-            else {
-                const classNameEle = ele.parentElement.className
-                ele.parentElement.classList.add('appear-uti')
-                ultiElement.forEach(ele => {
-                    if(!ele.parentElement.className.includes(classNameEle)) {
-                        ele.parentElement.classList.remove('appear-uti')
-                    }
-                })
-            }
-        })
-    })
-    document.addEventListener('click', (e) => {
-        const addMoneyElement = document.querySelector('.add-money')
-        const withDrawMoneyElement = document.querySelector('.withdraw-money')
-        const addSpanElement = document.querySelector('.utilities-add > span')
-        const withdrawSpanElement = document.querySelector('.utilities-withdraw-money > span')
-        if(!(addSpanElement.contains(e.target) || withdrawSpanElement.contains(e.target))) {
-            if(!addMoneyElement.contains(e.target)) {
-                addMoneyElement.parentElement.classList.remove('appear-uti')
-            }
-            if(!withDrawMoneyElement.contains(e.target)) {
-                withDrawMoneyElement.parentElement.classList.remove('appear-uti')
-            }
-        }
-    })
-    
-    const addMoneyElement = document.querySelector('.add-money')
-    const withDrawMoneyElement = document.querySelector('.withdraw-money')
     
     // Nạp tiền
-    addMoneyElement.querySelector('.confirm-add-money').addEventListener('click', async(e) => {
-        const modalTitleElement = document.querySelector('.modal-title')
-        const modalBodyElement = document.querySelector('.modal-body')
-        const accountMoney = parseFloat(addMoneyElement.querySelector('#money-recharge').value)
+    const addMoneyElement = document.querySelector('.model-up-server[data-identity="recharge"]')
+    addMoneyElement.querySelector('.model-confirm').addEventListener('click', async(e) => {
+        const modalTitleElement = document.querySelector('#confirm-recharge .modal-title')
+        const modalBodyElement = document.querySelector('#confirm-recharge .modal-body')
+        const modalFooterElement = document.querySelector('#confirm-recharge .modal-footer')
+        const accountMoney = parseFloat(addMoneyElement.querySelector('#recharge-money').value)
         if(!isNaN(accountMoney)) {
-            const footerModelElement = document.querySelector('.modal-footer')
-            footerModelElement.innerHTML = `
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn btn-primary confirm-change">Đồng ý</button>`
-            modalTitleElement.innerHTML = 'Xác Nhận'
-            modalBodyElement.innerHTML = `Bạn muốn nạp ${accountMoney}K vào tài khoản!`
-            const confirmElement = document.querySelector('.confirm-change')
+            modalTitleElement.innerHTML = 'Xác nhận'
+            modalBodyElement.innerHTML = `Bạn muốn nạp ${accountMoney}đ vào tài khoản!`
+            modalFooterElement.innerHTML = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary confirm-change" onclick="cancelClick(this)">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Đồng ý
+            </button>`
             // Cập nhật dữ liệu
-            confirmElement.addEventListener('click', async() => {
+            document.querySelector('#confirm-recharge .confirm-change').addEventListener('click', async() => {
                 const dataServerRes = await axios({
                     method: 'post',
                     url: '../recharge-money',
                     data: {accountMoney}
                 })
                 if(dataServerRes.data.success) window.location.href = '/recharge-money'
-                else addMoneyElement.querySelector('span').innerText = dataServerRes.data.message
+                else {
+                    modalTitleElement.innerHTML = '<span class="fs-24" style="color: red;">Lỗi</span>'
+                    modalBodyElement.innerHTML = dataServerRes.data.message
+                    modalFooterElement.innerHTML = ''
+                }
             })
         } else {
-            const footerModelElement = document.querySelector('.modal-footer')
-            footerModelElement.innerHTML = `<button type="button" class="btn btn-primary value-err">Đồng ý</button>`
-            modalTitleElement.innerHTML = 'Lỗi -_-'
-            modalBodyElement.innerHTML = `Bạn nhập sai giá trị! Vui lòng nhập lại`
+            modalTitleElement.innerHTML = '<span class="fs-24" style="color: red;">Lỗi</span>'
+            modalBodyElement.innerHTML = 'Bạn chưa nhập số tiền nạp'
+            modalFooterElement.innerHTML = ''
         }
     })
     
     // Rút tiền
-    withDrawMoneyElement.querySelector('.confirm-withdraw-money').addEventListener('click', async(e) => {
-        const modalTitleElement = document.querySelector('.modal-title')
-        const modalBodyElement = document.querySelector('.modal-body')
+    const withDrawMoneyElement = document.querySelector('.model-up-server[data-identity="withdraw"]')
+    withDrawMoneyElement.querySelector('.model-confirm').addEventListener('click', async(e) => {
+        const modalTitleElement = document.querySelector('#confirm-withdraw .modal-title')
+        const modalBodyElement = document.querySelector('#confirm-withdraw .modal-body')
+        const modalFooterElement = document.querySelector('#confirm-withdraw .modal-footer')
         const accountMoneyWithdraw = parseFloat(withDrawMoneyElement.querySelector('#withdraw-money').value)
         if(!isNaN(accountMoneyWithdraw)) {
-            const footerModelElement = document.querySelector('.modal-footer')
-            footerModelElement.innerHTML = `
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn btn-primary confirm-change">Đồng ý</button>`
-            modalTitleElement.innerHTML = 'Xác Nhận'
-            modalBodyElement.innerHTML = `Bạn muốn rút ${accountMoneyWithdraw}K vào tài khoản!`
+            modalTitleElement.innerHTML = 'Xác nhận'
+            modalBodyElement.innerHTML = `Bạn muốn rút ${accountMoneyWithdraw}đ ra khỏi tài khoản!`
+            modalFooterElement.innerHTML = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-primary confirm-change" onclick="cancelClick(this)">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Đồng ý
+            </button>`
             // Cập nhật dữ liệu
-            const confirmElement = document.querySelector('.confirm-change')
-            confirmElement.addEventListener('click', async() => {
+            document.querySelector('.confirm-change').addEventListener('click', async() => {
                 const dataServerRes = await axios({
                     method: 'post',
                     url: '../withdraw-money',
                     data: {accountMoneyWithdraw}
                 })                     
                 if(dataServerRes.data.success) window.location.href = '/recharge-money'
-                else withDrawMoneyElement.querySelector('span').innerText = dataServerRes.data.message  
+                else {
+                    modalTitleElement.innerHTML = '<span class="fs-24" style="color: red;">Lỗi</span>'
+                    modalBodyElement.innerHTML = dataServerRes.data.message
+                    modalFooterElement.innerHTML = ''
+                }
             }) 
         } else {
-            const footerModelElement = document.querySelector('.modal-footer')
-            footerModelElement.innerHTML = `<button type="button" class="btn btn-primary value-err">Đồng ý</button>`
-            modalTitleElement.innerHTML = 'Lỗi -_-'
-            modalBodyElement.innerHTML = `Bạn nhập sai giá trị! Vui lòng nhập lại`
+            modalTitleElement.innerHTML = '<span class="fs-24" style="color: red;">Lỗi</span>'
+            modalBodyElement.innerHTML = 'Bạn chưa nhập số tiền rút'
+            modalFooterElement.innerHTML = ''
         }
     })
     // Lọc nạp tiền theo ngày
-    const confirmFilterElement = document.querySelector('.confirm-filter span')
+    const confirmFilterElement = document.querySelector('.confirm-filter button')
     confirmFilterElement.addEventListener('click', async () => {
         hisRechargeAndWithdrawElement.scrollTop = 0
         const selectTagElement = document.getElementById('select-your-choose')
@@ -251,6 +228,8 @@
                 hisRechargeAndWithdrawElement.forEach(ele => {
                     AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
                 })
+                confirmFilterElement.querySelector('.spinner-border-sm').classList.remove('fetching')
+                confirmFilterElement.disabled = false
             } else if(selectTagElement.value === 'recharge') {
                 const allHistory = await AllHistory.getHistoryRecharge(exhaustedHisRecharge, offset, offset + 10).then(result => {
                     offset = result.offset
@@ -260,6 +239,8 @@
                 hisRechargeAndWithdrawElement.forEach(ele => {
                     AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
                 })
+                confirmFilterElement.querySelector('.spinner-border-sm').classList.remove('fetching')
+                confirmFilterElement.disabled = false
             } else {
                 const allHistory = await AllHistory.getHistoryWithdraw(exhaustedHisWithdraw, offset, offset + 10).then(result => {
                     offset = result.offset
@@ -269,6 +250,8 @@
                 hisRechargeAndWithdrawElement.forEach(ele => {
                     AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
                 })
+                confirmFilterElement.querySelector('.spinner-border-sm').classList.remove('fetching')
+                confirmFilterElement.disabled = false
             }
         } else if(beginDay !== '' && endDay !== '') {
             const errSearchElement = document.querySelector('.error-search')
@@ -287,6 +270,8 @@
                 hisRechargeAndWithdrawElement.forEach(ele => {
                     AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
                 })
+                confirmFilterElement.querySelector('.spinner-border-sm').classList.remove('fetching')
+                confirmFilterElement.disabled = false
             }
             else if(selectTagElement.value === 'recharge') {
                 const allHistory = await AllHistory.getHistoryRechargeWithTime(offset, offset + 10, exhaustedHisRecharge, beginDay, endDay).then(result => {
@@ -297,6 +282,8 @@
                 hisRechargeAndWithdrawElement.forEach(ele => {
                     AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
                 })
+                confirmFilterElement.querySelector('.spinner-border-sm').classList.remove('fetching')
+                confirmFilterElement.disabled = false
             } else {
                 const allHistory = await AllHistory.getHistoryWithdrawWithTime(offset, offset + 10, exhaustedHisWithdraw, beginDay, endDay).then(result => {
                     exhaustedHisRecharge = result.exhaustedWithdraw
@@ -306,13 +293,19 @@
                 hisRechargeAndWithdrawElement.forEach(ele => {
                     AllHistory.renderHistoryMember(allHistory, offset, ele, liTagStructure)
                 })
+                confirmFilterElement.querySelector('.spinner-border-sm').classList.remove('fetching')
+                confirmFilterElement.disabled = false
             }
         } else if(beginDay !== '') {
             const errSearchElement = document.querySelector('.error-search')
             errSearchElement.innerHTML = 'Bạn nhập thiếu ngày bắt đầu!!!'
+            confirmFilterElement.querySelector('.spinner-border-sm').classList.remove('fetching')
+            confirmFilterElement.disabled = false
         } else {
             const errSearchElement = document.querySelector('.error-search')
             errSearchElement.innerHTML = 'Bạn nhập thiếu ngày kết thúc!!!'
+            confirmFilterElement.querySelector('.spinner-border-sm').classList.remove('fetching')
+            confirmFilterElement.disabled = false
         }
     })
     // reset lữ liệu
@@ -332,12 +325,11 @@ function liTagStructure(ele) {
         const day = datetime.getUTCDate();
         const year = datetime.getUTCFullYear();
         return `
-        <li data-id="${ele.rechargeID}" data-name="recharge">
-            <p>Thêm <b>${ele.accountMoneyRecharge}K</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
+        <li data-id="${ele.rechargeID}" data-name="recharge" data-money="${ele.accountMoneyRecharge}">
+            <p class="fs-16">Thêm <b>${ele.accountMoneyRecharge}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
             <div class="ultilities-delete-update">
-                <span>Sửa</span>
-                <span class="del-history">
-                    <button data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xóa</button>
+                <span class="del-history fs-16">
+                    <button data-bs-toggle="modal" data-bs-target="#confirm-del-recharge-withdraw">Hủy nạp</button>
                 </span>
             </div>
         </li>`
@@ -348,12 +340,11 @@ function liTagStructure(ele) {
         const day = datetime.getUTCDate();
         const year = datetime.getUTCFullYear();
         return `
-        <li data-id="${ele.withdrawID}" data-name="withdraw">
-            <p>Rút <b>${ele.withdrawMoney}K</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
+        <li data-id="${ele.withdrawID}" data-name="withdraw" data-money="${ele.withdrawMoney}">
+            <p class="fs-16">Rút <b>${ele.withdrawMoney}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
             <div class="ultilities-delete-update">
-                <span>Sửa</span>
-                <span class="del-history">
-                    <button data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xóa</button>
+                <span class="del-history fs-16">
+                    <button data-bs-toggle="modal" data-bs-target="#confirm-del-recharge-withdraw">Hủy nạp</button>
                 </span>
             </div>
         </li>`

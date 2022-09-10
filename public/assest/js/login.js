@@ -58,7 +58,6 @@ form.addEventListener('submit', async(e) => {
                     alert('Không tồn tại phòng này')
                 } else {
                     if(result.data.isMember) {
-                        alert('Chúng tôi sẽ đưa bạn vào phòng này ngay!')
                         setCookie('memberIDToken', result.data.memberIDToken, 365)
                         setCookie('roomIDToken', result.data.roomIDToken, 365)
                         window.location.href = '../'

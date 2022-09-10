@@ -7,8 +7,8 @@
     })
     .then((result) => {
         const {accountMoneyRemain} = result.data
-        if(accountMoneyRemain >= 0) document.querySelector('.remain-money-room b').innerHTML = accountMoneyRemain + 'K'
-        else document.querySelector('.remain-money-room span').innerHTML = 'Phòng nợ: ' + `<b>${Math.abs(accountMoneyRemain)}K</b>`
+        if(accountMoneyRemain >= 0) document.querySelector('.remain-money-room b').innerHTML = accountMoneyRemain + 'đ'
+        else document.querySelector('.remain-money-room span').innerHTML = 'Phòng nợ: ' + `<b>${Math.abs(accountMoneyRemain)}đ</b>`
     })
     .catch((error) => {
         console.error(error)
@@ -21,8 +21,8 @@
     })
     .then((result) => {
         const {remainMoney} = result.data
-        if(remainMoney >= 0 ) document.querySelector('.remain-money-member b').innerHTML = remainMoney + 'K'
-        else document.querySelector('.remain-money-member span').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}K</b>`
+        if(remainMoney >= 0 ) document.querySelector('.remain-money-member b').innerHTML = remainMoney + 'đ'
+        else document.querySelector('.remain-money-member span').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}đ</b>`
     })
     .catch((error) => {
         console.error(error)
@@ -46,7 +46,7 @@
             allHistoryPurchaseElement += `
             <li id=${ele.orderID} class='down detail' render-detail='0'>
                 <div class="sumary-order">
-                    <span class='fs-16'>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${ele.sumMoney}K</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
+                    <span class='fs-16'>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${ele.sumMoney}đ</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
                     <i class="fa-solid fa-angle-up"></i>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
@@ -75,14 +75,14 @@
                             detailOrder.className = 'detail-order'
                             detailOrder.innerHTML = 
                             `<span class='fs-16'><b>Thành viên mua</b>: ${eleIn.nameMemberUse}</span>
-                            <span class='fs-16'><b>Tổng số tiền</b>: ${eleIn.sumMoney}K</span>
+                            <span class='fs-16'><b>Tổng số tiền</b>: ${eleIn.sumMoney}đ</span>
                             <span class='fs-16'><b>Các thành viên phải trả tiền</b>: ${eleIn.memberPaid.reduce((pre, cur) => {
                                 return pre + ', ' + cur.name
                             }, '').slice(2)}</span>
-                            <span class'fs-16'><b>Số tiền mỗi thành viên phải trả</b>: ${eleIn.moneyEachMemberPay}K</span>
+                            <span class'fs-16'><b>Số tiền mỗi thành viên phải trả</b>: ${eleIn.moneyEachMemberPay}đ</span>
                             <span class='fs-16'><b>Ngày mua</b>: ${time + ' ' + day + "/" + month + "/" + year}</span>
                             <span class='fs-16'><b>Các đồ đã mua</b>: ${eleIn.itemPurchase.length === 0 ? 'Chưa thêm đồ nào' : eleIn.itemPurchase.reduce((pre, cur) => {
-                                return pre + ', ' + cur.nameItem + '-' + cur.moneyPay + 'K'
+                                return pre + ', ' + cur.nameItem + '-' + cur.moneyPay + 'đ'
                             }, '').slice(2)}</span>
                             <span class="fs-16"><b>Chú thích</b>: ${!eleIn.note ? 'Không có chú thích' : eleIn.note}</span>
                             `
@@ -130,8 +130,8 @@
                 data: {memberIDOther: memberElement.value}
             })
             const remainMoney = remainMoneyResultSv.data.remainMoney
-            if(remainMoney >= 0 ) document.querySelector('.remain-money-member span').innerHTML = `Số tiền còn lại: ` + `<b>${remainMoney}K</b>`
-            else document.querySelector('.remain-money-member span').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}K</b>`
+            if(remainMoney >= 0 ) document.querySelector('.remain-money-member span').innerHTML = `Số tiền còn lại: ` + `<b>${remainMoney}đ</b>`
+            else document.querySelector('.remain-money-member span').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}đ</b>`
             exhaustedHisRecharge = 0
             exhaustedHisWithdraw = 0
             // MemberID 
@@ -171,7 +171,7 @@ function liTagStructure(ele/* Dữ liệu của từng lịch sử nạp tiền 
         const year = datetime.getUTCFullYear();
         return `
         <li>
-            <span class='fs-16'>Thêm <b>${ele.accountMoneyRecharge}K</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
+            <span class='fs-16'>Thêm <b>${ele.accountMoneyRecharge}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
         </li>`
     } else {
         const datetime = new Date(ele.withdrawDay)
@@ -181,7 +181,7 @@ function liTagStructure(ele/* Dữ liệu của từng lịch sử nạp tiền 
         const year = datetime.getUTCFullYear();
         return `
         <li>
-            <span class="fs-16">Rút <b>${ele.withdrawMoney}K</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
+            <span class="fs-16">Rút <b>${ele.withdrawMoney}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
         </li>`
     }
 }
