@@ -130,23 +130,30 @@ const AllHistory = {
                 renderedElement.append(divElement)
             }
         }
-        const allHisElement = document.querySelectorAll('.del-history')
+        const allHisElement = document.querySelectorAll('.history-recharge-withdraw .del-history')
         if(allHisElement.length > 0) {
             allHisElement.forEach(ele => {
-                ele.addEventListener('click', () => {
+                const modalDel = document.querySelector('#confirm-del-recharge-withdraw')
+                ele.onclick = (e) => {
                     const liElement = ele.parentElement.parentElement
                     const ID = liElement.getAttribute('data-id')
-                    const table = liElement.getAttribute('data-name')
-                    const modalTitleElement = document.querySelector('.modal-title')
-                    const modalBodyElement = document.querySelector('.modal-body')
-                    const footerModelElement = document.querySelector('.modal-footer')
+                    // Hành động nạp hoặc rút
+                    const action = liElement.getAttribute('data-name')
+                    const accountMoney = liElement.getAttribute('data-money')
+                    const modalTitleElement = modalDel.querySelector('.modal-title')
+                    const modalBodyElement = modalDel.querySelector('.modal-body')
+                    const footerModelElement = modalDel.querySelector('.modal-footer')
                     footerModelElement.innerHTML = `
-                    <button type="button" class="btn btn-primary confirm-change">Đồng ý</button>`
+                    <button type="button" class="btn btn-primary confirm-change" onclick="cancelClick(this)">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Đồng ý
+                    </button>`
                     modalTitleElement.innerHTML = 'Xác Nhận'
-                    modalBodyElement.innerHTML = `Bạn thật sự muốn xóa !`
+                    if(action == 'recharge') modalBodyElement.innerHTML = `Bạn thật sự muốn hủy số tiền nạp là ${accountMoney}đ!`
+                    else modalBodyElement.innerHTML = `Bạn thật sự muốn hủy số tiền rút là ${accountMoney}đ!`
                     const confirmElement = document.querySelector('.confirm-change')
                     confirmElement.addEventListener('click', async() => {
-                        if(table === 'recharge') {
+                        if(action === 'recharge') {
                             const dataServerRes = await axios({
                                 method: 'delete',
                                 url: '../recharge-money',
@@ -162,7 +169,7 @@ const AllHistory = {
                             if(dataServerRes.data.success) window.location.href = '/recharge-money'
                         }
                     })
-                })
+                }
             })
         }
     }

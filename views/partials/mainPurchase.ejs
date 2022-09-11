@@ -16,10 +16,36 @@
                         </tr>
                         <tr>
                             <td>
+                                Các đồ đã mua: 
+                            </td>
+                            <td>
+                                <div>
+                                    <label for="name-item">Tên đồ: </label>
+                                    <input type="text" id="name-item" name="name-item" style="margin-left: 6px;">
+                                </div>
+                                <div class="mt-1">
+                                    <label for="money-pay">Số tiền phải trả:</label>
+                                    <input type="text" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!" oninput="onlyEnterNumber(this)">
+                                </div>
+                                <button type="button" class="btn btn-primary err-add-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thêm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cover-items not-products" colspan="2">
+                                <div>
+                                    <div class="fs-16">Đồ đã mua</div>
+                                    <div class="mark-not-products">Chưa có đồ nào được thêm</div>
+                                    <ul class="items">
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 Tổng số tiền mua:
                             </td>
                             <td>
-                                <input type="number" id="account-money" name="account-money">
+                                <input type="text" id="account-money" name="account-money" oninput="onlyEnterNumber(this)">
                             </td>
                         </tr>
                         <tr class="member-pay">
@@ -31,35 +57,10 @@
                         </tr>
                         <tr>
                             <td>
-                                Các đồ đã mua: 
-                            </td>
-                            <td>
-                                <div>
-                                    <label for="name-item">Tên đồ: </label>
-                                    <input type="text" id="name-item" name="name-item" style="margin-left: 6px;">
-                                </div>
-                                <div class="mt-1">
-                                    <label for="money-pay">Số tiền phải trả:</label>
-                                    <input type="number" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!">
-                                </div>
-                                <button type="button" class="btn btn-primary err-add-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thêm</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-
-                            </td>
-                            <td class="cover-items">
-                                <ul class="items">
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
                                 Chú thích:
                             </td>
                             <td>
-                                <textarea name="note" id="note" rows="5"></textarea>
+                                <textarea name="note" id="note" rows="3"></textarea>
                             </td>
                         </tr>
                         <tr>
@@ -88,10 +89,36 @@
                         </tr>
                         <tr>
                             <td>
+                                Các đồ đã mua: 
+                            </td>
+                            <td>
+                                <div>
+                                    <label for="name-item">Tên đồ: </label>
+                                    <input type="text" id="name-item" name="name-item" style="margin-left: 6px;">
+                                </div>
+                                <div class="mt-1">
+                                    <label for="money-pay">Số tiền phải trả:</label>
+                                    <input type="text" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!" oninput="onlyEnterNumber(this)">
+                                </div>
+                                <button type="button" class="btn btn-primary err-add-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thêm</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cover-items not-products" colspan="2">
+                                <div>
+                                    <div class="fs-16">Đồ đã mua</div>
+                                    <div class="mark-not-products">Chưa có đồ nào được thêm</div>
+                                    <ul class="items">
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 Tổng số tiền mua:
                             </td>
                             <td>
-                                <input type="number" id="account-money" name="account-money">
+                                <input type="text" id="account-money" name="account-money" oninput="onlyEnterNumber(this)">
                             </td>
                         </tr>
                         <tr class="member-pay">
@@ -103,35 +130,10 @@
                         </tr>
                         <tr>
                             <td>
-                                Các đồ đã mua: 
-                            </td>
-                            <td>
-                                <div>
-                                    <label for="name-item">Tên đồ: </label>
-                                    <input type="text" id="name-item" name="name-item" style="margin-left: 6px;">
-                                </div>
-                                <div class="mt-1">
-                                    <label for="money-pay">Số tiền phải trả:</label>
-                                    <input type="number" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!">
-                                </div>
-                                <button type="button" class="btn btn-primary err-add-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thêm</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-
-                            </td>
-                            <td class="cover-items">
-                                <ul class="items">
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
                                 Chú thích:
                             </td>
                             <td>
-                                <textarea name="note" id="note" rows="5"></textarea>
+                                <textarea name="note" id="note" rows="3"></textarea>
                             </td>
                         </tr>
                         <tr>

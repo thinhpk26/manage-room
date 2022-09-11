@@ -1,5 +1,6 @@
 'use trict';
 (async function() {
+    document.querySelector('#history-purchase').style.height = screen.height * 2 / 3 + 'px'
     axios({
         method: 'get',
         url: '../member/all-member',
@@ -63,7 +64,7 @@
         exhaustedPurchase = result.data.exhaustedPurchase
         // Render chi tiết lịch sử giao dịch
         const hisPurchaseLiElement = historyPurchaseElement.querySelectorAll('li')
-        renderDetailHistory(hisPurchaseLiElement, result.data.inforResponse)
+        renderDetailHistory(hisPurchaseLiElement, AllHistoryPurchase)
         // Sửa lịch sử mua hàng
         const updatePurchaseElement = historyPurchaseElement.querySelectorAll('button.btn-update')
         updateHistoryPurchase(updatePurchaseElement, AllHistoryPurchase, IDItemCli)
@@ -76,41 +77,40 @@
         window.location.reload()
     })
 
-    const historyPurchaseElement = document.querySelector('#history-purchase')
-    historyPurchaseElement.onscroll = function() {
-        if(!exhaustedPurchase) {
-            if(historyPurchaseElement.scrollHeight * 2/3 < historyPurchaseElement.clientHeight + historyPurchaseElement.scrollTop) {
-                if(!exhaustedPurchase) {
-                    axios({
-                        method: 'post',
-                        url: '../purchase/history-purchase',
-                        data: {offset, limit: offset + 10}
-                    })
-                    .then((result) => {
+    const historyPurchaseCoverElement = document.querySelector('#history-purchase')
+    historyPurchaseCoverElement.addEventListener('scroll', (e) => {
+        if(historyPurchaseCoverElement.scrollHeight * 2/3 < historyPurchaseCoverElement.clientHeight + historyPurchaseCoverElement.scrollTop) {
+            if(!exhaustedPurchase) {
+                axios({
+                    method: 'post',
+                    url: '../purchase/history-purchase',
+                    data: {offset, limit: offset + 10}
+                })
+                .then((result) => {
+                    if(!exhaustedPurchase) {
                         offset += 10
                         AllHistoryPurchase = AllHistoryPurchase.concat(result.data.inforResponse)
                         // Render tóm tắt lịch giao dịch
                         const historyPurchaseElement = document.querySelector('.history-purchase')
                         renderSumaryHistory(historyPurchaseElement, result.data.inforResponse, offset, exhaustedPurchase)
-                        exhaustedPurchase = result.data.exhaustedPurchase
                         // Render chi tiết lịch sử giao dịch
                         const hisPurchaseLiElement = historyPurchaseElement.querySelectorAll('li')
-                        renderDetailHistory(hisPurchaseLiElement, result.data.inforResponse)
+                        renderDetailHistory(hisPurchaseLiElement, AllHistoryPurchase)
                         // Sửa lịch sử mua hàng
                         const updatePurchaseElement = historyPurchaseElement.querySelectorAll('button.btn-update')
                         updateHistoryPurchase(updatePurchaseElement, AllHistoryPurchase, IDItemCli)
                         // Xóa lịch sử mua hàng
                         const delPurchaseElement = historyPurchaseElement.querySelectorAll('button.btn-delete')
                         deleteHistoryPurchase(delPurchaseElement)
-                    })
-                    .catch((error) => {
-                        alert('Opps! Có lỗi nào đó. Chúng tôi sẽ sửa cho bạn ngay!')
-                        window.location.reload()
-                    })
-                }
+                    }
+                    exhaustedPurchase = result.data.exhaustedPurchase
+                })
+                .catch((error) => {
+                    alert(error.message)
+                })
             }
         }
-    }
+    })
     // Lưu trữ các vật phẩm đã mua
     const addPurchaseElement = document.querySelector('#add-purchase')
     let itemsMemberBought = []
@@ -146,7 +146,7 @@ function addAndDelItemsPurchase(inputElement /* Element lưu trữ các input c�
     const moneyPayElement = inputElement.querySelector('#money-pay')
     const itemsElement = inputElement.querySelector('.items')
     const nameItemElement = inputElement.querySelector('#name-item')
-    // Thêm sự kiện xóa
+    // Thêm sự kiện xóa - sử dụng cho việc update lịch sử mua hàng
     const delLiElements = itemsElement.querySelectorAll('li span')
     delLiElements.forEach(ele => {
         ele.onclick = function () {
@@ -154,27 +154,43 @@ function addAndDelItemsPurchase(inputElement /* Element lưu trữ các input c�
             const idItemInLiTag = ele.getAttribute('data-id-cli')
             // Lưu trữ mốc xóa
             let indexItemsPurchase
+            // Lưu trữ số tiền bị xóa
+            let moneyDel
             itemsPurchase.forEach((item, index) => {
-                if(item.id.toString() === idItemInLiTag) indexItemsPurchase = index
+                if(item.id.toString() === idItemInLiTag) {
+                    indexItemsPurchase = index
+                    moneyDel = item.moneyPay
+                }
             })
             itemsPurchase.splice(indexItemsPurchase, 1)
+            // Tự động sửa lại giá trị của input khi thêm vật phẩm
+            const sumMoneyInput = inputElement.querySelector('input[name="account-money"]')
+            sumMoneyInput.value = parseFloat(sumMoneyInput.value.split('.').join('')) - moneyDel
+            if(itemsPurchase.length === 0) {
+                inputElement.querySelector('.cover-items').classList.add('not-products')
+            }
         }
     })
     // Thêm vật phẩm mỗi khi nhấn enter tại input số tiền
     moneyPayElement.addEventListener('keypress', (e) => {
         if(e.which === 13) {
-            if(nameItemElement.value !== '') {
+            if(nameItemElement.value !== '' && moneyPayElement.value !== '') {
                 const nameItem = nameItemElement.value
                 const money = moneyPayElement.value
+                // Tự động sửa lại giá trị của input khi thêm vật phẩm
+                const sumMoneyInput = inputElement.querySelector('input[name="account-money"]')
+                if(sumMoneyInput.value === '') sumMoneyInput.value = money
+                else sumMoneyInput.value = changeMoney(parseFloat(sumMoneyInput.value.split('.').join('')) + parseFloat(money.split('.').join('')))
                 const liElement = document.createElement('li')
                 liElement.innerHTML = `
-                    ${nameItem} - ${money}K
-                    <span data-id-cli='${IDItemCli}' style='margin-left: 20px; cursor: pointer;'>Xóa</span>
+                    Tên: ${nameItem} - Giá: ${money}đ
+                    <span data-id-cli='${IDItemCli}'><i class="fa-regular fa-circle-xmark"></i></span>
                 `
                 itemsElement.append(liElement)
                 let itemID = liElement.querySelector('span').getAttribute('data-id')
                 if(!itemID) itemID = null
-                itemsPurchase.push({id: IDItemCli, itemID: itemID, nameItem: nameItem, moneyPay: money})
+                itemsPurchase.push({id: IDItemCli, itemID: itemID, nameItem: nameItem, moneyPay: parseFloat(money.split('.').join(''))})
+                if(itemsPurchase.length > 0) inputElement.querySelector('.cover-items').classList.remove('not-products')
                 IDItemCli++
                 nameItemElement.value = ''
                 moneyPayElement.value = ''
@@ -186,15 +202,26 @@ function addAndDelItemsPurchase(inputElement /* Element lưu trữ các input c�
                         const idItemInLiTag = ele.getAttribute('data-id-cli')
                         // Lưu trữ mốc xóa
                         let indexItemsPurchase
+                        // Lưu trữ số tiền bị xóa
+                        let moneyDel
                         itemsPurchase.forEach((item, index) => {
-                            if(item.id.toString() === idItemInLiTag) indexItemsPurchase = index
+                            if(item.id.toString() === idItemInLiTag) {
+                                indexItemsPurchase = index
+                                moneyDel = item.moneyPay
+                            }
                         })
                         itemsPurchase.splice(indexItemsPurchase, 1)
+                        // Tự động sửa lại giá trị của input khi thêm vật phẩm
+                        const sumMoneyInput = inputElement.querySelector('input[name="account-money"]')
+                        sumMoneyInput.value = parseFloat(sumMoneyInput.value.split('.').join('')) - moneyDel
+                        if(itemsPurchase.length === 0) {
+                            inputElement.querySelector('.cover-items').classList.add('not-products')
+                        }
                     }
                 })
             } else {
                 document.querySelector('.err-add-item').click()
-                appendConfirmChange('Lỗi', 'Bạn chưa điền tên hàng', false, true)
+                appendConfirmChange('Lỗi', 'Bạn điền thiếu tên hàng hoặc giá của chúng', false, true)
             }
         }
     })
@@ -216,7 +243,7 @@ function validationForm(formELement /* Form lưu trữ thông tin lịch sử mu
         return 0
     }
     // Tổng số tiền thành viên
-    const accountMoneyBought = formELement.querySelector('input[name="account-money"]').value
+    const accountMoneyBought = parseFloat(formELement.querySelector('input[name="account-money"]').value.split('.').join(''))
     if(accountMoneyBought === '') {
         appendConfirmChange('Lỗi', 'Bạn chưa nhập tổng số tiền trả', false, true)
         return 0
@@ -246,34 +273,8 @@ function validationForm(formELement /* Form lưu trữ thông tin lịch sử mu
 }
 
 function renderSumaryHistory(renderedElement /* Khối phần tử được render */, renderedData /* Dữ liệu được render */, offset /* Số lượng phần tử được bỏ qua */, exhaustedPurchase) {
-    if(!exhaustedPurchase) {
-        if(offset === 10) {
-            if(renderedData.length > 0) {
-                renderedData.forEach(ele => {
-                    const datetime = new Date(ele.purchaseDate)
-                    const time = datetime.toTimeString().slice(0, 9) // Lấy thời gian
-                    const month = datetime.getUTCMonth() + 1; //months from 1-12
-                    const day = datetime.getUTCDate();
-                    const year = datetime.getUTCFullYear();
-                    const liTag = document.createElement('li');
-                    liTag.id = ele.orderID
-                    liTag.className = 'history-purchase-child down detail'
-                    liTag.setAttribute('render-detail', '0')
-                    liTag.setAttribute('data-id', ele.orderID)
-                    liTag.innerHTML = `
-                    <div class="sumary-order">
-                        <p>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${ele.sumMoney}K</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
-                        <i class="fa-solid fa-angle-up"></i>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="update-or-del">
-                    <button class="btn btn-update">Sửa</button>
-                    <button type="button" class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xóa</button>
-                    </div>`
-                    renderedElement.appendChild(liTag)
-                })
-            } else renderedElement.innerHTML = `<span style='margin-top: 50px; text-align: center; color: #ccc; font-weight: 400;'>Chưa có lịch sử mua hàng nào được thêm</span>`
-        } else {
+    if(offset === 10) {
+        if(renderedData.length > 0) {
             renderedData.forEach(ele => {
                 const datetime = new Date(ele.purchaseDate)
                 const time = datetime.toTimeString().slice(0, 9) // Lấy thời gian
@@ -287,7 +288,7 @@ function renderSumaryHistory(renderedElement /* Khối phần tử được rend
                 liTag.setAttribute('data-id', ele.orderID)
                 liTag.innerHTML = `
                 <div class="sumary-order">
-                    <p>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${ele.sumMoney}K</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
+                    <p>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${changeMoney(ele.sumMoney)}đ</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
                     <i class="fa-solid fa-angle-up"></i>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
@@ -297,7 +298,31 @@ function renderSumaryHistory(renderedElement /* Khối phần tử được rend
                 </div>`
                 renderedElement.appendChild(liTag)
             })
-        }
+        } else renderedElement.innerHTML = `<span style='margin-top: 50px; text-align: center; color: #ccc; font-weight: 400;'>Chưa có lịch sử mua hàng nào được thêm</span>`
+    } else {
+        renderedData.forEach(ele => {
+            const datetime = new Date(ele.purchaseDate)
+            const time = datetime.toTimeString().slice(0, 9) // Lấy thời gian
+            const month = datetime.getUTCMonth() + 1; //months from 1-12
+            const day = datetime.getUTCDate();
+            const year = datetime.getUTCFullYear();
+            const liTag = document.createElement('li');
+            liTag.id = ele.orderID
+            liTag.className = 'history-purchase-child down detail'
+            liTag.setAttribute('render-detail', '0')
+            liTag.setAttribute('data-id', ele.orderID)
+            liTag.innerHTML = `
+            <div class="sumary-order">
+                <p>${ele.nameMemberUse} đã sử dụng tổng số tiền <b>${changeMoney(ele.sumMoney)}đ</b> vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
+                <i class="fa-solid fa-angle-up"></i>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="update-or-del">
+            <button class="btn btn-update">Sửa</button>
+            <button type="button" class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xóa</button>
+            </div>`
+            renderedElement.appendChild(liTag)
+        })
     }
 }
 
@@ -319,14 +344,14 @@ function renderDetailHistory(renderedElement /* Khối phần tử được rend
                         detailOrder.className = 'detail-order'
                         detailOrder.innerHTML = 
                         `<p><b>Thành viên mua</b>: ${eleIn.nameMemberUse}</p>
-                        <p><b>Tổng số tiền</b>: ${eleIn.sumMoney}K</p>
+                        <p><b>Tổng số tiền</b>: ${changeMoney(eleIn.sumMoney)}đ</p>
                         <p><b>Các thành viên phải trả tiền</b>: ${eleIn.memberPaid.reduce((pre, cur) => {
                             return pre + ', ' + cur.name
                         }, '').slice(2)}</p>
-                        <p><b>Số tiền mỗi thành viên phải trả</b>: ${eleIn.moneyEachMemberPay}K</p>
+                        <p><b>Số tiền mỗi thành viên phải trả</b>: ${changeMoney(Math.floor(eleIn.moneyEachMemberPay))}đ</p>
                         <p><b>Ngày mua</b>: ${time + ' ' + day + "/" + month + "/" + year}</p>
                         <p><b>Các đồ đã mua</b>: ${eleIn.itemPurchase.length === 0 ? 'Chưa thêm đồ nào' : eleIn.itemPurchase.reduce((pre, cur) => {
-                            return pre + ', ' + cur.nameItem + '-' + cur.moneyPay + 'K'
+                            return pre + ', ' + 'Tên đồ:' + cur.nameItem + '-' + 'Giá:' + changeMoney(Math.floor(cur.moneyPay)) + 'đ'
                         }, '').slice(2)}</p>
                         <p><b>Chú thích</b>: ${eleIn.note === null ? 'Không có chú thích' : eleIn.note}</p>
                         `
@@ -361,10 +386,9 @@ async function updateHistoryPurchase(updatePurchaseElement /* Các nút sửa l�
             addPurchaseElement.classList.add('update')
             // Render các mục cần sửa
             const updatePurchaseContainerElement = addPurchaseElement.querySelector('.update-purchase-container')
+            if(result.length > 0) updatePurchaseContainerElement.querySelector('.cover-items').classList.remove('not-products')
             const IDPurchase = getParent(ele, 'history-purchase-child').getAttribute('data-id')
-            console.log(result, IDPurchase)
             const historyPurchaseData = result.find(ele => ele.orderID === IDPurchase)
-            console.log(historyPurchaseData)
             updatePurchaseContainerElement.querySelectorAll('input[name="member-use"]').forEach(ele => {
                 if(ele.value === historyPurchaseData.memberPurchaseID) ele.checked = true
             })
@@ -377,13 +401,13 @@ async function updateHistoryPurchase(updatePurchaseElement /* Các nút sửa l�
                 } 
             })
             // Lưu trữ lịch sử mua hàng dành cho việc update
-            const itemsPurchaseForUpdate = historyPurchaseData.itemPurchase
+            const itemsPurchaseForUpdate = [...historyPurchaseData.itemPurchase]
             let liTagsHtml = ''
             itemsPurchaseForUpdate.forEach((ele, index) => {
                 itemsPurchaseForUpdate[index].id = IDItemCli
                 liTagsHtml += `<li>
-                    ${ele.nameItem} - ${ele.moneyPay}K
-                    <span data-id='${ele.itemID}' data-id-cli='${IDItemCli}' style='margin-left: 20px; cursor: pointer;'>Xóa</span>
+                    Tên: ${ele.nameItem} - Giá: ${ele.moneyPay}đ
+                    <span data-id-cli='${IDItemCli}'><i class="fa-regular fa-circle-xmark"></i></span>
                 </li>
                 `
                 IDItemCli++
@@ -482,15 +506,4 @@ function appendConfirmChange(title /* Tiêu đề của box */, content/* Nội 
     }
     modalTitleElement.innerHTML = title
     modalBodyElement.innerHTML = content
-}
-
-function getParent(ele, className) {
-    let parent = ele.parentElement
-    while(parent) {
-        if(parent.className.includes(className)) {
-            break
-        }
-        parent = parent.parentElement
-    }
-    return parent
 }

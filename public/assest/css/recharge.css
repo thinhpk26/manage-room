@@ -31,7 +31,8 @@
   --color-bg-dark: #282a36;
   --color-text-dark: #dedede;
   --bg-blur: rgba(255, 255, 225, 0.05);
-  --bg-blur-strong: rgba(255, 255, 225, 0.1); }
+  --bg-blur-strong: rgba(255, 255, 225, 0.1);
+  --bg-blur-screen: rgba(0, 0, 0, 0.5); }
 
 header {
   margin-left: 360px;
@@ -125,8 +126,6 @@ header {
       flex: 2; } }
 
 @media screen and (max-width: 420px) {
-  body {
-    position: relative; }
   header {
     margin-left: 0;
     height: 58px; }
@@ -301,11 +300,110 @@ nav {
   nav {
     display: none; } }
 
+.model-up-server[data-open='0'], .model-notify[data-open='0'] {
+  display: none; }
+
+.model-up-server[data-open='1'], .model-notify[data-open='1'] {
+  display: block; }
+
+.model-up-server .blur-screen, .model-notify .blur-screen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: var(--bg-blur-screen); }
+
+.model-up-server .model-main, .model-notify .model-main {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .model-up-server .model-main .container, .model-notify .model-main .container {
+    width: 580px;
+    background-color: var(--color-bg-dark);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(225, 225, 225, 0.2);
+    border: 1px solid var(--border-color); }
+    .model-up-server .model-main .container div, .model-notify .model-main .container div {
+      padding: 8px 0 8px 0; }
+    .model-up-server .model-main .container .model-header, .model-notify .model-main .container .model-header {
+      text-align: center; }
+    .model-up-server .model-main .container .model-main-main, .model-notify .model-main .container .model-main-main {
+      border-top: 1px solid var(--border-color); }
+      .model-up-server .model-main .container .model-main-main input, .model-notify .model-main .container .model-main-main input {
+        width: 70%;
+        margin-top: 4px;
+        padding: 4px 8px 4px 8px;
+        background-color: var(--bg-blur-strong);
+        border: none;
+        border-radius: 4px;
+        outline: none;
+        color: var(--color-text-dark); }
+    .model-up-server .model-main .container .model-footer, .model-notify .model-main .container .model-footer {
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: end; }
+      .model-up-server .model-main .container .model-footer button, .model-notify .model-main .container .model-footer button {
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        background-color: transparent;
+        color: var(--color-text-dark);
+        padding: 4px 12px; }
+      .model-up-server .model-main .container .model-footer button:hover, .model-notify .model-main .container .model-footer button:hover {
+        background-color: var(--bg-blur);
+        color: var(--color-primary); }
+
+.model-up-server ::-webkit-input-placeholder, .model-notify ::-webkit-input-placeholder {
+  color: #ccc; }
+
+.model-up-server :-moz-placeholder, .model-notify :-moz-placeholder {
+  /* FF 4-18 */
+  color: #ccc; }
+
+.model-up-server ::-moz-placeholder, .model-notify ::-moz-placeholder {
+  /* FF 19+ */
+  color: #ccc; }
+
+.model-up-server :-ms-input-placeholder, .model-notify :-ms-input-placeholder {
+  /* IE 10+ */
+  color: #ccc; }
+
+.model-up-server ::-ms-input-placeholder, .model-notify ::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #ccc; }
+
+.model-up-server ::placeholder, .model-notify ::placeholder {
+  /* modern browser */
+  color: #ccc; }
+
+.model-up-server .model-footer :first-child {
+  margin-right: 12px; }
+
+@media screen and (max-width: 420px) {
+  .model-up-server .model-main .container {
+    margin: 0 8px 0 8px; } }
+
+[onclick="cancelClick(this)"] {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.spinner-border-sm {
+  display: none;
+  margin-right: 8px; }
+
+.spinner-border-sm.fetching {
+  display: block; }
+
 body {
   background-color: var(--color-bg-dark);
   color: var(--color-text-dark);
-  box-sizing: border-box;
-  position: relative; }
+  box-sizing: border-box; }
 
 main {
   margin-left: 360px; }
@@ -323,10 +421,9 @@ main {
     main > div #utilities-recharge {
       height: max-content;
       display: flex;
-      justify-content: space-between;
-      width: 66.66667%; }
+      justify-content: space-between; }
       main > div #utilities-recharge > section {
-        padding: 8px 0;
+        padding-bottom: 8px;
         flex: 1;
         display: flex;
         justify-content: center;
@@ -352,21 +449,14 @@ main {
         justify-content: end; }
         main > div #utilities-recharge > section > div > div button, main > div .update-money > div > div button {
           border: solid 1px #ccc; }
-    main > div #utilities-recharge > section > div::before, main > div .update-money > div::before {
-      content: "";
-      position: absolute;
-      top: -8px;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 8px solid #fff; }
     main > div #utilities-recharge > section > span, main > div .update-money > span {
-      background-color: var(--bg-blur);
       border-radius: 8px;
       padding: 8px 12px;
-      cursor: pointer; }
+      cursor: pointer;
+      border: solid 1px var(--border-color); }
+    main > div #utilities-recharge > section > span:hover, main > div .update-money > span:hover {
+      background-color: var(--bg-blur);
+      color: var(--color-primary); }
     main > div #utilities-recharge > section.appear-uti > div, main > div .update-money.appear-uti > div {
       display: block; }
     main > div .del-history > button {
@@ -376,6 +466,8 @@ main {
       background-color: transparent; }
     main > div .del-history > button:hover {
       color: var(--color-primary); }
+    main > div .table-recharge {
+      padding: 0; }
     main > div #history-recharge-withdraw {
       display: flex;
       margin-top: 12px;
@@ -393,7 +485,8 @@ main {
         height: 71vh;
         background-color: var(--bg-blur);
         border-radius: 8px;
-        overflow: auto; }
+        overflow: auto;
+        padding: 0 12px 0 12px; }
         main > div #history-recharge-withdraw .history-recharge-withdraw-table > span {
           font-weight: 500;
           text-align: center;
@@ -414,20 +507,25 @@ main {
           border-radius: 8px;
           background-color: var(--bg-blur-strong);
           font-size: 20px;
-          padding: 8px 12px; }
-          main > div #history-recharge-withdraw .history-recharge-withdraw-table li p {
-            margin-bottom: 8px; }
+          padding: 8px 12px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center; }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-table li > p {
+            margin: 0;
+            flex: 1; }
           main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update {
-            border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center; }
             main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update span {
-              margin-top: 8px;
+              border: 1px solid var(--border-color);
               flex: 1;
               text-align: center;
               cursor: pointer;
               border-radius: 8px; }
+              main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update span button {
+                padding: 4px 8px; }
             main > div #history-recharge-withdraw .history-recharge-withdraw-table li .ultilities-delete-update span:hover {
               background-color: var(--bg-blur);
               color: var(--color-primary); }
@@ -451,7 +549,8 @@ main {
       main > div #history-recharge-withdraw .history-recharge-withdraw-filter {
         flex: 1;
         background-color: var(--bg-blur);
-        border-radius: 8px; }
+        border-radius: 8px;
+        margin-top: 53px; }
         main > div #history-recharge-withdraw .history-recharge-withdraw-filter > label {
           margin-left: 24px;
           margin-top: 24px; }
@@ -469,16 +568,26 @@ main {
             width: 100%;
             justify-content: end;
             margin-top: 12px; }
-            main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child span {
+            main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child button {
+              background-color: transparent;
+              color: var(--color-text-dark);
+              margin-top: 12px;
+              border: 1px solid var(--border-color);
               cursor: pointer;
               padding: 8px 12px;
               border-radius: 8px; }
-            main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child span:hover {
+            main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div > div:last-child button:hover {
               background-color: var(--bg-blur);
               color: var(--color-primary); }
+          main > div #history-recharge-withdraw .history-recharge-withdraw-filter > div #select-your-choose {
+            width: 100%;
+            outline: none; }
+        main > div #history-recharge-withdraw .history-recharge-withdraw-filter .form-filter {
+          margin-top: 72px; }
         main > div #history-recharge-withdraw .history-recharge-withdraw-filter input {
           width: 100%;
-          margin-top: 4px; }
+          margin-top: 4px;
+          outline: none; }
 
 @media screen and (max-width: 992px) {
   main {
@@ -507,9 +616,13 @@ main {
     display: none; }
   main > div #history-recharge-withdraw .history-recharge-withdraw-filter {
     margin: 0; }
+  main > div #utilities-recharge > section {
+    margin-top: 20px;
+    margin-bottom: 8px; }
   main > div #history-recharge-withdraw .for-mobile {
     display: flex;
-    margin-top: 20px; }
+    margin-top: 20px;
+    flex-direction: column; }
   main > div #history-recharge-withdraw .for-computer {
     display: none; }
   main > div #history-recharge-withdraw .history-recharge-withdraw-table {
