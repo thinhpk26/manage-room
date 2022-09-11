@@ -602,6 +602,9 @@ main {
         display: block;
         padding: 8px; }
 
+.only-for-notify-btn {
+  display: none; }
+
 @media screen and (max-width: 992px) {
   main {
     margin-left: 270px; } }
@@ -631,8 +634,6 @@ main {
   main > div #add-purchase::-webkit-scrollbar {
     width: 4px; }
   main > div #history-purchase::-webkit-scrollbar {
-    width: 4px; }
-  main > div section {
-    height: max-content; } }
+    width: 4px; } }
 
 /*# sourceMappingURL=purchase.css.map */
