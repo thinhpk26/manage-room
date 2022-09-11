@@ -7,8 +7,8 @@
     })
     .then((result) => {
         const {accountMoneyRemain} = result.data
-        if(accountMoneyRemain >= 0) document.querySelector('.remain-money-room b').innerHTML = accountMoneyRemain + 'đ'
-        else document.querySelector('.remain-money-room span').innerHTML = 'Phòng nợ: ' + `<b>${Math.abs(accountMoneyRemain)}đ</b>`
+        if(accountMoneyRemain >= 0) document.querySelector('.remain-money-room b').innerHTML = changeMoney(Math.floor(accountMoneyRemain)) + 'đ'
+        else document.querySelector('.remain-money-room span').innerHTML = 'Phòng nợ: ' + `<b>${changeMoney(Math.abs(Math.floor(accountMoneyRemain)))}đ</b>`
     })
     .catch((error) => {
         console.error(error)
@@ -21,8 +21,8 @@
     })
     .then((result) => {
         const {remainMoney} = result.data
-        if(remainMoney >= 0 ) document.querySelector('.remain-money-member b').innerHTML = remainMoney + 'đ'
-        else document.querySelector('.remain-money-member span').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}đ</b>`
+        if(remainMoney >= 0 ) document.querySelector('.remain-money-member b').innerHTML = changeMoney(Math.floor(remainMoney)) + 'đ'
+        else document.querySelector('.remain-money-member span').innerHTML = 'Đang nợ: ' + `<b>${changeMoney(Math.abs(Math.floor(remainMoney)))}đ</b>`
     })
     .catch((error) => {
         console.error(error)
@@ -75,14 +75,14 @@
                             detailOrder.className = 'detail-order'
                             detailOrder.innerHTML = 
                             `<span class='fs-16'><b>Thành viên mua</b>: ${eleIn.nameMemberUse}</span>
-                            <span class='fs-16'><b>Tổng số tiền</b>: ${eleIn.sumMoney}đ</span>
+                            <span class='fs-16'><b>Tổng số tiền</b>: ${changeMoney(eleIn.sumMoney)}đ</span>
                             <span class='fs-16'><b>Các thành viên phải trả tiền</b>: ${eleIn.memberPaid.reduce((pre, cur) => {
                                 return pre + ', ' + cur.name
                             }, '').slice(2)}</span>
-                            <span class'fs-16'><b>Số tiền mỗi thành viên phải trả</b>: ${eleIn.moneyEachMemberPay}đ</span>
+                            <span class'fs-16'><b>Số tiền mỗi thành viên phải trả</b>: ${changeMoney(eleIn.moneyEachMemberPay)}đ</span>
                             <span class='fs-16'><b>Ngày mua</b>: ${time + ' ' + day + "/" + month + "/" + year}</span>
                             <span class='fs-16'><b>Các đồ đã mua</b>: ${eleIn.itemPurchase.length === 0 ? 'Chưa thêm đồ nào' : eleIn.itemPurchase.reduce((pre, cur) => {
-                                return pre + ', ' + cur.nameItem + '-' + cur.moneyPay + 'đ'
+                                return pre + ', ' + cur.nameItem + '-' + changeMoney(cur.moneyPay) + 'đ'
                             }, '').slice(2)}</span>
                             <span class="fs-16"><b>Chú thích</b>: ${!eleIn.note ? 'Không có chú thích' : eleIn.note}</span>
                             `
@@ -171,7 +171,7 @@ function liTagStructure(ele/* Dữ liệu của từng lịch sử nạp tiền 
         const year = datetime.getUTCFullYear();
         return `
         <li>
-            <span class='fs-16'>Thêm <b>${ele.accountMoneyRecharge}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
+            <span class='fs-16'>Thêm <b>${changeMoney(ele.accountMoneyRecharge)}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
         </li>`
     } else {
         const datetime = new Date(ele.withdrawDay)
@@ -181,7 +181,7 @@ function liTagStructure(ele/* Dữ liệu của từng lịch sử nạp tiền 
         const year = datetime.getUTCFullYear();
         return `
         <li>
-            <span class="fs-16">Rút <b>${ele.withdrawMoney}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
+            <span class="fs-16">Rút <b>${changeMoney(ele.withdrawMoney)}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></span>
         </li>`
     }
 }

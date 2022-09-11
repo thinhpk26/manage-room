@@ -7,8 +7,8 @@
     })
     .then((result) => {
         const {remainMoney} = result.data
-        if(remainMoney >= 0 ) document.querySelector('.money-cur b').innerHTML = remainMoney + 'đ'
-        else document.querySelector('.money-cur span').innerHTML = 'Đang nợ: ' + `<b>${Math.abs(remainMoney)}đ</b>`
+        if(remainMoney >= 0 ) document.querySelector('.money-cur b').innerHTML = changeMoney(remainMoney) + 'đ'
+        else document.querySelector('.money-cur span').innerHTML = 'Đang nợ: ' + `<b>${changeMoney(Math.abs(remainMoney))}đ</b>`
     })
     .catch((err) => {
         console.log(err)
@@ -135,10 +135,10 @@
         const modalTitleElement = document.querySelector('#confirm-recharge .modal-title')
         const modalBodyElement = document.querySelector('#confirm-recharge .modal-body')
         const modalFooterElement = document.querySelector('#confirm-recharge .modal-footer')
-        const accountMoney = parseFloat(addMoneyElement.querySelector('#recharge-money').value)
+        const accountMoney = parseFloat(addMoneyElement.querySelector('#recharge-money').value.split('.').join(''))
         if(!isNaN(accountMoney)) {
             modalTitleElement.innerHTML = 'Xác nhận'
-            modalBodyElement.innerHTML = `Bạn muốn nạp ${accountMoney}đ vào tài khoản!`
+            modalBodyElement.innerHTML = `Bạn muốn nạp ${changeMoney(accountMoney)}đ vào tài khoản!`
             modalFooterElement.innerHTML = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
             <button type="button" class="btn btn-primary confirm-change" onclick="cancelClick(this)">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -171,7 +171,7 @@
         const modalTitleElement = document.querySelector('#confirm-withdraw .modal-title')
         const modalBodyElement = document.querySelector('#confirm-withdraw .modal-body')
         const modalFooterElement = document.querySelector('#confirm-withdraw .modal-footer')
-        const accountMoneyWithdraw = parseFloat(withDrawMoneyElement.querySelector('#withdraw-money').value)
+        const accountMoneyWithdraw = parseFloat(withDrawMoneyElement.querySelector('#withdraw-money').value.split('.').join(''))
         if(!isNaN(accountMoneyWithdraw)) {
             modalTitleElement.innerHTML = 'Xác nhận'
             modalBodyElement.innerHTML = `Bạn muốn rút ${accountMoneyWithdraw}đ ra khỏi tài khoản!`
@@ -200,6 +200,7 @@
             modalFooterElement.innerHTML = ''
         }
     })
+
     // Lọc nạp tiền theo ngày
     const confirmFilterElement = document.querySelector('.confirm-filter button')
     confirmFilterElement.addEventListener('click', async () => {
@@ -326,7 +327,7 @@ function liTagStructure(ele) {
         const year = datetime.getUTCFullYear();
         return `
         <li data-id="${ele.rechargeID}" data-name="recharge" data-money="${ele.accountMoneyRecharge}">
-            <p class="fs-16">Thêm <b>${ele.accountMoneyRecharge}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
+            <p class="fs-16">Thêm <b>${changeMoney(ele.accountMoneyRecharge)}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
             <div class="ultilities-delete-update">
                 <span class="del-history fs-16">
                     <button data-bs-toggle="modal" data-bs-target="#confirm-del-recharge-withdraw">Hủy nạp</button>
@@ -341,7 +342,7 @@ function liTagStructure(ele) {
         const year = datetime.getUTCFullYear();
         return `
         <li data-id="${ele.withdrawID}" data-name="withdraw" data-money="${ele.withdrawMoney}">
-            <p class="fs-16">Rút <b>${ele.withdrawMoney}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
+            <p class="fs-16">Rút <b>${changeMoney(ele.withdrawMoney)}đ</b> vào quỹ vào <b>${time}</b> ngày <b>${day + "/" + month + "/" + year}</b></p>
             <div class="ultilities-delete-update">
                 <span class="del-history fs-16">
                     <button data-bs-toggle="modal" data-bs-target="#confirm-del-recharge-withdraw">Hủy nạp</button>

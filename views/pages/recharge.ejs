@@ -105,7 +105,7 @@
                 </div>
                 <div class="model-main-main">
                     <label for="recharge-money">Nhập số tiền bạn muốn nạp:</label><br>
-                    <input type="number" id="recharge-money">
+                    <input type="text" id="recharge-money" oninput="onlyEnterNumber(this)">
                 </div>
                 <div class="model-footer">
                     <button class="model-cancel" type="button" onclick="closeModelUpServer()">Hủy</button>
@@ -124,7 +124,7 @@
                 </div>
                 <div class="model-main-main">
                     <label for="withdraw-money">Nhập số tiền bạn muốn rút:</label><br>
-                    <input type="number" id="withdraw-money">
+                    <input type="text" id="withdraw-money" oninput="onlyEnterNumber(this)">
                 </div>
                 <div class="model-footer">
                     <button class="model-cancel" type="button" onclick="closeModelUpServer()">Hủy</button>

@@ -52,10 +52,24 @@ function getParent(ele, className) {
     }
     return parent
 }
-
-
-
-
+// Đổi tiền sang triệu
+function changeMoney(number) {
+    // Đổi tiền sang dạng string
+    const numberString = '' + number
+    // Tiền sau khi đã được đổi
+    let numberStringChanged = []
+    let dem = numberString.length
+    while(dem - 3 > -3) {
+        if(dem - 3 < 0) numberStringChanged.push(numberString.slice(0, dem))
+        else numberStringChanged.push(numberString.slice(dem-3, dem))
+        dem -= 3
+    }
+    return numberStringChanged.reverse().join('.')
+}
+// Input chỉ dành cho số
+function onlyEnterNumber(ele) {
+    ele.value = changeMoney(ele.value.replace(/[^0-9.]/g, '').split('.').join(''))
+}
 
 
 

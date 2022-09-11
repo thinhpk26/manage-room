@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="mt-1">
                                     <label for="money-pay">Số tiền phải trả:</label>
-                                    <input type="number" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!">
+                                    <input type="text" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!" oninput="onlyEnterNumber(this)">
                                 </div>
                                 <button type="button" class="btn btn-primary err-add-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thêm</button>
                             </td>
@@ -45,7 +45,7 @@
                                 Tổng số tiền mua:
                             </td>
                             <td>
-                                <input type="number" id="account-money" name="account-money">
+                                <input type="text" id="account-money" name="account-money" oninput="onlyEnterNumber(this)">
                             </td>
                         </tr>
                         <tr class="member-pay">
@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="mt-1">
                                     <label for="money-pay">Số tiền phải trả:</label>
-                                    <input type="number" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!">
+                                    <input type="text" id="money-pay" name="money-pay" style="margin-left: 6px;" placeholder="Nhấn enter để thêm đồ!" oninput="onlyEnterNumber(this)">
                                 </div>
                                 <button type="button" class="btn btn-primary err-add-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Thêm</button>
                             </td>
@@ -118,7 +118,7 @@
                                 Tổng số tiền mua:
                             </td>
                             <td>
-                                <input type="number" id="account-money" name="account-money">
+                                <input type="text" id="account-money" name="account-money" oninput="onlyEnterNumber(this)">
                             </td>
                         </tr>
                         <tr class="member-pay">

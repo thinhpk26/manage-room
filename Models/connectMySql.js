@@ -12,6 +12,4 @@ connection.connect(function(err) {
       return
     }
 })
-
-
 module.exports = connection
