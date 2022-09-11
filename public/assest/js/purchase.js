@@ -40,8 +40,11 @@
         updatePurchaseContainerElement.querySelector('.member-pay > td:last-child').innerHTML = allMemberPayElementForUpdate
     })
     .catch(error => {
-        alert('Opps! Có lỗi nào đó. Chúng tôi sẽ sửa cho bạn ngay!')
-        window.location.reload()
+        document.querySelector('.only-for-notify-btn').click()
+        appendNotify(document.querySelector('#only-for-notify'), '', 'Có một vài sự cố nhỏ, Chúng tôi sẽ sửa lại cho bạn ngay bây giờ!!')
+        document.querySelector('.confirm-reload').onclick = () => {
+            window.location.reload()
+        }
     })
     // Xác định vật phẩm có trong client
     let IDItemCli = 0
@@ -73,8 +76,11 @@
         deleteHistoryPurchase(delPurchaseElement)
     })
     .catch((error) => {
-        alert('Opps! Có lỗi nào đó. Chúng tôi sẽ sửa cho bạn ngay!')
-        window.location.reload()
+        document.querySelector('.only-for-notify-btn').click()
+        appendNotify(document.querySelector('#only-for-notify'), '', 'Xảy ra 1 vài sự cố nhỏ, Chúng tôi sẽ sửa lại cho bạn ngay!')
+        document.querySelector('.confirm-reload').onclick = () => {
+            window.location.reload()
+        }
     })
 
     const historyPurchaseCoverElement = document.querySelector('#history-purchase')
@@ -106,7 +112,11 @@
                     exhaustedPurchase = result.data.exhaustedPurchase
                 })
                 .catch((error) => {
-                    alert(error.message)
+                    document.querySelector('.only-for-notify-btn').click()
+                    appendNotify(document.querySelector('#only-for-notify'), '', 'Xảy ra 1 vài sự cố nhỏ, Chúng tôi sẽ sửa lại cho bạn ngay!')
+                    document.querySelector('.confirm-reload').onclick = () => {
+                        window.location.reload()
+                    }
                 })
             }
         }
@@ -120,8 +130,8 @@
     addPurchaseContainerElement.querySelector('.add-purchase').onclick = function () {
         const formData = validationForm(addPurchaseContainerElement, itemsMemberBought)
         if(formData) {
-            appendConfirmChange('Xác nhận', 'Bạn muốn thêm lịch sử mua hàng mới này!!!', true, true, 'confirm-change')
-            document.querySelector('.confirm-change').addEventListener('click', () => {
+            appendConfirmChange(document.querySelector('#confirm-add-purchase'), 'Xác nhận', 'Bạn muốn thêm lịch sử mua hàng này!!', {name: 'confirm', className: 'add-purchase-btn'})
+            document.querySelector('.add-purchase-btn').addEventListener('click', () => {
                 axios({
                     method: 'post',
                     url: '../purchase',
@@ -129,13 +139,19 @@
                 })
                 .then((result) => {
                     if(result.data.success) {
-                        alert('Bạn đã thêm lịch sử thành công!!!')
-                        window.location.reload()
+                        document.querySelector('.only-for-notify-btn').click()
+                        appendNotify(document.querySelector('#only-for-notify'), 'Thành công!', 'Bạn vừa thêm 1 lịch sử mua hàng mới!')
+                        document.querySelector('.confirm-reload').onclick = () => {
+                            window.location.reload()
+                        }
                     }
                 })
                 .catch(err => {
-                    alert('Opps! Có lỗi nào đó. Chúng tôi sẽ sửa cho bạn ngay!')
-                    window.location.reload()
+                    document.querySelector('.only-for-notify-btn').click()
+                    appendNotify(document.querySelector('#only-for-notify'), '', 'Xảy ra 1 vài sự cố nhỏ, Chúng tôi sẽ sửa lại cho bạn ngay!')
+                    document.querySelector('.confirm-reload').onclick = () => {
+                        window.location.reload()
+                    }
                 })
             })
         }
@@ -220,8 +236,8 @@ function addAndDelItemsPurchase(inputElement /* Element lưu trữ các input c�
                     }
                 })
             } else {
-                document.querySelector('.err-add-item').click()
-                appendConfirmChange('Lỗi', 'Bạn điền thiếu tên hàng hoặc giá của chúng', false, true)
+                document.querySelector('.only-for-notify-btn').click()
+                appendNotify(document.querySelector('#only-for-notify'), 'Lỗi', 'Bạn điền thiếu tên hàng hoặc giá của chúng')
             }
         }
     })
@@ -239,13 +255,15 @@ function validationForm(formELement /* Form lưu trữ thông tin lịch sử mu
         }
     })
     if(!isCheckMemberUse) {
-        appendConfirmChange('Lỗi', 'Bạn chưa chọn người đã mua hàng', false, true)
+        appendConfirmChange(document.querySelector('#confirm-update-purchase'), 'Lỗi', 'Bạn chưa chọn người đã mua hàng', {name: 'error'})
+        appendConfirmChange(document.querySelector('#confirm-add-purchase'), 'Lỗi', 'Bạn chưa chọn người đã mua hàng', {name: 'error'})
         return 0
     }
     // Tổng số tiền thành viên
     const accountMoneyBought = parseFloat(formELement.querySelector('input[name="account-money"]').value.split('.').join(''))
-    if(accountMoneyBought === '') {
-        appendConfirmChange('Lỗi', 'Bạn chưa nhập tổng số tiền trả', false, true)
+    if(accountMoneyBought === '' || isNaN(accountMoneyBought)) {
+        appendConfirmChange(document.querySelector('#confirm-update-purchase'), 'Lỗi', 'Bạn chưa nhập tổng số tiền trả', {name: 'error'})
+        appendConfirmChange(document.querySelector('#confirm-add-purchase'), 'Lỗi', 'Bạn chưa nhập tổng số tiền trả', {name: 'error'})
         return 0
     } else {
         formData.sumMoney = accountMoneyBought
@@ -259,7 +277,8 @@ function validationForm(formELement /* Form lưu trữ thông tin lịch sử mu
         }
     })
     if(membersPay.length === 0) {
-        appendConfirmChange('Lỗi', 'Bạn phải chọn ít nhất 1 thành viên!', false, true)
+        appendConfirmChange(document.querySelector('#confirm-update-purchase'), 'Lỗi', 'Bạn phải chọn ít nhất 1 thành viên!', {name: 'error'})
+        appendConfirmChange(document.querySelector('#confirm-add-purchase'), 'Lỗi', 'Bạn phải chọn ít nhất 1 thành viên!', {name: 'error'})
         return 0
     } else {
         formData.memberUse = membersPay
@@ -294,7 +313,7 @@ function renderSumaryHistory(renderedElement /* Khối phần tử được rend
                 </div>
                 <div class="update-or-del">
                 <button class="btn btn-update">Sửa</button>
-                <button type="button" class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xóa</button>
+                <button type="button" class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#confirm-delete-purchase">Xóa</button>
                 </div>`
                 renderedElement.appendChild(liTag)
             })
@@ -319,7 +338,7 @@ function renderSumaryHistory(renderedElement /* Khối phần tử được rend
             </div>
             <div class="update-or-del">
             <button class="btn btn-update">Sửa</button>
-            <button type="button" class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xóa</button>
+            <button type="button" class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#confirm-delete-purchase">Xóa</button>
             </div>`
             renderedElement.appendChild(liTag)
         })
@@ -379,7 +398,8 @@ function renderDetailHistory(renderedElement /* Khối phần tử được rend
 async function updateHistoryPurchase(updatePurchaseElement /* Các nút sửa lịch sử mua hàng */, result /* Tổng hợp các lịch sử mua hàng */, IDItemCli /* Xác định các vật phẩm ở client */) {
     updatePurchaseElement.forEach(ele => {
         ele.onclick = function() {
-            alert('Bạn hãy điền thông tin muốn sửa vào form bên dưới để sửa lại lịch sử mua hàng!!!')
+            document.querySelector('.only-for-notify-btn').click()
+            appendNotify(document.querySelector('#only-for-notify'), '', 'Bạn hãy nhập thông tin muốn sửa vào bảng bên dưới')
             const addPurchaseElement = document.querySelector('#add-purchase')
             addPurchaseElement.scrollTop = 0
             addPurchaseElement.classList.remove('add')
@@ -422,8 +442,8 @@ async function updateHistoryPurchase(updatePurchaseElement /* Các nút sửa l�
                 const formData = validationForm(updatePurchaseContainerElement, itemsPurchaseForUpdate)
                 if(formData) {
                     formData.orderID = IDPurchase
-                    appendConfirmChange('Xác nhận', 'Bạn muốn sửa lịch sử mua hàng này!!!', true, true, 'confirm-change-update')
-                    document.querySelector('.confirm-change-update').onclick = function() {
+                    appendConfirmChange(document.querySelector('#confirm-update-purchase'), 'Xác nhận', 'Bạn muốn sửa lịch sử mua hàng này!!!', {name: 'confirm', className: 'update-purchase-btn'})
+                    document.querySelector('.update-purchase-btn').onclick = function() {
                         axios({
                             method: 'put',
                             url: '../purchase',
@@ -431,15 +451,22 @@ async function updateHistoryPurchase(updatePurchaseElement /* Các nút sửa l�
                         })
                         .then((result) => {
                             if(result.data.success) {
-                                alert('Bạn sửa lịch sử thành công!!!')
-                                window.location.reload()
+                                document.querySelector('.only-for-notify-btn').click()
+                                appendNotify(document.querySelector('#only-for-notify'), 'Thành công', 'Bạn vừa sửa thành công 1 lịch sử mua hàng')
+                                document.querySelector('.confirm-reload').onclick = () => {
+                                    window.location.reload()
+                                }
                             } else {
-                                alert('Chỉ có người tạo mới được phép sửa!!!')
+                                document.querySelector('.only-for-notify-btn').click()
+                                appendNotify(document.querySelector('#only-for-notify'), '', 'Chỉ có người thêm mới được quyền sửa')
                             }
                         })
                         .catch(err => {
-                            alert('Opps! Có lỗi nào đó. Chúng tôi sẽ sửa cho bạn ngay!')
-                            window.location.reload()
+                            document.querySelector('.only-for-notify-btn').click()
+                            appendNotify(document.querySelector('#only-for-notify'), '', 'Xảy ra 1 vài sự cố nhỏ, Chúng tôi sẽ sửa lại cho bạn ngay!')
+                            document.querySelector('.confirm-reload').onclick = () => {
+                                window.location.reload()
+                            }
                         })
                     }
                 }
@@ -466,8 +493,8 @@ async function updateHistoryPurchase(updatePurchaseElement /* Các nút sửa l�
 async function deleteHistoryPurchase(delPurchaseElement /* Các nút xóa lịch sử mua hàng */) {
     delPurchaseElement.forEach(ele => {
         ele.onclick = () => {
-            appendConfirmChange('Xác nhận', 'Bạn thật sự muốn xóa lịch sử mua hàng này!!', true, true, 'confirm-delete-history')
-            document.querySelector('.confirm-delete-history').onclick = function () {
+            appendConfirmChange(document.querySelector('#confirm-delete-purchase'), 'Xác nhận', 'Bạn thật sự muốn xóa lịch sử mua hàng này!!', {name: 'confirm', className: 'delete-purchase-btn'})
+            document.querySelector('.delete-purchase-btn').onclick = function () {
                 const orderID = getParent(ele, 'history-purchase-child').getAttribute('data-id')
                 axios({
                     method: 'delete',
@@ -476,34 +503,50 @@ async function deleteHistoryPurchase(delPurchaseElement /* Các nút xóa lịch
                 })
                 .then(result => {
                     if(result.data.success) {
-                        alert('Bạn đã xóa lịch sử thành công')
-                        window.location.reload()
+                        document.querySelector('.only-for-notify-btn').click()
+                        appendNotify(document.querySelector('#only-for-notify'), 'Thành công', 'Bạn vừa xóa một lịch sử mua hàng')
+                        document.querySelector('.confirm-reload').onclick = () => {
+                            window.location.reload()
+                        }
                     }
                 })
                 .catch(err => {
-                    alert('Opps! Có lỗi nào đó. Chúng tôi sẽ sửa cho bạn ngay!')
-                    window.location.reload()
+                    document.querySelector('.only-for-notify-btn').click()
+                    appendNotify(document.querySelector('#only-for-notify'), '', 'Xảy ra 1 vài sự cố nhỏ, Chúng tôi sẽ sửa lại cho bạn ngay!')
+                    document.querySelector('.confirm-reload').onclick = () => {
+                        window.location.reload()
+                    }
                 })
             }
         }
     })
 }
 
-function appendConfirmChange(title /* Tiêu đề của box */, content/* Nội dung của box */, haveConfirm /* Có cần nút 'đồng ý' không*/, haveCancel /* Có cần đến nút 'hủy' không*/, className = 'error-validation') {
-    const modalTitleElement = document.querySelector('.modal-title')
-    const modalBodyElement = document.querySelector('.modal-body')
-    const footerModelElement = document.querySelector('.modal-footer')
-    if(haveCancel && haveConfirm) {
-        footerModelElement.innerHTML = `
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        <button type="button" class="btn btn-primary ${className}">Đồng ý</button>`
-    } else if(haveCancel) {
-        footerModelElement.innerHTML = `
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đồng ý</button>`
+function appendConfirmChange(modal /* Khuôn mẫu muốn hiện */, title /* Tiêu đề của box */, content/* Nội dung của box */, type /* Bao gồm tên loại, thêm className nếu loại là confirm */) {
+    const modalTitleElement = modal.querySelector('.modal-title')
+    const modalBodyElement = modal.querySelector('.modal-body')
+    const modalFooterElement = modal.querySelector('.modal-footer')
+    if(type.name === 'confirm') {
+        modalTitleElement.innerHTML = title
+        modalBodyElement.innerHTML = content
+        modalFooterElement.innerHTML = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary ${type.className}" onclick="cancelClick(this)">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Đồng ý
+        </button>`
     } else {
-        footerModelElement.innerHTML = `
-        <button type="button" class="btn btn-primary ${className}">Đồng ý</button>`
+        modalTitleElement.innerHTML = `<span class="fs-24" style="color: red;">${title}</span>`
+        modalBodyElement.innerHTML = content
+        modalFooterElement.innerHTML = ''
     }
+}
+
+function appendNotify(modal /* Khuôn mẫu muốn hiện */, title /* Tiêu đề của box */, content/* Nội dung của box */) {
+    const modalTitleElement = modal.querySelector('.modal-header')
+    const modalBodyElement = modal.querySelector('.modal-body')
+    const modalFooterElement = modal.querySelector('.modal-footer')
     modalTitleElement.innerHTML = title
     modalBodyElement.innerHTML = content
+    modalFooterElement.innerHTML = `
+    <button type="button" class="btn btn-primary confirm-reload" data-bs-dismiss="modal">Đồng ý</button>`
 }

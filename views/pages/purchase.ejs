@@ -15,7 +15,6 @@
 </head>
 <body>
     <%- include('../partials/navbar.ejs'); %>
-    <%- include('../partials/confirmTable.ejs') %>
     <header>
         <div class="d-flex align-items-center">
             <div id="bars-for-mobile" class="close">
@@ -96,7 +95,68 @@
             <%- include('../partials/mainPurchase.ejs'); %>
         </div>
     </main>
-    <%- include('../partials/model.ejs'); %>
+    <!-- Modal xác nhận thêm đơn hàng -->
+    <div class="modal fade" style="color: #000;" id="confirm-add-purchase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal xác nhận sửa đơn hàng -->
+    <div class="modal fade" style="color: #000;" id="confirm-update-purchase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal xác nhận hủy đơn hàng -->
+    <div class="modal fade" style="color: #000;" id="confirm-delete-purchase" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal thông báo thông thường -->
+    <div class="modal fade" style="color: #000;" id="only-for-notify" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary only-for-notify-btn" data-bs-toggle="modal" data-bs-target="#only-for-notify">
+    </button>
     <script>
         const orderNavElement = document.querySelector('#menu > .purchase')
         orderNavElement.classList.add('running-page')
