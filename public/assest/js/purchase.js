@@ -87,6 +87,8 @@
     historyPurchaseCoverElement.addEventListener('scroll', (e) => {
         if(historyPurchaseCoverElement.scrollHeight * 2/3 < historyPurchaseCoverElement.clientHeight + historyPurchaseCoverElement.scrollTop) {
             if(!exhaustedPurchase) {
+                // Tránh việc fetch server nhiều lần
+                exhaustedPurchase = !exhaustedPurchase
                 axios({
                     method: 'post',
                     url: '../purchase/history-purchase',

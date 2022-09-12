@@ -39,8 +39,11 @@
     // Render tiếp khi cuộn
     hisRechargeAndWithdrawElement.forEach(ele => {
         ele.addEventListener('scroll', async (e) => {
-            if(!(exhaustedHisWithdraw && exhaustedHisRecharge)) {
-                if(ele.scrollHeight * 2/3 < ele.clientHeight + ele.scrollTop) {
+            if(ele.scrollHeight * 2/3 < ele.clientHeight + ele.scrollTop) {
+                if(!(exhaustedHisWithdraw && exhaustedHisRecharge)) {
+                    // tránh việc fetch nhiều lần
+                    exhaustedHisWithdraw = !exhaustedHisWithdraw
+                    exhaustedHisRecharge = !exhaustedHisRecharge
                     const selectTagElement = document.getElementById('select-your-choose')
                     const beginDay = document.getElementById('day-begin').value
                     const endDay = document.getElementById('day-finish').value
